@@ -289,9 +289,18 @@
             var indexOfEn = href.toLowerCase().indexOf('/zh/');
             if(indexOfEn !== -1) {
                 window.location.href = href.replace('/zh/', '/');
+
+                var indexOfEn = href.toLowerCase().indexOf('/zh/');
+                if(indexOfEn !== -1) {
+                    window.location.href = href.replace('/zh/', '/en/');
+                }
             }
             else {
                 window.location.href = href.replace(/(^http[s]?:\/\/[a-z0-9.]*[:?0-9]*\/)(.*)/i, '$1zh/$2');
+                var indexOfEn = href.toLowerCase().indexOf('/en/');
+                if(indexOfEn !== -1) {
+                    window.location.href = href.replace('/en/', '/zh/');
+                }
             }
             if(typeof(_prevOnload) === 'function') {
                 _prevOnload();
