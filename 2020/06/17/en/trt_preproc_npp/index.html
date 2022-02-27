@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
     <head>
     <meta charset="utf-8">
 
@@ -25,7 +25,7 @@
     <!-- meta -->
 
 
-<title>通过NPP加速TensorRT部署时图片数据预处理 | ForeverYoung</title>
+<title>Preprocess the Image Data by NPP in TensorRT Model Inference | ForeverYoung</title>
 
 
     <meta name="keywords" content="cpp, cuda, tensorrt">
@@ -35,15 +35,15 @@
 
     <!-- OpenGraph -->
  
-    <meta name="description" content="TensorRT(TRT)是NVIDIA推出的一个高性能的深度学习推理框架，可以让深度学习模型在NVIDIA GPU上实现低延迟，高吞吐量的部署。主流框架的模型可以通过转换为TensorRT在NVIDIA GPU进而达到极大地提速。然而，由于TensorRT并不支持常见的图片数据类型uint8，这使得往往需要在cpu上进行图片数据预处理，转换为其所支持的float并传入到gpu模型输入。当图片较大">
+    <meta name="description" content="NVIDIA TensorRT(TRT) library is a high-performance deep learning inference engine and delivers low latency and high-throughput for deep learning inference applications. It allows users to convert the">
 <meta property="og:type" content="article">
-<meta property="og:title" content="通过NPP加速TensorRT部署时图片数据预处理">
-<meta property="og:url" content="https://foreveryounggithub.github.io/zh/2020/06/17/zh/trt_preproc_npp/index.html">
+<meta property="og:title" content="Preprocess the Image Data by NPP in TensorRT Model Inference">
+<meta property="og:url" content="https://foreveryounggithub.github.io/2020/06/17/en/trt_preproc_npp/index.html">
 <meta property="og:site_name" content="ForeverYoung">
-<meta property="og:description" content="TensorRT(TRT)是NVIDIA推出的一个高性能的深度学习推理框架，可以让深度学习模型在NVIDIA GPU上实现低延迟，高吞吐量的部署。主流框架的模型可以通过转换为TensorRT在NVIDIA GPU进而达到极大地提速。然而，由于TensorRT并不支持常见的图片数据类型uint8，这使得往往需要在cpu上进行图片数据预处理，转换为其所支持的float并传入到gpu模型输入。当图片较大">
-<meta property="og:locale" content="zh_CN">
+<meta property="og:description" content="NVIDIA TensorRT(TRT) library is a high-performance deep learning inference engine and delivers low latency and high-throughput for deep learning inference applications. It allows users to convert the">
+<meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-06-17T05:00:00.000Z">
-<meta property="article:modified_time" content="2022-02-27T02:23:41.090Z">
+<meta property="article:modified_time" content="2022-02-27T02:27:38.895Z">
 <meta property="article:author" content="Yang">
 <meta property="article:tag" content="cpp">
 <meta property="article:tag" content="cuda">
@@ -52,14 +52,14 @@
 
 
     
-<link rel="stylesheet" href="/zh/css/style/main.css">
+<link rel="stylesheet" href="/css/style/main.css">
  
 
     
     
-        <link rel="stylesheet" id="hl-default-theme" href="/zh/css/highlight/default.css" media="none" >
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" >
         
-            <link rel="stylesheet" id="hl-dark-theme" href="/zh/css/highlight/dark.css" media="none">
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/dark.css" media="none">
         
     
 
@@ -68,10 +68,10 @@
 
     
     
-<link rel="stylesheet" href="/zh/css/style/dark.css">
+<link rel="stylesheet" href="/css/style/dark.css">
 
     
-<script src="/zh/js/darkmode.js"></script>
+<script src="/js/darkmode.js"></script>
 
 
 
@@ -85,7 +85,7 @@
         <div id="app">
             <header class="header">
     <div class="header__left">
-        <a href="/zh/" class="button">
+        <a href="/" class="button">
             <span class="logo__text">ForeverYoung</span>
         </a>
     </div>
@@ -93,19 +93,19 @@
         
             <div class="navbar__menus">
                 
-                    <a href="/zh/" class="navbar-menu button">首页</a>
+                    <a href="/" class="navbar-menu button">home</a>
                 
-                    <a href="/zh/tags/" class="navbar-menu button">标签</a>
+                    <a href="/tags/" class="navbar-menu button">tags</a>
                 
-                    <a href="/zh/archives/" class="navbar-menu button">归档</a>
+                    <a href="/archives/" class="navbar-menu button">archives</a>
                 
-                    <a href="/zh/" class="navbar-menu button">EN</a>
+                    <a href="/" class="navbar-menu button">中</a>
                 
             </div>
         
         
         
-    <a href="/zh/search/" id="btn-search">
+    <a href="/search/" id="btn-search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg>
     </a>
 
@@ -121,13 +121,13 @@
             <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
             <div class="dropdown-menus" id="dropdown-menus">
                 
-                    <a href="/zh/" class="dropdown-menu button">首页</a>
+                    <a href="/" class="dropdown-menu button">home</a>
                 
-                    <a href="/zh/tags/" class="dropdown-menu button">标签</a>
+                    <a href="/tags/" class="dropdown-menu button">tags</a>
                 
-                    <a href="/zh/archives/" class="dropdown-menu button">归档</a>
+                    <a href="/archives/" class="dropdown-menu button">archives</a>
                 
-                    <a href="/zh/" class="dropdown-menu button">EN</a>
+                    <a href="/" class="dropdown-menu button">中</a>
                 
             </div>
         
@@ -140,10 +140,10 @@
 
 <div class="post-title">
     <h1 class="post-title__text">
-        通过NPP加速TensorRT部署时图片数据预处理
+        Preprocess the Image Data by NPP in TensorRT Model Inference
     </h1>
     <div class="post-title__meta">
-        <a href="/zh/archives/2020/06/" class="post-meta__date button">2020-06-17</a>
+        <a href="/archives/2020/06/" class="post-meta__date button">2020-06-17</a>
         
  
         
@@ -160,7 +160,7 @@
 
     <aside class="post-side">
         <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%8E%AF%E5%A2%83"><span class="toc-number">1.</span> <span class="toc-text">基本环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU%E5%9B%BE%E7%89%87%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">CPU图片数据预处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GPU-NPP%E5%9B%BE%E7%89%87%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">GPU-NPP图片数据预处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Experiments"><span class="toc-number">1.</span> <span class="toc-text">Experiments</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU-image-preprocessing"><span class="toc-number">2.</span> <span class="toc-text">CPU image preprocessing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GPU-Image-Preprocessing-by-NPP"><span class="toc-number">3.</span> <span class="toc-text">GPU Image Preprocessing by NPP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol>
         </div>
     </aside>
     <a class="btn-toc button" id="btn-toc" tabindex="0">
@@ -169,32 +169,32 @@
         </svg>
     </a>
     <div class="toc-menus" id="toc-menus">
-        <div class="toc-title">文章目录</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%8E%AF%E5%A2%83"><span class="toc-number">1.</span> <span class="toc-text">基本环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU%E5%9B%BE%E7%89%87%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">CPU图片数据预处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GPU-NPP%E5%9B%BE%E7%89%87%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">GPU-NPP图片数据预处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Experiments"><span class="toc-number">1.</span> <span class="toc-text">Experiments</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU-image-preprocessing"><span class="toc-number">2.</span> <span class="toc-text">CPU image preprocessing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GPU-Image-Preprocessing-by-NPP"><span class="toc-number">3.</span> <span class="toc-text">GPU Image Preprocessing by NPP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol>
     </div>
 
 
 <article class="post post__with-toc content-card">
     <div class="post__header"></div>
     <div class="post__content">
-        <p>TensorRT(TRT)是NVIDIA推出的一个高性能的深度学习推理框架，可以让深度学习模型在NVIDIA GPU上实现低延迟，高吞吐量的部署。主流框架的模型可以通过转换为TensorRT在NVIDIA GPU进而达到极大地提速。然而，由于TensorRT并不支持常见的图片数据类型uint8，这使得往往需要在cpu上进行图片数据预处理，转换为其所支持的float并传入到gpu模型输入。当图片较大时，数据在cpu上的处理和传递时间较慢。本文将介绍如何通过cuda中的npp库来加速这一过程。</p>
-<h2 id="基本环境"><a href="#基本环境" class="headerlink" title="基本环境"></a>基本环境</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SYS: Ubuntu 18.04</span><br><span class="line">GPU: T4</span><br><span class="line">GCC: 7.5</span><br><span class="line">CMake: 3.16.6</span><br><span class="line">CUDA: 10.2</span><br><span class="line">CUDNN: 7.6.5</span><br><span class="line">TensorRT: 7.0</span><br><span class="line">OpenCV: 4.3.0/3.4.10</span><br></pre></td></tr></table></figure>
+        <p>NVIDIA TensorRT(TRT) library is a high-performance deep learning inference engine and delivers low latency and high-throughput for deep learning inference applications. It allows users to convert the model from other popular frameworks like pytorch or tensorflow. However, TensorRT only supports float32 rather than uint8 data type as input data type, which is the most common format for image data. In this case, when we try to deploy the image-based tasks with TensorRT, it always needs to convert the images from uint8 to float32, and then transfer the float32 image date to gpu to allow the TRT engine inference the model. When the image size is large, this preprocessing stage is slightly slow. In this blog, we are trying to introduce the NVIDIA NPP library to speed up this preprocessing progress.</p>
+<h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><p>This blog uses the environment shown below and used a detection model trained by ssds.pytorch to do the experiments and evaluations. The model uses ResNet18 as feature extractor and YoloV3 as detection head. The model has already been converted to TRT with 1x3x736x1280 input and int8 computation precision.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SYS: Ubuntu 18.04</span><br><span class="line">GPU: T4</span><br><span class="line">GCC: 7.5</span><br><span class="line">CMake: 3.16.6</span><br><span class="line">CUDA: 10.2</span><br><span class="line">CUDNN: 7.6.5</span><br><span class="line">TensorRT: 7.0</span><br><span class="line">OpenCV: 4.3.0/3.4.10</span><br></pre></td></tr></table></figure>
 
-<p>模型是由ssds.pytorch训练的Yolov3目标检测器，已转换为TRT模型。其输入大小为1x3x736x1280，特征提取器为ResNet18，计算精度为int8。</p>
-<p>需要注意，当将模型转换为TRT模型时，TRT会根据gpu框架和性能来来选择不同的核函数及其参数，进而最大程度优化推理速度。因此TRT在执行时，必须使用统一gpu框架所生成的TRT模型，否则将无法推断。并且即使是统一框架不同型号的gpu所生成的TRT模型，其推理速度也会有些许削弱。比如虽然2080ti和t4同属7.5计算框架，在T4上推断，由2080ti所生成的TRT模型要比由T4生成的模型推断速度慢3~10%。</p>
-<h2 id="CPU图片数据预处理"><a href="#CPU图片数据预处理" class="headerlink" title="CPU图片数据预处理"></a>CPU图片数据预处理</h2><p>在一些深度学习框架中，在其推断时可以指定推断时所接受的数据类型，并将数据预处理的步骤在计算图中定义。如在tensorflow将权重转化为推断模型(frozen graph)时，可以通过<code>tf.placeholder(dtype=tf.uint8, shape=input_shape, name=&#39;image_tensor&#39;)</code>来指定推理时模型接受的数据类型。这种改变在推理时模型的操作在TensorRT上似乎不那么行得通。虽然TensorRT支持多种数据类型，并且输入输出接口的数据类型可由转换的onnx或uff文件决定，但当输入输出的数据类型改为除float32以外的其他类型时，常常无法成功转换为TRT推理模型。</p>
-<p>TensorRT中这种输入输出类型的限制，对于计算机视觉的模型显得更加不友好。计算机视觉常处理的图像或视频在计算机中常存储为0～255的uint8数据，这种类型本身就不被TensorRT所支持，须将图片先转为float数据再输入到TensorRT。而在一些任务中，其输入模型的图片或视频片段分辨率较大，如4k或8k，uint8和float从cpu内存传输到gpu显存的速度差别就比较大。这些原因导致了在计算机视觉模型部署时，图片数据预处理和传输有时候成为了模型部署的瓶颈。</p>
-<p>大多数github上的TRT项目在进行推断中的图片数据预处理常采用TensorRT<a target="_blank" rel="noopener" href="https://github.com/NVIDIA/TensorRT/blob/572d54f91791448c015e74a4f1d6923b77b79795/samples/opensource/sampleSSD/sampleSSD.cpp#L276-L309">官方示例</a>中给出了一种在CPU图片数据预处理。笔者个人喜欢用OpenCV自带函数进行操作，这两种图片数据预处理的示例代码如下。</p>
+<p>It should be noted that when the model is converted to a TRT model, TRT will select different kernel functions and their parameters according to the GPU framework, and thus optimize the inference speed. Therefore, it has to use the same GPU framework for TRT model generation and execution. And even the TRT model generated by different types of GPUs with the same framework, its inference speed will be slightly weakened based on its execution gpu machine. For example, although 2080ti and t4 belong to the same 7.5 computing framework, when we infer the model on T4, the model generated by 2080ti is 3 to 10% slower than the model generated by T4.</p>
+<h2 id="CPU-image-preprocessing"><a href="#CPU-image-preprocessing" class="headerlink" title="CPU image preprocessing"></a>CPU image preprocessing</h2><p>In some deep learning frameworks, it can specify the input data type &amp; format and the data preprocessing ops in the inference graph. For example, when we freeze the weights into the frozen graph in tensorflow, we can specify the data type accepted by the model during inference through <code>tf.placeholder(dtype=tf.uint8, shape=input_shape, name=&#39;image_tensor&#39;)</code>. This preprocessing way is not supportted on TensorRT. TensorRT does support multiple data types, and the data type of the input and output ops can be determined by the converted onnx&#x2F;uff file. However, when the input and output data type of onnx&#x2F;uff model is changed to other types than float32, it can not be successfully converted into a TRT inference model in the most cases.</p>
+<p>This data type limitation in TensorRT is even more unfriendly to the computer vision models. Images or videos in computer vision tasks are often stored in the computer as uint8 data ([0, 255]) which is not supported by TensorRT. In this case, the images must be converted to float and then do the TensorRT model inference. In some tasks, the resolution of the images or video clips of the input model is large, such as 4k or 8k, and it is slow to tranfer the data from uint8 to float in cpu and from cpu memory to gpu memory. In some cases, the time cost of pre-processing and transmission is the bottleneck in model deployment.</p>
+<p>Most of the TRT projects on github often use the official <a target="_blank" rel="noopener" href="https://github.com/NVIDIA/TensorRT/blob/572d54f91791448c015e74a4f1d6923b77b79795/samples/opensource/sampleSSD/sampleSSD.cpp#L276-L309">TensorRT example</a> to preprocess the image data in cpu, while I prefer to use the OpenCV functions to preprocess the images. The code for these two methods are shown as below.</p>
 <details>
-<summary>代码：CPU图片数据预处理</summary>
+<summary>Code: Preprocess data in cpu</summary>
 
-<p>TensorRT官方示例图片数据预处理代码</p>
+<p>TensorRT official preprocessing code</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">SampleUffSSD::processInput</span><span class="params">(<span class="type">const</span> samplesCommon::BufferManager&amp; buffers)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> inputC = mInputDims.d[<span class="number">0</span>];</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> inputH = mInputDims.d[<span class="number">1</span>];</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> inputW = mInputDims.d[<span class="number">2</span>];</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> batchSize = mParams.batchSize;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Available images</span></span><br><span class="line">    std::vector&lt;std::string&gt; imageList = &#123;<span class="string">&quot;dog.ppm&quot;</span>, <span class="string">&quot;bus.ppm&quot;</span>&#125;;</span><br><span class="line">    mPPMs.<span class="built_in">resize</span>(batchSize);</span><br><span class="line">    <span class="built_in">assert</span>(mPPMs.<span class="built_in">size</span>() &lt;= imageList.<span class="built_in">size</span>());</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; batchSize; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">readPPMFile</span>(<span class="built_in">locateFile</span>(imageList[i], mParams.dataDirs), mPPMs[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span>* hostDataBuffer = <span class="built_in">static_cast</span>&lt;<span class="type">float</span>*&gt;(buffers.<span class="built_in">getHostBuffer</span>(mParams.inputTensorNames[<span class="number">0</span>]));</span><br><span class="line">    <span class="comment">// Host memory for input buffer</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>, volImg = inputC * inputH * inputW; i &lt; mParams.batchSize; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> c = <span class="number">0</span>; c &lt; inputC; ++c)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// The color image to input should be in BGR order</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">unsigned</span> j = <span class="number">0</span>, volChl = inputH * inputW; j &lt; volChl; ++j)</span><br><span class="line">            &#123;</span><br><span class="line">                hostDataBuffer[i * volImg + c * volChl + j]</span><br><span class="line">                    = (<span class="number">2.0</span> / <span class="number">255.0</span>) * <span class="built_in">float</span>(mPPMs[i].buffer[j * inputC + c]) - <span class="number">1.0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>OpenCV图片数据预处理代码</p>
+<p>OpenCV preprocessing code</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">imageToTensor</span><span class="params">(<span class="type">const</span> std::vector&lt;cv::Mat&gt; &amp; images, <span class="type">float</span> * tensor, <span class="type">const</span> <span class="type">int</span> batch_size, <span class="type">const</span> <span class="type">float</span> alpha, <span class="type">const</span> <span class="type">float</span> beta)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> height = images[<span class="number">0</span>].rows;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> width = images[<span class="number">0</span>].cols;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> channels = images[<span class="number">0</span>].<span class="built_in">channels</span>();</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> stridesCv[<span class="number">3</span>] = &#123; width * channels, channels, <span class="number">1</span> &#125;;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> strides[<span class="number">4</span>] = &#123; height * width * channels, height * width, width, <span class="number">1</span> &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">pragma</span> omp parallel for num_threads(c_numOmpThread) schedule(static, 1)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> b = <span class="number">0</span>; b &lt; batch_size; b++)</span><br><span class="line">    &#123;</span><br><span class="line">        cv::Mat image_f;</span><br><span class="line">        images[b].<span class="built_in">convertTo</span>(image_f, CV_32F, alpha, beta);</span><br><span class="line">        std::vector&lt;cv::Mat&gt; split_channels = &#123;</span><br><span class="line">                cv::<span class="built_in">Mat</span>(images[b].<span class="built_in">size</span>(),CV_32FC1,tensor + b * strides[<span class="number">0</span>]),</span><br><span class="line">                cv::<span class="built_in">Mat</span>(images[b].<span class="built_in">size</span>(),CV_32FC1,tensor + b * strides[<span class="number">0</span>] + strides[<span class="number">1</span>]),</span><br><span class="line">                cv::<span class="built_in">Mat</span>(images[b].<span class="built_in">size</span>(),CV_32FC1,tensor + b * strides[<span class="number">0</span>] + <span class="number">2</span>*strides[<span class="number">1</span>]),</span><br><span class="line">        &#125;;</span><br><span class="line">        cv::<span class="built_in">split</span>(image_f, split_channels);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> batch_size * height * width * channels;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>OpenCV图片数据预处理运算速度(ms)</p>
+<p>The time cost of OpenCV preprocessing method(ms)</p>
 <table>
 <thead>
 <tr>
@@ -215,19 +215,19 @@
 </tbody></table>
 </details>
 
-<p>如上例代码所示，在CPU图片数据预处理中，首先将数据转化为float类型并做归一化，然后将数据排列从NHWC转化为NCHW，最后将float型nchw图片数据传递给到TRT模型预留的gpu显存。可以看到，对于该模型图像预处理和传输的速度反而大于模型推断速度。这种cpu图片预处理方式无法高效使用gpu的性能，使得整个模型部署效率较低。</p>
-<h2 id="GPU-NPP图片数据预处理"><a href="#GPU-NPP图片数据预处理" class="headerlink" title="GPU-NPP图片数据预处理"></a>GPU-NPP图片数据预处理</h2><p>上面提到，cpu图片数据预处理效率较低由两方面原因导致：其一，cpu将图像从uint8转化为float32的效率较低；其二，相较于uint8，float32从cpu传输到gpu数据量大四倍，传输效率较慢。所以比较朴素的提速想法就是将uint8数据传输到gpu，并由gpu完成从uint8转化为float32的转化。NPP就可以方便快速的实现如上过程。</p>
-<p>NPP是nvidia推出的用于gpu加速2D图像和信号处理的cuda库，其本身就内嵌于cuda库中。其分为多个部分，可以在gpu上高效的进行数据类型转换，颜色变化，几何变化等功能。本例中采用其中的NPPC，NPPIDEI和NPPIAL部分来进行图片数据预处理中的uint8到float32的数据类型转化，NHWC到NCHW的通道变化，以及归一化操作。其具体代码如下。</p>
+<p>As shown in the example preprocessing code above, in the cpu, the data is first converted to float type and normalized to [0,1]. The arrangement is also permuted from NHWC to NCHW. Then the float data is transferred to gpu memory to do TRT model inference. In the time cost table, it shows that the speed of image preprocessing and transmission for this model is actually greater than the speed of model inference. In this case, the model deployed in gpu is not efficient and still has room to speed up.</p>
+<h2 id="GPU-Image-Preprocessing-by-NPP"><a href="#GPU-Image-Preprocessing-by-NPP" class="headerlink" title="GPU Image Preprocessing by NPP"></a>GPU Image Preprocessing by NPP</h2><p>As mentioned, there are two reasons make the CPU image data preprocessing slow: the efficiency of CPU to convert the image from uint8 to float32 is low; since the float32 data is 4 times larger than uint8 data, the transmission efficiency between cpu memory and gpu memory is slower for float data. In this case, a simple speed-up way is to transfer uint8 data to gpu and allows gpu to complete the conversion from uint8 to float32. These processes can be done by NPP easily and efficiently.</p>
+<p>Nvidia NPP is a cuda library for GPU accelerated 2D image and signal processing. It contains multiple submodules, which allows users to efficiently do the image computation on the gpu like the data type conversion, the color or geometric transformation and etc.. In this example, the NPPC, NPPIDEI and NPPIAL in NPP are used to perform the data type conversion from uint8 to float32 in the image data preprocessing, the channel change from NHWC to NCHW, and the normalization. The code is shown as follows.</p>
 <details>
-<summary>代码：GPU-NPP图片数据预处理</summary>
+<summary>Code: Preprocess data in gpu</summary>
 
-<p>NPP图片数据预处理代码</p>
+<p>NPP preprocessing code</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">imageToTensorGPUFloat</span><span class="params">(<span class="type">const</span> std::vector&lt;cv::Mat&gt; &amp; images, <span class="type">void</span> * gpu_images, <span class="type">void</span> * tensor, <span class="type">const</span> <span class="type">int</span> batch_size, <span class="type">const</span> <span class="type">float</span> alpha)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> height = images[<span class="number">0</span>].rows;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> width  = images[<span class="number">0</span>].cols;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> channels = images[<span class="number">0</span>].<span class="built_in">channels</span>();</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> stride = height * width * channels;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> stride_s = width * channels;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> dstOrder[<span class="number">3</span>] = &#123;<span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>&#125;;</span><br><span class="line">    Npp32f scale[<span class="number">3</span>] = &#123;alpha, alpha, alpha&#125;;</span><br><span class="line">    NppiSize dstSize = &#123;width, height&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">pragma</span> omp parallel for num_threads(c_numOmpThread) schedule(static, 1)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> b = <span class="number">0</span>; b &lt; batch_size; b++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cudaMemcpy</span>((Npp8u*)gpu_images + b * stride, images[b].data, stride, cudaMemcpyHostToDevice);</span><br><span class="line">        <span class="built_in">nppiSwapChannels_8u_C3IR</span>((Npp8u*)gpu_images + b * stride, stride_s, dstSize, dstOrder);</span><br><span class="line">        <span class="built_in">nppiConvert_8u32f_C3R</span>((Npp8u*)gpu_images + b * stride, stride_s, (Npp32f*)tensor, stride_s*<span class="built_in">sizeof</span>(<span class="type">float</span>), dstSize);</span><br><span class="line">        <span class="built_in">nppiMulC_32f_C3IR</span>(scale, (Npp32f*)tensor, stride_s*<span class="built_in">sizeof</span>(<span class="type">float</span>), dstSize);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> batch_size * stride;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>NPP图片数据预处理代码（无通道变化和归一化）</p>
+<p>NPP preprocessing code (without normalization and channel permutation)</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">imageToTensorGPUFloat</span><span class="params">(<span class="type">const</span> std::vector&lt;cv::Mat&gt; &amp; images, <span class="type">void</span> * gpu_images, <span class="type">void</span> * tensor, <span class="type">const</span> <span class="type">int</span> batch_size)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> height = images[<span class="number">0</span>].rows;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> width  = images[<span class="number">0</span>].cols;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> channels = images[<span class="number">0</span>].<span class="built_in">channels</span>();</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> stride = height * width * channels;</span><br><span class="line">    NppiSize dstSize = &#123;width, height&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">pragma</span> omp parallel for num_threads(c_numOmpThread) schedule(static, 1)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> b = <span class="number">0</span>; b &lt; batch_size; b++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cudaMemcpy</span>((Npp8u*)gpu_images + b * stride, images[b].data, stride, cudaMemcpyHostToDevice);</span><br><span class="line">        <span class="built_in">nppiConvert_8u32f_C3R</span>((Npp8u*)gpu_images + b * stride, width * channels, (Npp32f*)tensor, width * channels*<span class="built_in">sizeof</span>(<span class="type">float</span>), dstSize);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> batch_size * stride;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>NPP图片数据预处理（无通道变化和归一化）运算速度(ms)</p>
+<p>The time cost of NPP preprocessing (without normalization and channel permutation) (ms)</p>
 <table>
 <thead>
 <tr>
@@ -246,58 +246,20 @@
 </tbody></table>
 </details>
 
-<p>如上例代码所示，在GPU图片数据预处理中，首先将uint8数据传输到gpu显存中，然后将数据排列从NHWC转化为NCHW，最后转化为float类型并做归一化，归一化后的数据直接存储在TRT模型预留的gpu显存中。由于按位运算(elementwise)和通道转换(channel permute)在TRT模型中执行效率较高，可将预处理中的归一化和通道转换移到模型内计算。可以看到，相较于cpu的图像预处理，gpu图像预处理的时间从3.5ms降到0.5ms，整个模型总运行时间从6ms降到3.5ms，每秒帧处理量（fps）从166帧提升到了285帧，整体达到了1.7倍的提速。</p>
-<p>需要注意的是，由于TRT模型转化时间较长，本文示例只测试batch为1时的执行速度。如果在部署时遇到batch较大而导致gpu图片预处理速度较慢，由于cuda代码执行和传输特性，可考虑整批图像一起从cpu内存拷贝到gpu并进行uint8到float32的转化，进而提高大batch情况下的GPU图片数据预处理处理速度。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<p>As shown in the example code above, for preprocessing in the gpu, the uint8 data is first transferred to the gpu memory. Then the data arrangement is permuted from NHWC to NCHW and finally the uint8 data converted to the float type and normalized to [0., 1.]. The normalized data is directly stored in the gpu memory reserved by the TRT model. Since elementwise operation and channel permute are performed efficiently in the TRT model, the normalization and channel conversion in the preprocessing can be moved to the model as operations. Compared with CPU image preprocessing, the GPU image preprocessing time is reduced from 3.5ms to 0.5ms, the total running time of the entire model is reduced from 6ms to 3.5ms, and the frame processing per second (fps) is from 166 frames raised to 285 frames, the overall speed has reached 1.7 times faster.</p>
+<p>It should be noted that due to the long conversion time of the TRT model, the example in this blog only tests the execution speed when batch is 1. If large batches are encountered during deployment and the gpu preprocessing speed is slow, it may be due to the cuda code execution and transmission. In this case, it would be better to copy the entire batch of images to the GPU memory and the data type conversion to improve the preprocessing speed in the batch. Another way to speed up the progress is process each image sample in a stream.</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/deeplearning/tensorrt/api/python_api/infer/FoundationalTypes/DataType.html">tensorrt document</a></li>
-<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-gpus#compute">gpu计算框架</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-gpus#compute">gpu computation framework</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/ShuangXieIrene/ssds.pytorch">ssds.pytorch</a></li>
 </ul>
-<p>如果有TensorRT的项目，不妨来试试通过本文提到的GPU图片数据预处理的方法来提速模型推断流程的速度吧！</p>
 
     </div>
      
-    <div class="post-footer__meta"><p>更新于 2022-02-26</p></div> 
-    <div class="post-entry__tags"><a href="/zh/tags/cpp/" class="post-tags__link button"># cpp</a><a href="/zh/tags/cuda/" class="post-tags__link button"># cuda</a><a href="/zh/tags/tensorrt/" class="post-tags__link button"># tensorrt</a></div> 
+    <div class="post-footer__meta"><p>updated at 2022-02-26</p></div> 
+    <div class="post-entry__tags"><a href="/tags/cpp/" class="post-tags__link button"># cpp</a><a href="/tags/cuda/" class="post-tags__link button"># cuda</a><a href="/tags/tensorrt/" class="post-tags__link button"># tensorrt</a></div> 
 </article>
 
-
-    <div class="nav">
-        <div class="nav__prev">
-            
-                <a href="/zh/2020/07/04/zh/numba_python/" class="nav__link">
-                    <div>
-                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
-                    </div>
-                    <div>
-                        <div class="nav__label">
-                            Previous Post
-                        </div>
-                        <div class="nav__title">
-                            Numba: 简单装饰器加速python代码
-                        </div>
-                    </div>
-                </a>
-            
-        </div>
-        <div class="nav__next">
-            
-                <a href="/zh/2020/06/10/zh/numba_cuda/" class="nav__link">
-                    <div>
-                        <div class="nav__label">
-                            Next Post
-                        </div>
-                        <div class="nav__title">
-                            Numba: 通过python快速学习cuda编程
-                        </div>
-                    </div>
-                    <div>
-                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
-                    </div>
-                </a>
-            
-        </div>
-    </div>
 
 
 
@@ -307,7 +269,7 @@
 
             <footer class="footer">
      
-    <a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部">
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
             <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
         </svg>
@@ -324,7 +286,7 @@
     
         
         <p class="footer-copyright">
-            Copyright © 2022 <a href="/zh/">ForeverYoung</a>
+            Copyright © 2022 <a href="/">ForeverYoung</a>
         </p>
     
     

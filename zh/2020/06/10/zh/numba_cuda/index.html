@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+    
+    
+    
+    
+
+
+    <!-- meta -->
+
+
+<title>Numba: 通过python快速学习cuda编程 | ForeverYoung</title>
+
+
+    <meta name="keywords" content="python, numba, cuda">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="复杂的编译环境配置，指针操作和debug过程，CUDA编程对于初学者来说总是望而生畏。本文旨在通过使用python的numba库，快速学习和了解CUDA多线程高并发的编程思路。 环境配置为了简化环境配置，本文中的编程环境将全部由conda配置，并在conda的虚拟环境中测试。所涉及的依赖库分别是cudatoolkit, numba, numpy。相关环境可以通过以下语令进行配置。 conda cr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Numba: 通过python快速学习cuda编程">
+<meta property="og:url" content="https://foreveryounggithub.github.io/zh/2020/06/10/zh/numba_cuda/index.html">
+<meta property="og:site_name" content="ForeverYoung">
+<meta property="og:description" content="复杂的编译环境配置，指针操作和debug过程，CUDA编程对于初学者来说总是望而生畏。本文旨在通过使用python的numba库，快速学习和了解CUDA多线程高并发的编程思路。 环境配置为了简化环境配置，本文中的编程环境将全部由conda配置，并在conda的虚拟环境中测试。所涉及的依赖库分别是cudatoolkit, numba, numpy。相关环境可以通过以下语令进行配置。 conda cr">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-10T05:00:00.000Z">
+<meta property="article:modified_time" content="2022-02-27T02:23:41.029Z">
+<meta property="article:author" content="Yang">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="numba">
+<meta property="article:tag" content="cuda">
+<meta name="twitter:card" content="summary_large_image">
+
+
+    
+<link rel="stylesheet" href="/zh/css/style/main.css">
+ 
+
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/zh/css/highlight/default.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/zh/css/highlight/dark.css" media="none">
+        
+    
+
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/zh/css/style/dark.css">
+
+    
+<script src="/zh/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+    <body>
+        <div id="app">
+            <header class="header">
+    <div class="header__left">
+        <a href="/zh/" class="button">
+            <span class="logo__text">ForeverYoung</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/zh/" class="navbar-menu button">首页</a>
+                
+                    <a href="/zh/tags/" class="navbar-menu button">标签</a>
+                
+                    <a href="/zh/archives/" class="navbar-menu button">归档</a>
+                
+                    <a href="/zh/" class="navbar-menu button">EN</a>
+                
+            </div>
+        
+        
+        
+    <a href="/zh/search/" id="btn-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg>
+    </a>
+
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/zh/" class="dropdown-menu button">首页</a>
+                
+                    <a href="/zh/tags/" class="dropdown-menu button">标签</a>
+                
+                    <a href="/zh/archives/" class="dropdown-menu button">归档</a>
+                
+                    <a href="/zh/" class="dropdown-menu button">EN</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        Numba: 通过python快速学习cuda编程
+    </h1>
+    <div class="post-title__meta">
+        <a href="/zh/archives/2020/06/" class="post-meta__date button">2020-06-10</a>
+        
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%80%9CHello-World-%E2%80%9D-%E5%88%9D%E7%AA%A5GPU%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B%E7%BD%91%E6%A0%BC%EF%BC%88Grid%EF%BC%89%EF%BC%8C%E7%BA%BF%E7%A8%8B%E5%9D%97%EF%BC%88Block%EF%BC%89%E5%92%8C%E7%BA%BF%E7%A8%8B%EF%BC%88Thread%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">“Hello, World!”: 初窥GPU中的线程网格（Grid），线程块（Block）和线程（Thread）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95%EF%BC%9A-%E5%B0%8F%E8%AF%95%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97"><span class="toc-number">3.</span> <span class="toc-text">矩阵加法： 小试并行计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%89%B9%E5%A4%84%E7%90%86%E7%9F%A9%E9%98%B5%EF%BC%9A%E6%B5%81-stream"><span class="toc-number">4.</span> <span class="toc-text">分批处理矩阵：流(stream)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E6%B1%82%E5%92%8C%EF%BC%9A%E5%B9%B6%E8%A1%8C%E5%BD%92%E7%BA%A6%EF%BC%88Reduction%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">矩阵求和：并行归约（Reduction）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">文章目录</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%80%9CHello-World-%E2%80%9D-%E5%88%9D%E7%AA%A5GPU%E4%B8%AD%E7%9A%84%E7%BA%BF%E7%A8%8B%E7%BD%91%E6%A0%BC%EF%BC%88Grid%EF%BC%89%EF%BC%8C%E7%BA%BF%E7%A8%8B%E5%9D%97%EF%BC%88Block%EF%BC%89%E5%92%8C%E7%BA%BF%E7%A8%8B%EF%BC%88Thread%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">“Hello, World!”: 初窥GPU中的线程网格（Grid），线程块（Block）和线程（Thread）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E5%8A%A0%E6%B3%95%EF%BC%9A-%E5%B0%8F%E8%AF%95%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97"><span class="toc-number">3.</span> <span class="toc-text">矩阵加法： 小试并行计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%89%B9%E5%A4%84%E7%90%86%E7%9F%A9%E9%98%B5%EF%BC%9A%E6%B5%81-stream"><span class="toc-number">4.</span> <span class="toc-text">分批处理矩阵：流(stream)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E6%B1%82%E5%92%8C%EF%BC%9A%E5%B9%B6%E8%A1%8C%E5%BD%92%E7%BA%A6%EF%BC%88Reduction%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">矩阵求和：并行归约（Reduction）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <p>复杂的编译环境配置，指针操作和debug过程，CUDA编程对于初学者来说总是望而生畏。本文旨在通过使用python的numba库，快速学习和了解CUDA多线程高并发的编程思路。</p>
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>为了简化环境配置，本文中的编程环境将全部由conda配置，并在conda的虚拟环境中测试。所涉及的依赖库分别是<code>cudatoolkit</code>, <code>numba</code>, <code>numpy</code>。相关环境可以通过以下语令进行配置。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">conda create -n numba-cuda python=3.7</span><br><span class="line">conda activate numba-cuda</span><br><span class="line">conda install cudatoolkit numba numpy</span><br></pre></td></tr></table></figure>
+
+<p>当安装完成后，可以通过<code>nvidia-smi</code>去检查gpu状态，如下表所示。通过该表可以看到运行在每个gpu上的程序以及它们显存的使用占用，也可以通过memory-usage检查每个显卡总体显存占用。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| NVIDIA-SMI 440.82       Driver Version: 440.82       CUDA Version: 10.2     |</span><br><span class="line">|-------------------------------+----------------------+----------------------+</span><br><span class="line">| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |</span><br><span class="line">| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |</span><br><span class="line">|===============================+======================+======================|</span><br><span class="line">|   0  GeForce GTX 108...  Off  | 00000000:01:00.0  On |                  N/A |</span><br><span class="line">| 27%   36C    P8   112W / 250W |   6338MiB / 11175MiB |     38%      Default |</span><br><span class="line">+-------------------------------+----------------------+----------------------+</span><br><span class="line">                                                                               </span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| Processes:                                                       GPU Memory |</span><br><span class="line">|  GPU       PID   Type   Process name                             Usage      |</span><br><span class="line">|=============================================================================|</span><br><span class="line">|    0     32597      G   /home/yang/anaconda3/envs/ssds/bin/python   6338MiB |</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<p>并且也可以通过<code>python -c &quot;from numba import cuda; print(cuda.gpus)&quot;</code>检查是否可以成功在numba库中访问到gpu设备。当其返回为<code>&lt;Managed Device 0&gt;...</code>时则证明可在python环境下成功访问显卡。</p>
+<p>当主机没有gpu设备时，依然可以通过numba提供的gpu模拟器去运行python的cuda代码，只需设置相关环境变量即可：<code>export NUMBA_ENABLE_CUDASIM=1</code>。需要注意的是该模拟器通过cpu进行模拟调试，物理上的计算单元个数远小于gpu个数。所以通过模拟器运行的程序运行速度略慢于等同cpu多线程。而且在模拟器能够运行的程序，不一定能够在gpu设备上运行。因此只能做学习使用。</p>
+<p>当环境搭建成功后，接下来就开始CUDA编程之旅吧~</p>
+<h2 id="“Hello-World-”-初窥GPU中的线程网格（Grid），线程块（Block）和线程（Thread）"><a href="#“Hello-World-”-初窥GPU中的线程网格（Grid），线程块（Block）和线程（Thread）" class="headerlink" title="“Hello, World!”: 初窥GPU中的线程网格（Grid），线程块（Block）和线程（Thread）"></a>“Hello, World!”: 初窥GPU中的线程网格（Grid），线程块（Block）和线程（Thread）</h2><p>环境配置成功后，本小节将通过在gpu设备上执行打印”Hello, World!”程序，来初步了解gpu编程中的基本概念以及启动gpu函数的基本流程。具体程序如下。</p>
+<details>
+<summary>代码："Hello, World!"</summary>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> numba <span class="keyword">import</span> cuda</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">cpu_print</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;cpu: &quot;hello world!&quot;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@cuda.jit</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gpu_print</span>():</span><br><span class="line">    <span class="built_in">print</span>(cuda.blockIdx.x, cuda.threadIdx.x, <span class="string">&#x27;gpu: &quot;hello world!&quot;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    gpu_print[<span class="number">2</span>, <span class="number">4</span>]()</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    cpu_print()</span><br></pre></td></tr></table></figure>
+
+<p>输出:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">0 0 gpu: <span class="string">&quot;hello world!&quot;</span></span><br><span class="line">0 1 gpu: <span class="string">&quot;hello world!&quot;</span></span><br><span class="line">0 2 gpu: <span class="string">&quot;hello world!&quot;</span></span><br><span class="line">0 3 gpu: <span class="string">&quot;hello world!&quot;</span></span><br><span class="line">1 0 gpu: <span class="string">&quot;hello world!&quot;</span></span><br><span class="line">1 1 gpu: <span class="string">&quot;hello world!&quot;</span></span><br><span class="line">1 2 gpu: <span class="string">&quot;hello world!&quot;</span></span><br><span class="line">1 3 gpu: <span class="string">&quot;hello world!&quot;</span></span><br><span class="line">cpu: <span class="string">&quot;hello world!&quot;</span></span><br></pre></td></tr></table></figure>
+</details>
+
+<p>在numba中，cuda相关的函数被封装在<code>numba.cuda</code>中，可通过<code>from numba import cuda</code>引入。如果需要将代码在gpu上执行，需要将代码封装到函数中，并为函数加装饰器<code>@cuda.jit</code>。添加@cuda.jit装饰器的函数常备称为核函数(kernal)，由cpu调用，但只在gpu设备上执行。</p>
+<p>具体而言，核函数运行在gpu的最小计算单元(core)上，每次运行由单个线程（Thread）所调用，多个线程组成一个线程块（Block），多个线程块组成线程网格（Grid）。粗略的讲，通常执行单个核函数的所有线程在一个线程网络中。该线程网络控制着线程块的数量和生存周期，而每个线程块又控制着其所属的线程的个数和生存周期。运行线程的计算单元被称为流处理器（SP: Streaming Processor），多个线程组成的线程块运行在多流处理器上（SM: Streaming Multiprocessor），多个线程块组成的线程网格运行在一个gpu显卡上。</p>
+<p>因此在核函数被cpu调用时，需要传入该核函数所在的线程网络中线程块的总体个数，以及每个线程块的线程个数。因此在执行<code>numba.cuda</code>中的核函数时需要定义线程块和线程的个数，如<code>kernal[num_block_per_grid, num_thread_per_block]()</code>。在本例中，<code>gpu_print[2, 4]()</code>表示使用2个线程块，每个线程块中使用4个线程去并行执行该核函数。因此共有<code>2*4=8</code>个线程并行执行该核函数，也就输出了8次<code>&quot;hello world!&quot;</code>。</p>
+<p>核函数的启动方式是异步的：启动gpu核函数后，cpu不会等待gpu核函数执行完毕才执行下一行代码。必要时，需要调用<code>cuda.synchronize()</code>，告知cpu等待gpu执行完核函数后，再进行cpu端后续计算。这个过程被称为同步。如果不调用<code>cuda.synchronize()</code>函数，执行结果也将改变，<code>cpu: &quot;hello world!&quot;</code>将先被打印。虽然gpu核函数调用在前，但是程序并没有等待核函数执行完，而是继续执行后面的cpu_print函数。由于cpu调用gpu有一定的延迟，反而后面的<code>cpu_print</code>先被执行，因此<code>cpu_print</code>的结果先被打印了出来。</p>
+<p>需要注意的是每个执行核函数的线程都知道其所在的线程块索引(block index)和线程索引(thread index)，以及线程块和线程的个数(grid dimension and block dimension)。由于索引值可以通过计算等价于循环中的索引值，因此可以较为简单的通过使用cuda并行计算来取代程序中的顺序循环。线程（块）索引和个数可以有最多三个维度，可分别通过<code>x,y,z</code>进行访问。比如，在本例中我们通过<code>cuda.blockIdx.x</code>及<code>cuda.threadIdx.x</code>来得到该线程的线程块索引和线程索引，并且将其打印。</p>
+<p>下文会通过并行计算矩阵加法来初步了解cuda多线程并行计算。</p>
+<h2 id="矩阵加法：-小试并行计算"><a href="#矩阵加法：-小试并行计算" class="headerlink" title="矩阵加法： 小试并行计算"></a>矩阵加法： 小试并行计算</h2><p>上一小节通过”Hello, World!”程序，对gpu核函数的运行流程以及cuda编程中的线程网格（Grid），线程块（Block）和线程（Thread）有了一个基本了解。本节将通过二维矩阵加法来进一步阐述cuda编程中的线程设置以及数据拷贝。具体程序如下。</p>
+<details>
+<summary>代码：矩阵加法</summary>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> numba <span class="keyword">import</span> cuda, jit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_add_cpu</span>(<span class="params">matrix_A, matrix_B, n_rows, n_cols</span>):</span><br><span class="line">    <span class="keyword">return</span> [[matrix_A[ridx][cidx] + matrix_B[ridx][cidx] <span class="keyword">for</span> cidx <span class="keyword">in</span> <span class="built_in">range</span>(n_cols)] <span class="keyword">for</span> ridx <span class="keyword">in</span> <span class="built_in">range</span>(n_rows)]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_add_numpy</span>(<span class="params">matrix_A, matrix_B, n_rows, n_cols</span>):</span><br><span class="line">    <span class="keyword">return</span> matrix_A + matrix_B</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_add_cpu_v2</span>(<span class="params">matrix_A, matrix_B, matrix_C, n_rows, n_cols</span>):</span><br><span class="line">    <span class="keyword">for</span> ridx <span class="keyword">in</span> <span class="built_in">range</span>(n_rows):</span><br><span class="line">        <span class="keyword">for</span> cidx <span class="keyword">in</span> <span class="built_in">range</span>(n_cols):</span><br><span class="line">            matrix_C[ridx][cidx] = matrix_A[ridx][cidx] + matrix_B[ridx][cidx]</span><br><span class="line">    <span class="keyword">return</span> matrix_C</span><br><span class="line"></span><br><span class="line"><span class="meta">@jit</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_add_numba_jit</span>(<span class="params">matrix_A, matrix_B, matrix_C, n_rows, n_cols</span>):</span><br><span class="line">    <span class="keyword">for</span> ridx <span class="keyword">in</span> <span class="built_in">range</span>(n_rows):</span><br><span class="line">        <span class="keyword">for</span> cidx <span class="keyword">in</span> <span class="built_in">range</span>(n_cols):</span><br><span class="line">            matrix_C[ridx][cidx] = matrix_A[ridx][cidx] + matrix_B[ridx][cidx]</span><br><span class="line">    <span class="keyword">return</span> matrix_C</span><br><span class="line"></span><br><span class="line"><span class="meta">@cuda.jit</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_add_numba_cuda</span>(<span class="params">matrix_A, matrix_B, matrix_C, n_rows, n_cols</span>):</span><br><span class="line">    ridx = cuda.threadIdx.y + cuda.blockDim.y * cuda.blockIdx.y</span><br><span class="line">    cidx = cuda.threadIdx.x + cuda.blockDim.x * cuda.blockIdx.x</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ridx &lt; n_rows <span class="keyword">and</span> cidx &lt; n_cols:</span><br><span class="line">        matrix_C[ridx][cidx] = matrix_A[ridx][cidx] + matrix_B[ridx][cidx]</span><br><span class="line"></span><br><span class="line"><span class="meta">@cuda.jit</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_add_numba_cuda_copy</span>(<span class="params">matrix_A, matrix_B, matrix_C, n_rows, n_cols</span>):</span><br><span class="line">    ridx = cuda.threadIdx.y + cuda.blockDim.y * cuda.blockIdx.y</span><br><span class="line">    cidx = cuda.threadIdx.x + cuda.blockDim.x * cuda.blockIdx.x</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ridx &lt; n_rows <span class="keyword">and</span> cidx &lt; n_cols:</span><br><span class="line">        matrix_C[ridx][cidx] = matrix_A[ridx][cidx] + matrix_B[ridx][cidx]</span><br><span class="line"></span><br><span class="line"><span class="meta">@cuda.jit</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_add_numba_cuda_v2</span>(<span class="params">matrix_A, matrix_B, matrix_C, n_rows, n_cols</span>):</span><br><span class="line">    idx = cuda.threadIdx.x + cuda.blockDim.x * cuda.blockIdx.x</span><br><span class="line">    ridx = idx // n_cols</span><br><span class="line">    cidx = idx %  n_cols</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ridx &lt; n_rows <span class="keyword">and</span> cidx &lt; n_cols:</span><br><span class="line">        matrix_C[ridx][cidx] = matrix_A[ridx][cidx] + matrix_B[ridx][cidx]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    n_row, n_col = <span class="number">1080</span>, <span class="number">1920</span></span><br><span class="line"></span><br><span class="line">    arr_A, arr_B = [[[random.random() <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n_col)] <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n_row)] <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>)]</span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    arr_cpu = matrix_add_cpu(arr_A, arr_B, n_row, n_col)</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;process time on cpu : &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    arr_A, arr_B = np.array(arr_A), np.array(arr_B)</span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    arr_numpy = matrix_add_numpy(arr_A, arr_B, n_row, n_col)</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="keyword">if</span> (arr_numpy - np.array(arr_cpu)).<span class="built_in">max</span>() &lt; <span class="number">1e-8</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;process time on numpy : &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    arr_C = arr_B.copy()</span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    arr_cpu_v2 = matrix_add_cpu_v2(arr_A, arr_B, arr_C, n_row, n_col)</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="keyword">if</span> (arr_numpy - arr_cpu_v2).<span class="built_in">max</span>() &lt; <span class="number">1e-8</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;process time on cpu v2 : &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    arr_n_jit = matrix_add_numba_jit(arr_A, arr_B, arr_C, n_row, n_col)</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="keyword">if</span> (arr_numpy - arr_n_jit).<span class="built_in">max</span>() &lt; <span class="number">1e-8</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;process time on numba jit : &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    threadsperblock = (<span class="number">16</span>, <span class="number">16</span>)</span><br><span class="line">    blockspergrid_x = math.ceil(n_col / threadsperblock[<span class="number">0</span>])</span><br><span class="line">    blockspergrid_y = math.ceil(n_row / threadsperblock[<span class="number">1</span>])</span><br><span class="line">    blockspergrid = (blockspergrid_x, blockspergrid_y)</span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    matrix_add_numba_cuda[blockspergrid, threadsperblock](arr_A, arr_B, arr_C, n_row, n_col)</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="keyword">if</span> (arr_numpy - arr_C).<span class="built_in">max</span>() &lt; <span class="number">1e-8</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;process time on numba cuda : &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    d_arr_A, d_arr_B, d_arr_C = cuda.to_device(arr_A), cuda.to_device(arr_B), cuda.to_device(arr_C)</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    matrix_add_numba_cuda_copy[blockspergrid, threadsperblock](d_arr_A, d_arr_B, d_arr_C, n_row, n_col)</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    arr_C = d_arr_C.copy_to_host()</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    <span class="keyword">if</span> (arr_numpy - arr_C).<span class="built_in">max</span>() &lt; <span class="number">1e-8</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;process time on numba cuda with copied data : &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    threadsperblock = <span class="number">256</span></span><br><span class="line">    blockspergrid   = math.ceil((n_col*n_row)/threadsperblock)</span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    matrix_add_numba_cuda_v2[blockspergrid, threadsperblock](d_arr_A, d_arr_B, d_arr_C, n_row, n_col)</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    arr_C = d_arr_C.copy_to_host()</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    <span class="keyword">if</span> (arr_numpy - arr_C).<span class="built_in">max</span>() &lt; <span class="number">1e-8</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;process time on numba cuda with copied data : &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br></pre></td></tr></table></figure>
+
+<p>输出1:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">process time on cpu : 203.750ms</span><br><span class="line">process time on numpy : 2.630ms</span><br><span class="line">process time on cpu v2 : 1334.258ms</span><br><span class="line">process time on numba jit : 235.476ms</span><br><span class="line">process time on numba cuda : 217.982ms</span><br><span class="line">process time on numba cuda with copied data : 76.042ms</span><br><span class="line">process time on numba cuda v2 with copied data : 75.180ms</span><br></pre></td></tr></table></figure>
+
+<p>输出2：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">process time on cpu : 245.238ms</span><br><span class="line">process time on numpy : 2.766ms</span><br><span class="line">process time on cpu v2 : 1410.334ms</span><br><span class="line">process time on numba jit (1st): 234.586ms</span><br><span class="line">process time on numba jit (2nd): 3.086ms</span><br><span class="line">process time on numba cuda (1st): 234.172ms</span><br><span class="line">process time on numba cuda (2nd): 15.431ms</span><br><span class="line">process time on numba cuda with copied data (1st): 80.449ms</span><br><span class="line">process time on numba cuda with copied data (2nd): 0.642ms</span><br><span class="line">process time on numba cuda v2 with copied data (1st): 78.265ms</span><br><span class="line">process time on numba cuda v2 with copied data (2nd): 0.538ms</span><br></pre></td></tr></table></figure>
+</details>
+
+<p>当计算独立时，并行的cuda核函数可以简单取代程序中的循环并实现巨大的提速。在本例中，纯python编程想要计算两矩阵相加，必须通过循环来遍历矩阵上的所有点来进行计算。正如上一小节所讲，在cuda核函数中的索引值等价于循环中的索引值，python程序中的通过顺序循环遍历矩阵就可以被cuda中的多线程核函数并行遍历矩阵所取代。在核函数中，线程可以通过计算索引来访问到对应的点的位置。比如，循环中的行和列的索引值<code>ridx</code>,<code>cidx</code> 在核函数可通过线程（块）索引和个数来计算得到<code>ridx = cuda.threadIdx.y + cuda.blockDim.y * cuda.blockIdx.y</code>，<code>cidx = cuda.threadIdx.x + cuda.blockDim.x * cuda.blockIdx.x</code>。如程序所示，该核函数中只计算了矩阵中一个点计算加法。因此在执行该gpu函数时，每个线程只为矩阵中一个点计算加法，多个线程并行运行，进而实现了快速高并发的并行计算。可以看到，相较于纯python编程，cuda并行计算可提速3倍到18倍。但有一点值得奇怪，如果该函数在运行第二次时，其速度为0.8ms左右，也就是存在264～1654倍的提速。所以可能在numba中第一遍速度较慢是由于numba的动态编译所导致的，具体原因尚需细查。</p>
+<p>上小节提到线程块运行在多流处理器上，线程运行在流处理器上。在物理显卡中，多流处理器所包含的流处理器的数量是固定的，对目前市场上的主流显卡，多流处理器一般包含1024或512个流处理器。因此，在设置线程个数时，必须小于等于每个多流处理器包含流处理器的个数，也就是要小于或等于1024或512。所以一般线程个数在程序中常作为常量存在，如在本例线程的个数被固定为<code>(16, 16)</code>，也就是256个线程。 并且，多流处理器在物理上通过线程束（warp）来分组调度流处理器，每个线程束调度的线程个数也是固定的，一般为32个。每个线程束中所有流处理器（32个）是一起工作的，执行相同的指令。如果没有这么多的流处理器需要工作，那么这个线程束中的一些流处理器是不工作的。为了使每个线程束中所有的线程都在工作，当进行并行计算时，线程数尽量为32的倍数。如在本例中，线程的个数是256（<code>(16, 16)</code>），也就是32的8倍。如果线程数设置为1的话，线程束会生成掩码，使得32个线程中只有一个线程在真正执行，其他31个线程会进入静默状态。这样计算资源就会浪费，在计算量较大时，执行效率就明显变低了。</p>
+<p>由于线程的个数在程序中常为常量，为了能够取代所有循环，一般线程块的个数可以由总循环次数除以线程个数，并向上取整。如在本例中，为了能够遍历到矩阵中所有点，线程块个数被设置为<code>blockspergrid_x = math.ceil(n_col / threadsperblock[0])</code>, <code>blockspergrid_y = math.ceil(n_row / threadsperblock[1])</code>，在本例中也就是<code>(120,68)</code>，也就是8160个线程块。但向上取整存在一个问题，通过该设置所生成的线程个数大于本身的循环次数，即<code>(8160*256 &gt; 1920*1080)</code>，所以在核函数中一般需要进行判断来防止索引溢出。如本例中的<code>if ridx &lt; n_rows and cidx &lt; n_cols:</code>。上小节将到了线程（块）个数最多可定义为三个维度，但每个维度都有可能向上取整，维度越多造成资源浪费的可能性越大。这也就导致了虽然多维线程（块）个数在编程中更容易理解，但为了减少资源浪费的可能，在cuda编程中更建议用单个维度（一维）来定义线程（块）个数。</p>
+<p>上小节说，核函数被cpu调用，被gpu执行。再延伸一点，核函数被gpu执行所调用的数据需存储在gpu显存中而非cpu内存中。所以在gpu编程中，常常需要先将输入数据从cpu内存拷贝到gpu显存中，也需要将gpu输出结果从gpu显存拷贝回cpu内存中。在<code>numba.cuda</code>中，如果发现传入数据在cpu内存上时，在执行核函数前，会自动将所有输入数据从cpu内存拷贝到gpu显存中，并在核函数结束后，将所有输入数据从gpu显存同步回cpu内存。但这样就导致了不必要的拷贝和额外的时间开销，如在本例中<code>matrix_A</code>和<code>matrix_B</code>的是不需要拷贝回cpu内存的。所以在cuda编程中，建议通过<code>cuda.to_device()</code>将输入数据从cpu内存拷贝到gpu显存中，结果并将结果通过<code>arr.copy_to_host()</code>从gpu显存拷贝回到cpu内存中。如果想要避免结果数组从cpu内存拷贝到gpu显存造成的额外开销，也可以通过<code>cuda.device_array()</code>在gpu显存中一个空向量来实现。在本例中，在执行核函数时，手动拷贝数据的执行效率要比自动拷贝数据效率要高的多。</p>
+<p>此外，因为gpu的传输带宽较大，一般多次传输小数据的速率要低于单次传输同等数据的速率。所以在cpu与gpu相互拷贝数据时，尽量采用单次传输。但当数据较大时，gpu无法同时计算所有的数据，这时分批拷贝并计算就可以进一步提速cuda核函数。</p>
+<p>在下一小节，将通过分批处理来进一步优化矩阵加法，并阐述了gpu编程中流(stream)的概念。</p>
+<h2 id="分批处理矩阵：流-stream"><a href="#分批处理矩阵：流-stream" class="headerlink" title="分批处理矩阵：流(stream)"></a>分批处理矩阵：流(stream)</h2><p>上节讲到，当数据计算量较大时，gpu无法同时计算所有的数据，这时候gpu可以将计算任务分批放在一个队列中，排队顺序执行。这种按照队列顺序流水线处理的操作叫做流(stream)。这一小节依然进行矩阵加法，但将计算量是上一小节的100倍，并采用了流进行分批处理。具体代码如下。</p>
+<details>
+<summary>代码：矩阵加法-多流</summary>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> numba <span class="keyword">import</span> cuda</span><br><span class="line"></span><br><span class="line"><span class="meta">@cuda.jit</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_add_numba_cuda</span>(<span class="params">matrix_A, matrix_B, matrix_C, n_rows, n_cols</span>):</span><br><span class="line">    idx = cuda.threadIdx.x + cuda.blockDim.x * cuda.blockIdx.x</span><br><span class="line">    ridx = idx // n_cols</span><br><span class="line">    cidx = idx %  n_cols</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ridx &lt; n_rows <span class="keyword">and</span> cidx &lt; n_cols:</span><br><span class="line">        matrix_C[ridx][cidx] = matrix_A[ridx][cidx] + matrix_B[ridx][cidx]</span><br><span class="line"></span><br><span class="line"><span class="meta">@cuda.jit</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_add_numba_cuda_queue</span>(<span class="params">matrix_A, matrix_B, matrix_C, n_rows, n_cols</span>):</span><br><span class="line">    idx = cuda.threadIdx.x + cuda.blockDim.x * cuda.blockIdx.x</span><br><span class="line">    ridx = idx // n_cols</span><br><span class="line">    cidx = idx %  n_cols</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ridx &lt; n_rows <span class="keyword">and</span> cidx &lt; n_cols:</span><br><span class="line">        matrix_C[ridx][cidx] = matrix_A[ridx][cidx] + matrix_B[ridx][cidx]</span><br><span class="line"></span><br><span class="line"><span class="meta">@cuda.jit</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_add_numba_cuda_stream</span>(<span class="params">matrix_A, matrix_B, matrix_C, n_rows, n_cols</span>):</span><br><span class="line">    idx = cuda.threadIdx.x + cuda.blockDim.x * cuda.blockIdx.x</span><br><span class="line">    ridx = idx // n_cols</span><br><span class="line">    cidx = idx %  n_cols</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ridx &lt; n_rows <span class="keyword">and</span> cidx &lt; n_cols:</span><br><span class="line">        matrix_C[ridx][cidx] = matrix_A[ridx][cidx] + matrix_B[ridx][cidx]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    n_row, n_col = <span class="number">10800</span>, <span class="number">19200</span></span><br><span class="line"></span><br><span class="line">    arr_A, arr_B, arr_C = np.random.random((n_row, n_col)), np.random.random((n_row, n_col)), np.random.random((n_row, n_col))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># basic one time</span></span><br><span class="line">    threadsperblock = <span class="number">256</span></span><br><span class="line">    blockspergrid   = math.ceil((n_col*n_row)/threadsperblock)</span><br><span class="line"></span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    d_arr_A, d_arr_B, d_arr_C = cuda.to_device(arr_A), cuda.to_device(arr_B), cuda.to_device(arr_C)</span><br><span class="line">    matrix_add_numba_cuda[blockspergrid, threadsperblock](d_arr_A, d_arr_B, d_arr_C, n_row, n_col)</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    arr_result = d_arr_C.copy_to_host()</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;process time on numba cuda : &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># queue</span></span><br><span class="line">    n_streams     = <span class="number">4</span></span><br><span class="line">    seg_row       = n_row // n_streams</span><br><span class="line">    blockspergrid = math.ceil((seg_row* n_col) / threadsperblock)</span><br><span class="line"></span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, n_streams):</span><br><span class="line">        d_arr_A = cuda.to_device(arr_A[i * seg_row : (i + <span class="number">1</span>) * seg_row])</span><br><span class="line">        d_arr_B = cuda.to_device(arr_B[i * seg_row : (i + <span class="number">1</span>) * seg_row])</span><br><span class="line">        cuda.synchronize()</span><br><span class="line">        matrix_add_numba_cuda_queue[blockspergrid, threadsperblock](</span><br><span class="line">                d_arr_A,</span><br><span class="line">                d_arr_B,</span><br><span class="line">                d_arr_C[i * seg_row : (i + <span class="number">1</span>) * seg_row],</span><br><span class="line">                seg_row,</span><br><span class="line">                n_col)</span><br><span class="line">        cuda.synchronize()</span><br><span class="line">        arr_C[i * seg_row : (i + <span class="number">1</span>) * seg_row] = d_arr_C[i * seg_row : (i + <span class="number">1</span>) * seg_row].copy_to_host()</span><br><span class="line">        cuda.synchronize()</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="keyword">if</span> (arr_result - arr_C).<span class="built_in">max</span>() &lt; <span class="number">1e-8</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;process time on numba cuda queue: &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># stream</span></span><br><span class="line">    stream_list   = <span class="built_in">list</span>()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span> (<span class="number">0</span>, n_streams):</span><br><span class="line">        stream = cuda.stream()</span><br><span class="line">        stream_list.append(stream)</span><br><span class="line"></span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, n_streams):</span><br><span class="line">        d_arr_A = cuda.to_device(arr_A[i * seg_row : (i + <span class="number">1</span>) * seg_row], stream=stream_list[i])</span><br><span class="line">        d_arr_B = cuda.to_device(arr_B[i * seg_row : (i + <span class="number">1</span>) * seg_row], stream=stream_list[i])</span><br><span class="line">        matrix_add_numba_cuda_stream[blockspergrid, threadsperblock, stream_list[i]](</span><br><span class="line">                d_arr_A,</span><br><span class="line">                d_arr_B,</span><br><span class="line">                d_arr_C[i * seg_row : (i + <span class="number">1</span>) * seg_row],</span><br><span class="line">                seg_row,</span><br><span class="line">                n_col)</span><br><span class="line">        arr_C[i * seg_row : (i + <span class="number">1</span>) * seg_row] = d_arr_C[i * seg_row : (i + <span class="number">1</span>) * seg_row].copy_to_host(stream=stream_list[i])</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="keyword">if</span> (arr_result - arr_C).<span class="built_in">max</span>() &lt; <span class="number">1e-8</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;process time on numba cuda stream: &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br></pre></td></tr></table></figure>
+
+<p>输出1:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">process time on numba cuda : 1180.036ms</span><br><span class="line">process time on numba cuda queue: 1019.919ms</span><br><span class="line">process time on numba cuda stream: 973.997ms</span><br></pre></td></tr></table></figure>
+
+<p>输出2：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">process time on numba cuda (1st): 1187.603ms</span><br><span class="line">process time on numba cuda (2nd): 883.670ms</span><br><span class="line">process time on numba cuda queue (1st): 1064.817ms</span><br><span class="line">process time on numba cuda queue (2nd): 932.134ms</span><br><span class="line">process time on numba cuda stream (1st): 959.764ms</span><br><span class="line">process time on numba cuda stream (2nd): 887.833ms</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gantt</span><br><span class="line">	title Default vs Queue vs Stream</span><br><span class="line">	dateFormat  ss</span><br><span class="line">    axisFormat  %S</span><br><span class="line">	section Default</span><br><span class="line">	Host2Device      : a1, 0s, 3s</span><br><span class="line">	Kernal           : a2, after a1 , 3s</span><br><span class="line">    Device2Host      : after a2 , 3s</span><br><span class="line"></span><br><span class="line">	section Queue</span><br><span class="line">	Host2Device1     : 0s, 1s</span><br><span class="line">	Kernal1          : 1s</span><br><span class="line">    Device2Host1     : 1s</span><br><span class="line">	Host2Device2     : 1s</span><br><span class="line">	Kernal2          : 1s</span><br><span class="line">    Device2Host2     : 1s</span><br><span class="line">	Host2Device3     : 1s</span><br><span class="line">	Kernal3          : 1s</span><br><span class="line">    Device2Host3     : 1s</span><br><span class="line"></span><br><span class="line">	section Stream</span><br><span class="line">	Host2Device1     : b1, 0s, 1s</span><br><span class="line">	Kernal1          : b2, after b1 , 1s</span><br><span class="line">    Device2Host1     : after b2 , 1s</span><br><span class="line">	Host2Device2     : after b1,  1s</span><br><span class="line">	Kernal2          : b3, after b2, 1s</span><br><span class="line">    Device2Host2     : after b3 , 1s</span><br><span class="line">	Host2Device3     : after b2,  1s</span><br><span class="line">	Kernal3          : b4, after b3, 1s</span><br><span class="line">    Device2Host3     : after b4 , 1s</span><br></pre></td></tr></table></figure>
+
+<p>由于gpu的硬件特性，cuda中的很多操作是相互独立的，比如核函数的计算，cpu内存与gpu显存间的相互拷贝等。针对这种互相独立的硬件架构，cuda使用多流(multistream)作为一种高并发的方案：把一个大任务拆分开放到多个流中，每次只对一部分数据进行拷贝、计算和回写，并把这个流程做成流水线。这样数据拷贝和核函数计算重叠的时间是重叠的，进而获得性能的提升。如在本例中，通过cuda流处理比简单的队列处理要略快一些。</p>
+<p>既然要形成多流的队列，那么队列中的每一步操作都需要知道自己在流。因此在cuda编程中，需要先创建每个流的对象，再把流对象赋值给每一步操作。在numba中，流对象可通过<code>cuda.stream()</code>来创建；执行核函数时，需要与线程块和线程个数一起定义，如<code>kernal[num_block_per_grid, num_thread_per_block, stream]()</code>；而在拷贝数据时，也需要将其加入拷贝函数，如<code>cuda.to_device(stream=stream)</code>和<code>arr.copy_to_host(stream=stream)</code>。这样，每个流水线可以知道自己所需要执行的步骤了。当不指定具体流对象时，这些操作会在默认的流上执行。</p>
+<p>每个流水线是顺序执行的，但非默认的流水线是异步操作的，也就是说先创建的流水线可能后完成。默认流有阻塞的作用。如果调用默认流，那么默认流会等非默认流都执行完才能执行；同样，默认流执行完，才能再次执行其他非默认流。另外，流不宜分配过多，当流过多时，有可能在每个流水线上的核函数计算时间代价会小于单次数据拷贝的时间（如内存到显存或显存到内存）。由于每种操作自身时不独立的，所以其必须等待其他的流完成数据拷贝操作才可以开始自己的数据拷贝操作。这样反而会导致流水线处理的执行效率变低。在实践中，可能需要硬件设备的执行效率和核函数的计算量来微调流的个数，进而达到相对好的表现。</p>
+<p>关于矩阵加法的例子先到这里，下面的小节将通过矩阵求和，来阐述并行归约（Reduction）算法及其优化过程中的线程束分化和内存访问。</p>
+<h2 id="矩阵求和：并行归约（Reduction）"><a href="#矩阵求和：并行归约（Reduction）" class="headerlink" title="矩阵求和：并行归约（Reduction）"></a>矩阵求和：并行归约（Reduction）</h2><p>在之前的矩阵加法中，每个点的计算是相互独立的，各个线程不需要考虑其他线程的计算结果，所以其循环替代和核函数计算相对简单直观。但在很多任务中，循环需要依赖上一步的执行结果，替换此类核函数相对复杂了。本小节将引入矩阵求和，来简单介绍通过并行归约算法解决二元操作问题。其代码如下：</p>
+<details>
+<summary>代码：矩阵求和</summary>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> numba <span class="keyword">import</span> cuda, jit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_sum_numpy</span>(<span class="params">matrix, n_rows, n_cols</span>):</span><br><span class="line">    <span class="keyword">return</span> matrix.<span class="built_in">sum</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_sum_cpu</span>(<span class="params">matrix, n_rows, n_cols</span>):</span><br><span class="line">    res = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> ridx <span class="keyword">in</span> <span class="built_in">range</span>(n_rows):</span><br><span class="line">        <span class="keyword">for</span> cidx <span class="keyword">in</span> <span class="built_in">range</span>(n_cols):</span><br><span class="line">            res += matrix[ridx][cidx]</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="meta">@jit</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_sum_numba_jit</span>(<span class="params">matrix, n_rows, n_cols</span>):</span><br><span class="line">    res = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> ridx <span class="keyword">in</span> <span class="built_in">range</span>(n_rows):</span><br><span class="line">        <span class="keyword">for</span> cidx <span class="keyword">in</span> <span class="built_in">range</span>(n_cols):</span><br><span class="line">            res += matrix[ridx][cidx]</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="meta">@cuda.jit</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_sum_reduce_numba_cuda</span>(<span class="params">matrix, res, max_stride_iter, n_rows, n_cols</span>):</span><br><span class="line">    idx = cuda.threadIdx.x + cuda.blockDim.x * cuda.blockIdx.x</span><br><span class="line">    volume = n_rows * n_cols</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> idx &lt; volume:</span><br><span class="line">        ridx = idx // n_cols</span><br><span class="line">        cidx = idx %  n_cols</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> <span class="built_in">range</span>(max_stride_iter):</span><br><span class="line">            stride = <span class="number">2</span>**s</span><br><span class="line">            <span class="keyword">if</span> (cuda.threadIdx.x % (<span class="number">2</span> * stride)) == <span class="number">0</span>:</span><br><span class="line">                idx_s = idx + stride</span><br><span class="line">                <span class="keyword">if</span> idx_s &lt; volume:</span><br><span class="line">                    ridx_s = idx_s // n_cols</span><br><span class="line">                    cidx_s = idx_s %  n_cols</span><br><span class="line">                    matrix[ridx][cidx] += matrix[ridx_s][cidx_s]</span><br><span class="line">            cuda.syncthreads()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> cuda.threadIdx.x == <span class="number">0</span>:</span><br><span class="line">        res[cuda.blockIdx.x] = matrix[ridx][cidx]</span><br><span class="line"></span><br><span class="line"><span class="meta">@cuda.jit</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_sum_reduce_numba_cuda_v2</span>(<span class="params">matrix, res, max_stride_iter, n_rows, n_cols</span>):</span><br><span class="line">    blockIdx = cuda.blockDim.x * cuda.blockIdx.x</span><br><span class="line">    idx = cuda.threadIdx.x + blockIdx</span><br><span class="line">    volume = n_rows * n_cols</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> idx &lt; volume:</span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> <span class="built_in">range</span>(max_stride_iter):</span><br><span class="line">            stride = <span class="number">2</span>**s</span><br><span class="line">            idx =  <span class="number">2</span> * stride * cuda.threadIdx.x</span><br><span class="line">            <span class="keyword">if</span> idx &lt; cuda.blockDim.x:</span><br><span class="line">                idx = idx + blockIdx</span><br><span class="line">                idx_s = idx + stride</span><br><span class="line">                <span class="keyword">if</span> idx &lt; volume <span class="keyword">and</span> idx_s &lt; volume:</span><br><span class="line">                    ridx = idx // n_cols</span><br><span class="line">                    cidx = idx %  n_cols</span><br><span class="line">                    ridx_s = idx_s // n_cols</span><br><span class="line">                    cidx_s = idx_s %  n_cols</span><br><span class="line">                    matrix[ridx][cidx] += matrix[ridx_s][cidx_s]</span><br><span class="line">            cuda.syncthreads()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> cuda.threadIdx.x == <span class="number">0</span>:</span><br><span class="line">        res[cuda.blockIdx.x] = matrix[ridx][cidx]</span><br><span class="line"></span><br><span class="line"><span class="meta">@cuda.jit</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_sum_reduce_numba_cuda_v3</span>(<span class="params">matrix, res, max_stride_iter, n_rows, n_cols</span>):</span><br><span class="line">    idx = cuda.threadIdx.x + cuda.blockDim.x * cuda.blockIdx.x</span><br><span class="line">    volume = n_rows * n_cols</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> idx &lt; volume:</span><br><span class="line">        ridx = idx // n_cols</span><br><span class="line">        cidx = idx %  n_cols</span><br><span class="line">        <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(max_stride_iter):</span><br><span class="line">            stride = cuda.blockDim.x // <span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> cuda.threadIdx.x &lt; stride:</span><br><span class="line">                idx_s = idx + stride</span><br><span class="line">                <span class="keyword">if</span> idx_s &lt; volume:</span><br><span class="line">                    ridx_s = idx_s // n_cols</span><br><span class="line">                    cidx_s = idx_s %  n_cols</span><br><span class="line">                    matrix[ridx][cidx] += matrix[ridx_s][cidx_s]</span><br><span class="line">            cuda.syncthreads()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> cuda.threadIdx.x == <span class="number">0</span>:</span><br><span class="line">        res[cuda.blockIdx.x] = matrix[ridx][cidx]</span><br><span class="line"></span><br><span class="line"><span class="meta">@cuda.reduce</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_sum_reduce_numba_cuda_reduce</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    n_row, n_col = <span class="number">1080</span>, <span class="number">1920</span></span><br><span class="line">    arr = np.random.random((n_row, n_col))</span><br><span class="line"></span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    res_numpy = matrix_sum_numpy(arr, n_row, n_col)</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;process time on numpy : &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    res_cpu = matrix_sum_cpu(arr, n_row, n_col)</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="keyword">if</span> (res_numpy - res_cpu) &lt; <span class="number">1e-6</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;process time on cpu : &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    res_n_jit = matrix_sum_numba_jit(arr, n_row, n_col)</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="keyword">if</span> (res_numpy - res_n_jit) &lt; <span class="number">1e-6</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;process time on numba jit : &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># numba cuda v1, v2, v3 and reduce version</span></span><br><span class="line">    threadsperblock = <span class="number">1024</span></span><br><span class="line">    blockspergrid   = math.ceil((n_col*n_row)/threadsperblock)</span><br><span class="line">    max_stride_iter = math.ceil(math.log2(threadsperblock))</span><br><span class="line">    block_res_n_cuda = np.zeros(blockspergrid)</span><br><span class="line">    d_arr = cuda.to_device(arr)</span><br><span class="line">    d_block_res_n_cuda = cuda.to_device(block_res_n_cuda)</span><br><span class="line">    cuda.synchronize()</span><br><span class="line"></span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    matrix_sum_reduce_numba_cuda[blockspergrid, threadsperblock](d_arr, d_block_res_n_cuda, max_stride_iter, n_row, n_col)</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    block_res_n_cuda = d_block_res_n_cuda.copy_to_host()</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    res_n_cuda = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> res <span class="keyword">in</span> block_res_n_cuda:</span><br><span class="line">        res_n_cuda += res</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="keyword">if</span> (res_numpy - res_n_cuda) &lt; <span class="number">1e-6</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;process time on numba cuda: &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    matrix_sum_reduce_numba_cuda_v2[blockspergrid, threadsperblock](d_arr, d_block_res_n_cuda, max_stride_iter, n_row, n_col)</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    block_res_n_cuda = d_block_res_n_cuda.copy_to_host()</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    res_n_cuda = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> res <span class="keyword">in</span> block_res_n_cuda:</span><br><span class="line">        res_n_cuda += res</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="keyword">if</span> (res_numpy - res_n_cuda) &lt; <span class="number">1e-6</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;process time on numba cuda v2: &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    matrix_sum_reduce_numba_cuda_v3[blockspergrid, threadsperblock](d_arr, d_block_res_n_cuda, max_stride_iter, n_row, n_col)</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    block_res_n_cuda = d_block_res_n_cuda.copy_to_host()</span><br><span class="line">    cuda.synchronize()</span><br><span class="line">    res_n_cuda = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> res <span class="keyword">in</span> block_res_n_cuda:</span><br><span class="line">        res_n_cuda += res</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="keyword">if</span> (res_numpy - res_n_cuda) &lt; <span class="number">1e-6</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;process time on numba cuda v3: &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br><span class="line"></span><br><span class="line">    arr_1d = arr.reshape(-<span class="number">1</span>)</span><br><span class="line">    d_arr_1d = cuda.to_device(arr_1d)</span><br><span class="line">    elapsed_time = time.time()</span><br><span class="line">    res_n_cuda_reduce = matrix_sum_reduce_numba_cuda_reduce(d_arr_1d)</span><br><span class="line">    elapsed_time = time.time() - elapsed_time</span><br><span class="line">    <span class="keyword">if</span> (res_numpy - res_n_cuda_reduce) &lt; <span class="number">1e-6</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;process time on numba reduce: &#123;:.03f&#125;ms&quot;</span>.<span class="built_in">format</span>(elapsed_time * <span class="number">1000</span>))</span><br></pre></td></tr></table></figure>
+
+<p>输出1:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">process time on numpy : 0.820ms</span><br><span class="line">process time on cpu : 566.166ms</span><br><span class="line">process time on numba jit : 187.324ms</span><br><span class="line">process time on numba cuda: 208.259ms</span><br><span class="line">process time on numba cuda v2: 137.212ms</span><br><span class="line">process time on numba cuda v3: 120.333ms</span><br><span class="line">process time on numba reduce: 376.588ms</span><br></pre></td></tr></table></figure>
+
+<p>输出2:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">process time on numpy : 0.871ms</span><br><span class="line">process time on cpu : 567.084ms</span><br><span class="line">process time on numba jit (1st): 236.218ms</span><br><span class="line">process time on numba jit (2nd): 2.202ms</span><br><span class="line">process time on numba cuda (1st): 252.695ms</span><br><span class="line">process time on numba cuda (2nd): 1.662ms</span><br><span class="line">process time on numba cuda v2 (1st): 158.547ms</span><br><span class="line">process time on numba cuda v2 (2nd): 1.468ms</span><br><span class="line">process time on numba cuda v3 (1st): 130.770ms</span><br><span class="line">process time on numba cuda v3 (2nd): 1.101ms</span><br><span class="line">process time on numba reduce (1st): 434.946ms</span><br><span class="line">process time on numba reduce (2nd): 0.686ms</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>并行归约（Reduction）是一种基础的并行算法。该算法常处理如下问题：假设有N个输入数据，使用一个符合结合律的二元操作符作用其上，最终生成1个结果。这个二元操作符可以是求和、取最大、取最小、平方、逻辑与或等等。本例以加法为例。这种问题的最基本的解决思路就是串行遍历，如示例代码中的<code>matrix_sum_cpu</code>函数。当将问题转化为并行计算时，由于加法的交换律和结合律，矩阵可以以任意顺序求和，其解决思路可以为：首先把输入数组划分为更小的数据块，之后用一个线程计算一个数据块的部分和，最后把所有部分和再求和得出最终结果。这种思路就被称为并行归约。相较于串行计算，并行归约的时间复杂度由<code>O(N)</code>变为<code>O(logN)</code>。由于并行归约非常经典，又在cuda编程中常常使用，numba.cuda本身就通过<code>cuda.reduce</code>实现了为1维数组的并行归约算法，其相关调用可参考本例中的<code>matrix_sum_reduce_numba_cuda_reduce</code>函数。</p>
+<p>在本例中，并行归约在numba.cuda上的具体实现可参考<code>matrix_sum_reduce_numba_cuda</code>函数。具体而言，核函数循环stride，stride的上限为线程块中的线程个数，每次循环stride*2。当线程所索引到的数据对步长取余为0时，将线程所索引到的数据和与该数据距离stride的数据进行求和。最后返回该线程块的求和结果，并在cpu为所有线程块的结果求和。之所以只求得线程块的和，是因为核函数只能在每一个线程块中实现同步线程进度。具体而言，在并行归约中，循环中的每一步都需要上一步全部完成才能得到正确结果。因此如果想实现全局求和，需要同步每一个线程块的每一个线程来确认都已完成该步骤。而基于上面小节得知，不同的线程块的开始和结束是不一致的，所以在cuda编程中核函数无法同步不同线程块，甚至需要分批计算。假如某核函数需要10个线程块，但gpu只能并行计算5个线程块，这10个线程块将分成两批进行计算，也就无法为这10个线程块的所有线程达到同一时间的同步。因此核函数只能在每一个线程块中实现同步，无法跨线程块同步线程进度。在numba.cuda中，线程块内线程进度的同步通过<code>cuda.syncthreads()</code>来完成。</p>
+<p>在本例的<code>matrix_sum_reduce_numba_cuda</code>函数中，每次循环只有线程索引为是stride的倍数的线程在进行执行，其他线程则保持静默。这样就导致在每一个线程束中只有稀疏的线程在执行，这种情况被称为线程束分化。但由于硬件设计，调度会以一整个线程束为单位进行，所以影响了程序的效率。线程束分化可以通过重新组织线程索引来解决。如本例<code>matrix_sum_reduce_numba_cuda_v2</code>函数所示，通过重新组织线程索引，可以保证在每一个block中一部分线程束的所有线程都在活跃，而另一部分线程束的所有线程都在静默。如在第一轮迭代，前16个线程束执行计算，后16个线程束什么都不做。通过简单整理线程索引，可以提高程序效率，如本例v2比v1执行速度提升了1.5倍。</p>
+<p>此外，对全局内存的访问尽量进行合并访问与存储，能够达到尽量最大的带宽，也能够提升程序效率。比如在本例<code>matrix_sum_reduce_numba_cuda_v2</code>函数，每一循环所访问的数据索引不仅由线程索引决定，也由循环的跨度决定，即<code>idx =  2 * stride * cuda.threadIdx.x</code>。这就导致每次循环依据索引所访问到的数据并不连续，其跨度为stride。为了缓解这种现象，在并行归约中可以重新组织配对方法，进而让对内存的访问更加集中。如本例中<code>matrix_sum_reduce_numba_cuda_v3</code>所示，通过交错配对的方法，使得结果每次循环中只访问和存储到统一地址，进而提升了访问效率。如本例v3比v2执行速度提升了1.14倍。</p>
+<p>（未完待续）</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>在撰写本文时，大量的参考了官方文档和其他博客，收益良多。观点表述如有雷同，可视为出自原作者。相关参考链接如下：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://numba.pydata.org/numba-doc/latest/">numba document</a></li>
+<li><a target="_blank" rel="noopener" href="https://lulaoshi.info/gpu/">Python GPU快速教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/c_1188568938097819648">CUDA编程入门</a></li>
+</ul>
+<p>眼过千遍，不如手过一遍。希望在阅读本文之后能够自己复现出来上述cuda代码。共勉。</p>
+
+    </div>
+     
+    <div class="post-footer__meta"><p>更新于 2022-02-26</p></div> 
+    <div class="post-entry__tags"><a href="/zh/tags/python/" class="post-tags__link button"># python</a><a href="/zh/tags/numba/" class="post-tags__link button"># numba</a><a href="/zh/tags/cuda/" class="post-tags__link button"># cuda</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/zh/2020/06/17/zh/trt_preproc_npp/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            通过NPP加速TensorRT部署时图片数据预处理
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+        </div>
+    </div>
+
+
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2022 <a href="/zh/">ForeverYoung</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+        
+    <script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+    <script>
+        window.lazyLoadOptions = {
+            elements_selector: ".lazy",
+            threshold: 0
+        };
+    </script>
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
+
+    <script>
+        let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('false')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }
+    </script>
+ 
+
+ 
+
+ 
+
+
+    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
+    <script>
+            mermaid.initialize(JSON.stringify(''));
+    </script>
+ 
+
+ 
+
+
+
+
+    </body>
+</html>
+
+<script type="text/javascript">
+    // Wait for the page to load first
+    var _prevOnload = window.onload;
+    window.onload = function() {
+        var switchLang = document.getElementsByClassName("navbar-menu button")[3];
+        switchLang.onclick = function() {
+            var href = window.location.href;
+            var indexOfEn = href.toLowerCase().indexOf('/zh/');
+            if(indexOfEn !== -1) {
+                window.location.href = href.replace('/zh/', '/');
+            }
+            else {
+                window.location.href = href.replace(/(^http[s]?:\/\/[a-z0-9.]*[:?0-9]*\/)(.*)/i, '$1zh/$2');
+            }
+            if(typeof(_prevOnload) === 'function') {
+                _prevOnload();
+            }
+            return false;
+        }
+    }
+</script>
