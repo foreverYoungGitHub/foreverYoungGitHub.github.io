@@ -1,40 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    <meta charset="utf-8">
-
-    
-
-    <!-- 渲染优化 -->
-    <meta name="renderer" content="webkit">
-    <meta name="force-rendering" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <meta name="HandheldFriendly" content="True" >
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    <!--icon-->
-
-    
-    
-    
-    
-    
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.0.0">
 
 
-    <!-- meta -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-
-<title>Preprocess the Image Data by NPP in TensorRT Model Inference | ForeverYoung</title>
-
-
-    <meta name="keywords" content="cpp, cuda, tensorrt">
+<link rel="stylesheet" href="/css/main.css">
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
 
-    <!-- OpenGraph -->
- 
+<script class="next-config" data-name="main" type="application/json">{"hostname":"foreveryounggithub.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.10.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
     <meta name="description" content="NVIDIA TensorRT(TRT) library is a high-performance deep learning inference engine and delivers low latency and high-throughput for deep learning inference applications. It allows users to convert the">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Preprocess the Image Data by NPP in TensorRT Model Inference">
@@ -43,348 +30,32 @@
 <meta property="og:description" content="NVIDIA TensorRT(TRT) library is a high-performance deep learning inference engine and delivers low latency and high-throughput for deep learning inference applications. It allows users to convert the">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-06-17T05:00:00.000Z">
-<meta property="article:modified_time" content="2022-02-27T02:27:38.895Z">
+<meta property="article:modified_time" content="2022-02-28T15:44:06.243Z">
 <meta property="article:author" content="Yang">
 <meta property="article:tag" content="cpp">
 <meta property="article:tag" content="cuda">
 <meta property="article:tag" content="tensorrt">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 
 
-    
-<link rel="stylesheet" href="/css/style/main.css">
- 
+<link rel="canonical" href="https://foreveryounggithub.github.io/2020/06/17/en/trt_preproc_npp/">
 
-    
-    
-        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/default.css" media="none" >
-        
-            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/dark.css" media="none">
-        
-    
 
-    
-    
 
-    
-    
-<link rel="stylesheet" href="/css/style/dark.css">
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://foreveryounggithub.github.io/2020/06/17/en/trt_preproc_npp/","path":"2020/06/17/en/trt_preproc_npp/","title":"Preprocess the Image Data by NPP in TensorRT Model Inference"}</script>
 
-    
-<script src="/js/darkmode.js"></script>
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Preprocess the Image Data by NPP in TensorRT Model Inference | ForeverYoung</title>
+  
 
 
 
-     
-
-    <!-- custom head -->
-
-<meta name="generator" content="Hexo 6.0.0"></head>
-
-    <body>
-        <div id="app">
-            <header class="header">
-    <div class="header__left">
-        <a href="/" class="button">
-            <span class="logo__text">ForeverYoung</span>
-        </a>
-    </div>
-    <div class="header__right">
-        
-            <div class="navbar__menus">
-                
-                    <a href="/" class="navbar-menu button">home</a>
-                
-                    <a href="/tags/" class="navbar-menu button">tags</a>
-                
-                    <a href="/archives/" class="navbar-menu button">archives</a>
-                
-                    <a href="/" class="navbar-menu button">中</a>
-                
-            </div>
-        
-        
-        
-    <a href="/search/" id="btn-search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg>
-    </a>
-
-
-        
-        
-    <a href="javaScript:void(0);" id="btn-toggle-dark">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-    </a>
-
-
-        
-            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
-            <div class="dropdown-menus" id="dropdown-menus">
-                
-                    <a href="/" class="dropdown-menu button">home</a>
-                
-                    <a href="/tags/" class="dropdown-menu button">tags</a>
-                
-                    <a href="/archives/" class="dropdown-menu button">archives</a>
-                
-                    <a href="/" class="dropdown-menu button">中</a>
-                
-            </div>
-        
-    </div>
-</header>
-
-
-            <main class="main">
-    
-
-<div class="post-title">
-    <h1 class="post-title__text">
-        Preprocess the Image Data by NPP in TensorRT Model Inference
-    </h1>
-    <div class="post-title__meta">
-        <a href="/archives/2020/06/" class="post-meta__date button">2020-06-17</a>
-        
- 
-        
-    
-    
-
-
- 
-
- 
-    </div>
-</div>
-
-
-    <aside class="post-side">
-        <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Experiments"><span class="toc-number">1.</span> <span class="toc-text">Experiments</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU-image-preprocessing"><span class="toc-number">2.</span> <span class="toc-text">CPU image preprocessing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GPU-Image-Preprocessing-by-NPP"><span class="toc-number">3.</span> <span class="toc-text">GPU Image Preprocessing by NPP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol>
-        </div>
-    </aside>
-    <a class="btn-toc button" id="btn-toc" tabindex="0">
-        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
-            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
-        </svg>
-    </a>
-    <div class="toc-menus" id="toc-menus">
-        <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Experiments"><span class="toc-number">1.</span> <span class="toc-text">Experiments</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU-image-preprocessing"><span class="toc-number">2.</span> <span class="toc-text">CPU image preprocessing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GPU-Image-Preprocessing-by-NPP"><span class="toc-number">3.</span> <span class="toc-text">GPU Image Preprocessing by NPP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol>
-    </div>
-
-
-<article class="post post__with-toc content-card">
-    <div class="post__header"></div>
-    <div class="post__content">
-        <p>NVIDIA TensorRT(TRT) library is a high-performance deep learning inference engine and delivers low latency and high-throughput for deep learning inference applications. It allows users to convert the model from other popular frameworks like pytorch or tensorflow. However, TensorRT only supports float32 rather than uint8 data type as input data type, which is the most common format for image data. In this case, when we try to deploy the image-based tasks with TensorRT, it always needs to convert the images from uint8 to float32, and then transfer the float32 image date to gpu to allow the TRT engine inference the model. When the image size is large, this preprocessing stage is slightly slow. In this blog, we are trying to introduce the NVIDIA NPP library to speed up this preprocessing progress.</p>
-<h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><p>This blog uses the environment shown below and used a detection model trained by ssds.pytorch to do the experiments and evaluations. The model uses ResNet18 as feature extractor and YoloV3 as detection head. The model has already been converted to TRT with 1x3x736x1280 input and int8 computation precision.</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SYS: Ubuntu 18.04</span><br><span class="line">GPU: T4</span><br><span class="line">GCC: 7.5</span><br><span class="line">CMake: 3.16.6</span><br><span class="line">CUDA: 10.2</span><br><span class="line">CUDNN: 7.6.5</span><br><span class="line">TensorRT: 7.0</span><br><span class="line">OpenCV: 4.3.0/3.4.10</span><br></pre></td></tr></table></figure>
-
-<p>It should be noted that when the model is converted to a TRT model, TRT will select different kernel functions and their parameters according to the GPU framework, and thus optimize the inference speed. Therefore, it has to use the same GPU framework for TRT model generation and execution. And even the TRT model generated by different types of GPUs with the same framework, its inference speed will be slightly weakened based on its execution gpu machine. For example, although 2080ti and t4 belong to the same 7.5 computing framework, when we infer the model on T4, the model generated by 2080ti is 3 to 10% slower than the model generated by T4.</p>
-<h2 id="CPU-image-preprocessing"><a href="#CPU-image-preprocessing" class="headerlink" title="CPU image preprocessing"></a>CPU image preprocessing</h2><p>In some deep learning frameworks, it can specify the input data type &amp; format and the data preprocessing ops in the inference graph. For example, when we freeze the weights into the frozen graph in tensorflow, we can specify the data type accepted by the model during inference through <code>tf.placeholder(dtype=tf.uint8, shape=input_shape, name=&#39;image_tensor&#39;)</code>. This preprocessing way is not supportted on TensorRT. TensorRT does support multiple data types, and the data type of the input and output ops can be determined by the converted onnx&#x2F;uff file. However, when the input and output data type of onnx&#x2F;uff model is changed to other types than float32, it can not be successfully converted into a TRT inference model in the most cases.</p>
-<p>This data type limitation in TensorRT is even more unfriendly to the computer vision models. Images or videos in computer vision tasks are often stored in the computer as uint8 data ([0, 255]) which is not supported by TensorRT. In this case, the images must be converted to float and then do the TensorRT model inference. In some tasks, the resolution of the images or video clips of the input model is large, such as 4k or 8k, and it is slow to tranfer the data from uint8 to float in cpu and from cpu memory to gpu memory. In some cases, the time cost of pre-processing and transmission is the bottleneck in model deployment.</p>
-<p>Most of the TRT projects on github often use the official <a target="_blank" rel="noopener" href="https://github.com/NVIDIA/TensorRT/blob/572d54f91791448c015e74a4f1d6923b77b79795/samples/opensource/sampleSSD/sampleSSD.cpp#L276-L309">TensorRT example</a> to preprocess the image data in cpu, while I prefer to use the OpenCV functions to preprocess the images. The code for these two methods are shown as below.</p>
-<details>
-<summary>Code: Preprocess data in cpu</summary>
-
-<p>TensorRT official preprocessing code</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">SampleUffSSD::processInput</span><span class="params">(<span class="type">const</span> samplesCommon::BufferManager&amp; buffers)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> inputC = mInputDims.d[<span class="number">0</span>];</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> inputH = mInputDims.d[<span class="number">1</span>];</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> inputW = mInputDims.d[<span class="number">2</span>];</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> batchSize = mParams.batchSize;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Available images</span></span><br><span class="line">    std::vector&lt;std::string&gt; imageList = &#123;<span class="string">&quot;dog.ppm&quot;</span>, <span class="string">&quot;bus.ppm&quot;</span>&#125;;</span><br><span class="line">    mPPMs.<span class="built_in">resize</span>(batchSize);</span><br><span class="line">    <span class="built_in">assert</span>(mPPMs.<span class="built_in">size</span>() &lt;= imageList.<span class="built_in">size</span>());</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; batchSize; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">readPPMFile</span>(<span class="built_in">locateFile</span>(imageList[i], mParams.dataDirs), mPPMs[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span>* hostDataBuffer = <span class="built_in">static_cast</span>&lt;<span class="type">float</span>*&gt;(buffers.<span class="built_in">getHostBuffer</span>(mParams.inputTensorNames[<span class="number">0</span>]));</span><br><span class="line">    <span class="comment">// Host memory for input buffer</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>, volImg = inputC * inputH * inputW; i &lt; mParams.batchSize; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> c = <span class="number">0</span>; c &lt; inputC; ++c)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// The color image to input should be in BGR order</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">unsigned</span> j = <span class="number">0</span>, volChl = inputH * inputW; j &lt; volChl; ++j)</span><br><span class="line">            &#123;</span><br><span class="line">                hostDataBuffer[i * volImg + c * volChl + j]</span><br><span class="line">                    = (<span class="number">2.0</span> / <span class="number">255.0</span>) * <span class="built_in">float</span>(mPPMs[i].buffer[j * inputC + c]) - <span class="number">1.0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>OpenCV preprocessing code</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">imageToTensor</span><span class="params">(<span class="type">const</span> std::vector&lt;cv::Mat&gt; &amp; images, <span class="type">float</span> * tensor, <span class="type">const</span> <span class="type">int</span> batch_size, <span class="type">const</span> <span class="type">float</span> alpha, <span class="type">const</span> <span class="type">float</span> beta)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> height = images[<span class="number">0</span>].rows;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> width = images[<span class="number">0</span>].cols;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> channels = images[<span class="number">0</span>].<span class="built_in">channels</span>();</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> stridesCv[<span class="number">3</span>] = &#123; width * channels, channels, <span class="number">1</span> &#125;;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> strides[<span class="number">4</span>] = &#123; height * width * channels, height * width, width, <span class="number">1</span> &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">pragma</span> omp parallel for num_threads(c_numOmpThread) schedule(static, 1)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> b = <span class="number">0</span>; b &lt; batch_size; b++)</span><br><span class="line">    &#123;</span><br><span class="line">        cv::Mat image_f;</span><br><span class="line">        images[b].<span class="built_in">convertTo</span>(image_f, CV_32F, alpha, beta);</span><br><span class="line">        std::vector&lt;cv::Mat&gt; split_channels = &#123;</span><br><span class="line">                cv::<span class="built_in">Mat</span>(images[b].<span class="built_in">size</span>(),CV_32FC1,tensor + b * strides[<span class="number">0</span>]),</span><br><span class="line">                cv::<span class="built_in">Mat</span>(images[b].<span class="built_in">size</span>(),CV_32FC1,tensor + b * strides[<span class="number">0</span>] + strides[<span class="number">1</span>]),</span><br><span class="line">                cv::<span class="built_in">Mat</span>(images[b].<span class="built_in">size</span>(),CV_32FC1,tensor + b * strides[<span class="number">0</span>] + <span class="number">2</span>*strides[<span class="number">1</span>]),</span><br><span class="line">        &#125;;</span><br><span class="line">        cv::<span class="built_in">split</span>(image_f, split_channels);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> batch_size * height * width * channels;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>The time cost of OpenCV preprocessing method(ms)</p>
-<table>
-<thead>
-<tr>
-<th align="center">GPU(Precision)</th>
-<th align="center">Image2Float</th>
-<th align="center">Copy2GPU</th>
-<th align="center">Inference</th>
-<th align="center">GPU2CPU</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">t4(int8)</td>
-<td align="center">2.53026</td>
-<td align="center">0.935451</td>
-<td align="center">2.56143</td>
-<td align="center">0.0210528</td>
-</tr>
-</tbody></table>
-</details>
-
-<p>As shown in the example preprocessing code above, in the cpu, the data is first converted to float type and normalized to [0,1]. The arrangement is also permuted from NHWC to NCHW. Then the float data is transferred to gpu memory to do TRT model inference. In the time cost table, it shows that the speed of image preprocessing and transmission for this model is actually greater than the speed of model inference. In this case, the model deployed in gpu is not efficient and still has room to speed up.</p>
-<h2 id="GPU-Image-Preprocessing-by-NPP"><a href="#GPU-Image-Preprocessing-by-NPP" class="headerlink" title="GPU Image Preprocessing by NPP"></a>GPU Image Preprocessing by NPP</h2><p>As mentioned, there are two reasons make the CPU image data preprocessing slow: the efficiency of CPU to convert the image from uint8 to float32 is low; since the float32 data is 4 times larger than uint8 data, the transmission efficiency between cpu memory and gpu memory is slower for float data. In this case, a simple speed-up way is to transfer uint8 data to gpu and allows gpu to complete the conversion from uint8 to float32. These processes can be done by NPP easily and efficiently.</p>
-<p>Nvidia NPP is a cuda library for GPU accelerated 2D image and signal processing. It contains multiple submodules, which allows users to efficiently do the image computation on the gpu like the data type conversion, the color or geometric transformation and etc.. In this example, the NPPC, NPPIDEI and NPPIAL in NPP are used to perform the data type conversion from uint8 to float32 in the image data preprocessing, the channel change from NHWC to NCHW, and the normalization. The code is shown as follows.</p>
-<details>
-<summary>Code: Preprocess data in gpu</summary>
-
-<p>NPP preprocessing code</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">imageToTensorGPUFloat</span><span class="params">(<span class="type">const</span> std::vector&lt;cv::Mat&gt; &amp; images, <span class="type">void</span> * gpu_images, <span class="type">void</span> * tensor, <span class="type">const</span> <span class="type">int</span> batch_size, <span class="type">const</span> <span class="type">float</span> alpha)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> height = images[<span class="number">0</span>].rows;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> width  = images[<span class="number">0</span>].cols;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> channels = images[<span class="number">0</span>].<span class="built_in">channels</span>();</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> stride = height * width * channels;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> stride_s = width * channels;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> dstOrder[<span class="number">3</span>] = &#123;<span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>&#125;;</span><br><span class="line">    Npp32f scale[<span class="number">3</span>] = &#123;alpha, alpha, alpha&#125;;</span><br><span class="line">    NppiSize dstSize = &#123;width, height&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">pragma</span> omp parallel for num_threads(c_numOmpThread) schedule(static, 1)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> b = <span class="number">0</span>; b &lt; batch_size; b++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cudaMemcpy</span>((Npp8u*)gpu_images + b * stride, images[b].data, stride, cudaMemcpyHostToDevice);</span><br><span class="line">        <span class="built_in">nppiSwapChannels_8u_C3IR</span>((Npp8u*)gpu_images + b * stride, stride_s, dstSize, dstOrder);</span><br><span class="line">        <span class="built_in">nppiConvert_8u32f_C3R</span>((Npp8u*)gpu_images + b * stride, stride_s, (Npp32f*)tensor, stride_s*<span class="built_in">sizeof</span>(<span class="type">float</span>), dstSize);</span><br><span class="line">        <span class="built_in">nppiMulC_32f_C3IR</span>(scale, (Npp32f*)tensor, stride_s*<span class="built_in">sizeof</span>(<span class="type">float</span>), dstSize);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> batch_size * stride;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>NPP preprocessing code (without normalization and channel permutation)</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">imageToTensorGPUFloat</span><span class="params">(<span class="type">const</span> std::vector&lt;cv::Mat&gt; &amp; images, <span class="type">void</span> * gpu_images, <span class="type">void</span> * tensor, <span class="type">const</span> <span class="type">int</span> batch_size)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> height = images[<span class="number">0</span>].rows;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> width  = images[<span class="number">0</span>].cols;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> channels = images[<span class="number">0</span>].<span class="built_in">channels</span>();</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> stride = height * width * channels;</span><br><span class="line">    NppiSize dstSize = &#123;width, height&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">pragma</span> omp parallel for num_threads(c_numOmpThread) schedule(static, 1)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> b = <span class="number">0</span>; b &lt; batch_size; b++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cudaMemcpy</span>((Npp8u*)gpu_images + b * stride, images[b].data, stride, cudaMemcpyHostToDevice);</span><br><span class="line">        <span class="built_in">nppiConvert_8u32f_C3R</span>((Npp8u*)gpu_images + b * stride, width * channels, (Npp32f*)tensor, width * channels*<span class="built_in">sizeof</span>(<span class="type">float</span>), dstSize);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> batch_size * stride;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>The time cost of NPP preprocessing (without normalization and channel permutation) (ms)</p>
-<table>
-<thead>
-<tr>
-<th align="center">GPU(Precision)</th>
-<th align="center">Image2GPU2Float</th>
-<th align="center">Inference</th>
-<th align="center">GPU2CPU</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">t4(int8)</td>
-<td align="center">0.532469</td>
-<td align="center">3.07869</td>
-<td align="center">0.0208867</td>
-</tr>
-</tbody></table>
-</details>
-
-<p>As shown in the example code above, for preprocessing in the gpu, the uint8 data is first transferred to the gpu memory. Then the data arrangement is permuted from NHWC to NCHW and finally the uint8 data converted to the float type and normalized to [0., 1.]. The normalized data is directly stored in the gpu memory reserved by the TRT model. Since elementwise operation and channel permute are performed efficiently in the TRT model, the normalization and channel conversion in the preprocessing can be moved to the model as operations. Compared with CPU image preprocessing, the GPU image preprocessing time is reduced from 3.5ms to 0.5ms, the total running time of the entire model is reduced from 6ms to 3.5ms, and the frame processing per second (fps) is from 166 frames raised to 285 frames, the overall speed has reached 1.7 times faster.</p>
-<p>It should be noted that due to the long conversion time of the TRT model, the example in this blog only tests the execution speed when batch is 1. If large batches are encountered during deployment and the gpu preprocessing speed is slow, it may be due to the cuda code execution and transmission. In this case, it would be better to copy the entire batch of images to the GPU memory and the data type conversion to improve the preprocessing speed in the batch. Another way to speed up the progress is process each image sample in a stream.</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/deeplearning/tensorrt/api/python_api/infer/FoundationalTypes/DataType.html">tensorrt document</a></li>
-<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-gpus#compute">gpu computation framework</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/ShuangXieIrene/ssds.pytorch">ssds.pytorch</a></li>
-</ul>
-
-    </div>
-     
-    <div class="post-footer__meta"><p>updated at 2022-02-26</p></div> 
-    <div class="post-entry__tags"><a href="/tags/cpp/" class="post-tags__link button"># cpp</a><a href="/tags/cuda/" class="post-tags__link button"># cuda</a><a href="/tags/tensorrt/" class="post-tags__link button"># tensorrt</a></div> 
-</article>
-
-
-
-
-
-
-</main>
-
-            <footer class="footer">
-     
-    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
-            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
-        </svg>
-    </a>
-
-    
-
-
-    
-     
- 
-
- 
-    
-        
-        <p class="footer-copyright">
-            Copyright © 2022 <a href="/">ForeverYoung</a>
-        </p>
-    
-    
-    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
-</footer>
-
-        </div>
-        
-    <script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
-    <script>
-        window.lazyLoadOptions = {
-            elements_selector: ".lazy",
-            threshold: 0
-        };
-    </script>
- 
-
- 
-
- 
-
- 
-
- 
-
-
-
- 
-
-
-
- 
-
-
-    
- 
-
-
-    
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
-
-    
-<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
-
-    <script>
-        let lazyloadT = Boolean('true'),
-            auto_fancybox = Boolean('false')
-        if (auto_fancybox) {
-            $(".post__content").find('img').each(function () {
-                var element = document.createElement("a");
-                $(element).attr("data-fancybox", "gallery");
-                $(element).attr("href", $(this).attr("src"));
-                if (lazyloadT) {
-                    $(element).attr("href", $(this).attr("data-srcset"));
-                }
-                $(this).wrap(element);
-            });
-        } else {
-            $(".post__content").find("fancybox").find('img').each(function () {
-                var element = document.createElement("a");
-                $(element).attr("data-fancybox", "gallery");
-                $(element).attr("href", $(this).attr("src"));
-                if (lazyloadT) {
-                    $(element).attr("href", $(this).attr("data-srcset"));
-                }
-                $(this).wrap(element);
-            });
-        }
-    </script>
- 
-
- 
-
- 
-
-
-    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
-    <script>
-            mermaid.initialize(JSON.stringify(''));
-    </script>
- 
-
- 
-
-
-
-
-    </body>
-</html>
 
 <script type="text/javascript">
     // Wait for the page to load first
     var _prevOnload = window.onload;
     window.onload = function() {
-        var switchLang = document.getElementsByClassName("navbar-menu button")[3];
+        var switchLang = document.getElementsByClassName("menu-item menu-item-switch_lang")[0];
         switchLang.onclick = function() {
             var href = window.location.href;
             var indexOfZh = href.toLowerCase().indexOf('/zh/');
@@ -413,3 +84,484 @@
         }
     }
 </script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ForeverYoung</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">driving into the distance</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-switch_lang"><a href="/" rel="section"><i class="fa fa-language fa-fw"></i>中</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#experiments"><span class="nav-number">1.</span> <span class="nav-text">Experiments</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cpu-image-preprocessing"><span class="nav-number">2.</span> <span class="nav-text">CPU image preprocessing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gpu-image-preprocessing-by-npp"><span class="nav-number">3.</span> <span class="nav-text">GPU Image Preprocessing by
+NPP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://foreveryounggithub.github.io/2020/06/17/en/trt_preproc_npp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Preprocess the Image Data by NPP in TensorRT Model Inference | ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Preprocess the Image Data by NPP in TensorRT Model Inference
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-06-17 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-17T00:00:00-05:00">2020-06-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-02-28 10:44:06" itemprop="dateModified" datetime="2022-02-28T10:44:06-05:00">2022-02-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/model-inference/" itemprop="url" rel="index"><span itemprop="name">model inference</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>NVIDIA TensorRT(TRT) library is a high-performance deep learning
+inference engine and delivers low latency and high-throughput for deep
+learning inference applications. It allows users to convert the model
+from other popular frameworks like pytorch or tensorflow. However,
+TensorRT only supports float32 rather than uint8 data type as input data
+type, which is the most common format for image data. In this case, when
+we try to deploy the image-based tasks with TensorRT, it always needs to
+convert the images from uint8 to float32, and then transfer the float32
+image date to gpu to allow the TRT engine inference the model. When the
+image size is large, this preprocessing stage is slightly slow. In this
+blog, we are trying to introduce the NVIDIA NPP library to speed up this
+preprocessing progress.</p>
+<span id="more"></span>
+<h2 id="experiments">Experiments</h2>
+<p>This blog uses the environment shown below and used a detection model
+trained by ssds.pytorch to do the experiments and evaluations. The model
+uses ResNet18 as feature extractor and YoloV3 as detection head. The
+model has already been converted to TRT with 1x3x736x1280 input and int8
+computation precision.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SYS: Ubuntu 18.04</span><br><span class="line">GPU: T4</span><br><span class="line">GCC: 7.5</span><br><span class="line">CMake: 3.16.6</span><br><span class="line">CUDA: 10.2</span><br><span class="line">CUDNN: 7.6.5</span><br><span class="line">TensorRT: 7.0</span><br><span class="line">OpenCV: 4.3.0/3.4.10</span><br></pre></td></tr></table></figure>
+<p>It should be noted that when the model is converted to a TRT model,
+TRT will select different kernel functions and their parameters
+according to the GPU framework, and thus optimize the inference speed.
+Therefore, it has to use the same GPU framework for TRT model generation
+and execution. And even the TRT model generated by different types of
+GPUs with the same framework, its inference speed will be slightly
+weakened based on its execution gpu machine. For example, although
+2080ti and t4 belong to the same 7.5 computing framework, when we infer
+the model on T4, the model generated by 2080ti is 3 to 10% slower than
+the model generated by T4.</p>
+<h2 id="cpu-image-preprocessing">CPU image preprocessing</h2>
+<p>In some deep learning frameworks, it can specify the input data type
+&amp; format and the data preprocessing ops in the inference graph. For
+example, when we freeze the weights into the frozen graph in tensorflow,
+we can specify the data type accepted by the model during inference
+through
+<code>tf.placeholder(dtype=tf.uint8, shape=input_shape, name='image_tensor')</code>.
+This preprocessing way is not supportted on TensorRT. TensorRT does
+support multiple data types, and the data type of the input and output
+ops can be determined by the converted onnx/uff file. However, when the
+input and output data type of onnx/uff model is changed to other types
+than float32, it can not be successfully converted into a TRT inference
+model in the most cases.</p>
+<p>This data type limitation in TensorRT is even more unfriendly to the
+computer vision models. Images or videos in computer vision tasks are
+often stored in the computer as uint8 data ([0, 255]) which is not
+supported by TensorRT. In this case, the images must be converted to
+float and then do the TensorRT model inference. In some tasks, the
+resolution of the images or video clips of the input model is large,
+such as 4k or 8k, and it is slow to tranfer the data from uint8 to float
+in cpu and from cpu memory to gpu memory. In some cases, the time cost
+of pre-processing and transmission is the bottleneck in model
+deployment.</p>
+<p>Most of the TRT projects on github often use the official <a
+target="_blank" rel="noopener" href="https://github.com/NVIDIA/TensorRT/blob/572d54f91791448c015e74a4f1d6923b77b79795/samples/opensource/sampleSSD/sampleSSD.cpp#L276-L309">TensorRT
+example</a> to preprocess the image data in cpu, while I prefer to use
+the OpenCV functions to preprocess the images. The code for these two
+methods are shown as below.</p>
+<details>
+<summary>
+Code: Preprocess data in cpu
+</summary>
+<p>TensorRT official preprocessing code <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">SampleUffSSD::processInput</span><span class="params">(<span class="type">const</span> samplesCommon::BufferManager&amp; buffers)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> inputC = mInputDims.d[<span class="number">0</span>];</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> inputH = mInputDims.d[<span class="number">1</span>];</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> inputW = mInputDims.d[<span class="number">2</span>];</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> batchSize = mParams.batchSize;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Available images</span></span><br><span class="line">    std::vector&lt;std::string&gt; imageList = &#123;<span class="string">&quot;dog.ppm&quot;</span>, <span class="string">&quot;bus.ppm&quot;</span>&#125;;</span><br><span class="line">    mPPMs.<span class="built_in">resize</span>(batchSize);</span><br><span class="line">    <span class="built_in">assert</span>(mPPMs.<span class="built_in">size</span>() &lt;= imageList.<span class="built_in">size</span>());</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; batchSize; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">readPPMFile</span>(<span class="built_in">locateFile</span>(imageList[i], mParams.dataDirs), mPPMs[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">float</span>* hostDataBuffer = <span class="built_in">static_cast</span>&lt;<span class="type">float</span>*&gt;(buffers.<span class="built_in">getHostBuffer</span>(mParams.inputTensorNames[<span class="number">0</span>]));</span><br><span class="line">    <span class="comment">// Host memory for input buffer</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>, volImg = inputC * inputH * inputW; i &lt; mParams.batchSize; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> c = <span class="number">0</span>; c &lt; inputC; ++c)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// The color image to input should be in BGR order</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">unsigned</span> j = <span class="number">0</span>, volChl = inputH * inputW; j &lt; volChl; ++j)</span><br><span class="line">            &#123;</span><br><span class="line">                hostDataBuffer[i * volImg + c * volChl + j]</span><br><span class="line">                    = (<span class="number">2.0</span> / <span class="number">255.0</span>) * <span class="built_in">float</span>(mPPMs[i].buffer[j * inputC + c]) - <span class="number">1.0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>OpenCV preprocessing code <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">imageToTensor</span><span class="params">(<span class="type">const</span> std::vector&lt;cv::Mat&gt; &amp; images, <span class="type">float</span> * tensor, <span class="type">const</span> <span class="type">int</span> batch_size, <span class="type">const</span> <span class="type">float</span> alpha, <span class="type">const</span> <span class="type">float</span> beta)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> height = images[<span class="number">0</span>].rows;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> width = images[<span class="number">0</span>].cols;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> channels = images[<span class="number">0</span>].<span class="built_in">channels</span>();</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> stridesCv[<span class="number">3</span>] = &#123; width * channels, channels, <span class="number">1</span> &#125;;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> strides[<span class="number">4</span>] = &#123; height * width * channels, height * width, width, <span class="number">1</span> &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">pragma</span> omp parallel for num_threads(c_numOmpThread) schedule(static, 1)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> b = <span class="number">0</span>; b &lt; batch_size; b++)</span><br><span class="line">    &#123;</span><br><span class="line">        cv::Mat image_f;</span><br><span class="line">        images[b].<span class="built_in">convertTo</span>(image_f, CV_32F, alpha, beta);</span><br><span class="line">        std::vector&lt;cv::Mat&gt; split_channels = &#123;</span><br><span class="line">                cv::<span class="built_in">Mat</span>(images[b].<span class="built_in">size</span>(),CV_32FC1,tensor + b * strides[<span class="number">0</span>]),</span><br><span class="line">                cv::<span class="built_in">Mat</span>(images[b].<span class="built_in">size</span>(),CV_32FC1,tensor + b * strides[<span class="number">0</span>] + strides[<span class="number">1</span>]),</span><br><span class="line">                cv::<span class="built_in">Mat</span>(images[b].<span class="built_in">size</span>(),CV_32FC1,tensor + b * strides[<span class="number">0</span>] + <span class="number">2</span>*strides[<span class="number">1</span>]),</span><br><span class="line">        &#125;;</span><br><span class="line">        cv::<span class="built_in">split</span>(image_f, split_channels);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> batch_size * height * width * channels;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>The time cost of OpenCV preprocessing method(ms)</p>
+<table>
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 17%" />
+<col style="width: 13%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">GPU(Precision)</th>
+<th style="text-align: center;">Image2Float</th>
+<th style="text-align: center;">Copy2GPU</th>
+<th style="text-align: center;">Inference</th>
+<th style="text-align: center;">GPU2CPU</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">t4(int8)</td>
+<td style="text-align: center;">2.53026</td>
+<td style="text-align: center;">0.935451</td>
+<td style="text-align: center;">2.56143</td>
+<td style="text-align: center;">0.0210528</td>
+</tr>
+</tbody>
+</table>
+</details>
+<p>As shown in the example preprocessing code above, in the cpu, the
+data is first converted to float type and normalized to [0,1]. The
+arrangement is also permuted from NHWC to NCHW. Then the float data is
+transferred to gpu memory to do TRT model inference. In the time cost
+table, it shows that the speed of image preprocessing and transmission
+for this model is actually greater than the speed of model inference. In
+this case, the model deployed in gpu is not efficient and still has room
+to speed up.</p>
+<h2 id="gpu-image-preprocessing-by-npp">GPU Image Preprocessing by
+NPP</h2>
+<p>As mentioned, there are two reasons make the CPU image data
+preprocessing slow: the efficiency of CPU to convert the image from
+uint8 to float32 is low; since the float32 data is 4 times larger than
+uint8 data, the transmission efficiency between cpu memory and gpu
+memory is slower for float data. In this case, a simple speed-up way is
+to transfer uint8 data to gpu and allows gpu to complete the conversion
+from uint8 to float32. These processes can be done by NPP easily and
+efficiently.</p>
+<p>Nvidia NPP is a cuda library for GPU accelerated 2D image and signal
+processing. It contains multiple submodules, which allows users to
+efficiently do the image computation on the gpu like the data type
+conversion, the color or geometric transformation and etc.. In this
+example, the NPPC, NPPIDEI and NPPIAL in NPP are used to perform the
+data type conversion from uint8 to float32 in the image data
+preprocessing, the channel change from NHWC to NCHW, and the
+normalization. The code is shown as follows.</p>
+<details>
+<summary>
+Code: Preprocess data in gpu
+</summary>
+<p>NPP preprocessing code <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">imageToTensorGPUFloat</span><span class="params">(<span class="type">const</span> std::vector&lt;cv::Mat&gt; &amp; images, <span class="type">void</span> * gpu_images, <span class="type">void</span> * tensor, <span class="type">const</span> <span class="type">int</span> batch_size, <span class="type">const</span> <span class="type">float</span> alpha)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> height = images[<span class="number">0</span>].rows;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> width  = images[<span class="number">0</span>].cols;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> channels = images[<span class="number">0</span>].<span class="built_in">channels</span>();</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> stride = height * width * channels;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> stride_s = width * channels;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> dstOrder[<span class="number">3</span>] = &#123;<span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>&#125;;</span><br><span class="line">    Npp32f scale[<span class="number">3</span>] = &#123;alpha, alpha, alpha&#125;;</span><br><span class="line">    NppiSize dstSize = &#123;width, height&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">pragma</span> omp parallel for num_threads(c_numOmpThread) schedule(static, 1)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> b = <span class="number">0</span>; b &lt; batch_size; b++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cudaMemcpy</span>((Npp8u*)gpu_images + b * stride, images[b].data, stride, cudaMemcpyHostToDevice);</span><br><span class="line">        <span class="built_in">nppiSwapChannels_8u_C3IR</span>((Npp8u*)gpu_images + b * stride, stride_s, dstSize, dstOrder);</span><br><span class="line">        <span class="built_in">nppiConvert_8u32f_C3R</span>((Npp8u*)gpu_images + b * stride, stride_s, (Npp32f*)tensor, stride_s*<span class="built_in">sizeof</span>(<span class="type">float</span>), dstSize);</span><br><span class="line">        <span class="built_in">nppiMulC_32f_C3IR</span>(scale, (Npp32f*)tensor, stride_s*<span class="built_in">sizeof</span>(<span class="type">float</span>), dstSize);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> batch_size * stride;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>NPP preprocessing code (without normalization and channel
+permutation) <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">imageToTensorGPUFloat</span><span class="params">(<span class="type">const</span> std::vector&lt;cv::Mat&gt; &amp; images, <span class="type">void</span> * gpu_images, <span class="type">void</span> * tensor, <span class="type">const</span> <span class="type">int</span> batch_size)</span> </span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> height = images[<span class="number">0</span>].rows;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> width  = images[<span class="number">0</span>].cols;</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> channels = images[<span class="number">0</span>].<span class="built_in">channels</span>();</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> stride = height * width * channels;</span><br><span class="line">    NppiSize dstSize = &#123;width, height&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">pragma</span> omp parallel for num_threads(c_numOmpThread) schedule(static, 1)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> b = <span class="number">0</span>; b &lt; batch_size; b++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cudaMemcpy</span>((Npp8u*)gpu_images + b * stride, images[b].data, stride, cudaMemcpyHostToDevice);</span><br><span class="line">        <span class="built_in">nppiConvert_8u32f_C3R</span>((Npp8u*)gpu_images + b * stride, width * channels, (Npp32f*)tensor, width * channels*<span class="built_in">sizeof</span>(<span class="type">float</span>), dstSize);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> batch_size * stride;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>The time cost of NPP preprocessing (without normalization and channel
+permutation) (ms)</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">GPU(Precision)</th>
+<th style="text-align: center;">Image2GPU2Float</th>
+<th style="text-align: center;">Inference</th>
+<th style="text-align: center;">GPU2CPU</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">t4(int8)</td>
+<td style="text-align: center;">0.532469</td>
+<td style="text-align: center;">3.07869</td>
+<td style="text-align: center;">0.0208867</td>
+</tr>
+</tbody>
+</table>
+</details>
+<p>As shown in the example code above, for preprocessing in the gpu, the
+uint8 data is first transferred to the gpu memory. Then the data
+arrangement is permuted from NHWC to NCHW and finally the uint8 data
+converted to the float type and normalized to [0., 1.]. The normalized
+data is directly stored in the gpu memory reserved by the TRT model.
+Since elementwise operation and channel permute are performed
+efficiently in the TRT model, the normalization and channel conversion
+in the preprocessing can be moved to the model as operations. Compared
+with CPU image preprocessing, the GPU image preprocessing time is
+reduced from 3.5ms to 0.5ms, the total running time of the entire model
+is reduced from 6ms to 3.5ms, and the frame processing per second (fps)
+is from 166 frames raised to 285 frames, the overall speed has reached
+1.7 times faster.</p>
+<p>It should be noted that due to the long conversion time of the TRT
+model, the example in this blog only tests the execution speed when
+batch is 1. If large batches are encountered during deployment and the
+gpu preprocessing speed is slow, it may be due to the cuda code
+execution and transmission. In this case, it would be better to copy the
+entire batch of images to the GPU memory and the data type conversion to
+improve the preprocessing speed in the batch. Another way to speed up
+the progress is process each image sample in a stream.</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a
+target="_blank" rel="noopener" href="https://docs.nvidia.com/deeplearning/tensorrt/api/python_api/infer/FoundationalTypes/DataType.html">tensorrt
+document</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-gpus#compute">gpu
+computation framework</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://github.com/ShuangXieIrene/ssds.pytorch">ssds.pytorch</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/cpp/" rel="tag"># cpp</a>
+              <a href="/tags/cuda/" rel="tag"># cuda</a>
+              <a href="/tags/tensorrt/" rel="tag"># tensorrt</a>
+          </div>
+
+        
+
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yang</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

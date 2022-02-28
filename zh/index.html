@@ -1,337 +1,54 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-    <meta charset="utf-8">
-
-    
-
-    <!-- 渲染优化 -->
-    <meta name="renderer" content="webkit">
-    <meta name="force-rendering" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <meta name="HandheldFriendly" content="True" >
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    <!--icon-->
-
-    
-    
-    
-    
-    
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.0.0">
 
 
-    <!-- meta -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/zh/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/zh/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/zh/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/zh/images/logo.svg" color="#222">
 
-
-<title>ForeverYoung</title>
+<link rel="stylesheet" href="/zh/css/main.css">
 
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
 
+<script class="next-config" data-name="main" type="application/json">{"hostname":"foreveryounggithub.github.io","root":"/zh/","images":"/zh/images","scheme":"Muse","darkmode":true,"version":"8.10.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/zh/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/zh/js/config.js"></script>
 
-    <!-- OpenGraph -->
- 
     <meta property="og:type" content="website">
 <meta property="og:title" content="ForeverYoung">
 <meta property="og:url" content="https://foreveryounggithub.github.io/zh/index.html">
 <meta property="og:site_name" content="ForeverYoung">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Yang">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 
 
-    
-<link rel="stylesheet" href="/zh/css/style/main.css">
- 
-
-    
-    
-    
-
-    
-    
-<link rel="stylesheet" href="/zh/css/style/dark.css">
-
-    
-<script src="/zh/js/darkmode.js"></script>
+<link rel="canonical" href="https://foreveryounggithub.github.io/zh/">
 
 
 
-     
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"index.html","title":""}</script>
 
-    <!-- custom head -->
-
-<meta name="generator" content="Hexo 6.0.0"></head>
-
-    <body>
-        <div id="app">
-            <header class="header">
-    <div class="header__left">
-        <a href="/zh/" class="button">
-            <span class="logo__text">ForeverYoung</span>
-        </a>
-    </div>
-    <div class="header__right">
-        
-            <div class="navbar__menus">
-                
-                    <a href="/zh/" class="navbar-menu button">首页</a>
-                
-                    <a href="/zh/tags/" class="navbar-menu button">标签</a>
-                
-                    <a href="/zh/archives/" class="navbar-menu button">归档</a>
-                
-                    <a href="/zh/" class="navbar-menu button">EN</a>
-                
-            </div>
-        
-        
-        
-    <a href="/zh/search/" id="btn-search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg>
-    </a>
-
-
-        
-        
-    <a href="javaScript:void(0);" id="btn-toggle-dark">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-    </a>
-
-
-        
-            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
-            <div class="dropdown-menus" id="dropdown-menus">
-                
-                    <a href="/zh/" class="dropdown-menu button">首页</a>
-                
-                    <a href="/zh/tags/" class="dropdown-menu button">标签</a>
-                
-                    <a href="/zh/archives/" class="dropdown-menu button">归档</a>
-                
-                    <a href="/zh/" class="dropdown-menu button">EN</a>
-                
-            </div>
-        
-    </div>
-</header>
-
-
-    <div class="cover">
-        <div class="cover__logo">
-            
-                <h1>ForeverYoung</h1>
-            
-        </div>
-        
-        
-            <div class="cover__intro">
-                <p>driving into the distance</p>
- 
-            </div>
-        
-    </div>
-
-            <main class="main">
-    
-    <div class="post-list">
-        
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        pybind:为cpp/cuda代码提供python接口
-    </h2>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/zh/archives/2020/09/" class="post-meta__date button">2020-09-20</a>
-    
- 
-</div>
-<div class="post-entry__tags"><a href="/zh/tags/python/" class="post-tags__link button"># python</a><a href="/zh/tags/cuda/" class="post-tags__link button"># cuda</a><a href="/zh/tags/cpp/" class="post-tags__link button"># cpp</a></div> 
-<a href="/zh/2020/09/20/zh/python_cpp_extension/" class="post-entry__link">pybind:为cpp/cuda代码提供python接口</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        Numba: 简单装饰器加速python代码
-    </h2>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/zh/archives/2020/07/" class="post-meta__date button">2020-07-04</a>
-    
- 
-</div>
-<div class="post-entry__tags"><a href="/zh/tags/python/" class="post-tags__link button"># python</a><a href="/zh/tags/numba/" class="post-tags__link button"># numba</a></div> 
-<a href="/zh/2020/07/04/zh/numba_python/" class="post-entry__link">Numba: 简单装饰器加速python代码</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        通过NPP加速TensorRT部署时图片数据预处理
-    </h2>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/zh/archives/2020/06/" class="post-meta__date button">2020-06-17</a>
-    
- 
-</div>
-<div class="post-entry__tags"><a href="/zh/tags/cuda/" class="post-tags__link button"># cuda</a><a href="/zh/tags/cpp/" class="post-tags__link button"># cpp</a><a href="/zh/tags/tensorrt/" class="post-tags__link button"># tensorrt</a></div> 
-<a href="/zh/2020/06/17/zh/trt_preproc_npp/" class="post-entry__link">通过NPP加速TensorRT部署时图片数据预处理</a>
-                </div>
-            
-                <div class='post-entry content-card'>
-                    <div class="post-entry__header"></div>
-<div class="post-entry__content">
-    <h2 class="post-entry__title">
-        Numba: 通过python快速学习cuda编程
-    </h2>
-    
-</div>
-<div class="post-entry__meta">
-    <a href="/zh/archives/2020/06/" class="post-meta__date button">2020-06-10</a>
-    
- 
-</div>
-<div class="post-entry__tags"><a href="/zh/tags/python/" class="post-tags__link button"># python</a><a href="/zh/tags/numba/" class="post-tags__link button"># numba</a><a href="/zh/tags/cuda/" class="post-tags__link button"># cuda</a></div> 
-<a href="/zh/2020/06/10/zh/numba_cuda/" class="post-entry__link">Numba: 通过python快速学习cuda编程</a>
-                </div>
-            
-        
-    </div>
-    
-
-
-</main>
-
-            <footer class="footer">
-     
-    <a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
-            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
-        </svg>
-    </a>
-
-    
-
-
-    
-     
- 
-
- 
-    
-        
-        <p class="footer-copyright">
-            Copyright © 2022 <a href="/zh/">ForeverYoung</a>
-        </p>
-    
-    
-    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
-</footer>
-
-        </div>
-        
-    <script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
-    <script>
-        window.lazyLoadOptions = {
-            elements_selector: ".lazy",
-            threshold: 0
-        };
-    </script>
- 
-
- 
-
- 
-
- 
-
- 
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ForeverYoung</title>
+  
 
 
 
- 
-
-
-
- 
-
-
-    
- 
-
-
-    
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.css">
-
-    
-<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.4.1/dist/jquery.fancybox.min.js"></script>
-
-    <script>
-        let lazyloadT = Boolean('true'),
-            auto_fancybox = Boolean('false')
-        if (auto_fancybox) {
-            $(".post__content").find('img').each(function () {
-                var element = document.createElement("a");
-                $(element).attr("data-fancybox", "gallery");
-                $(element).attr("href", $(this).attr("src"));
-                if (lazyloadT) {
-                    $(element).attr("href", $(this).attr("data-srcset"));
-                }
-                $(this).wrap(element);
-            });
-        } else {
-            $(".post__content").find("fancybox").find('img').each(function () {
-                var element = document.createElement("a");
-                $(element).attr("data-fancybox", "gallery");
-                $(element).attr("href", $(this).attr("src"));
-                if (lazyloadT) {
-                    $(element).attr("href", $(this).attr("data-srcset"));
-                }
-                $(this).wrap(element);
-            });
-        }
-    </script>
- 
-
- 
-
- 
-
-
-    <script src='https://cdn.jsdelivr.net/npm/mermaid@8.10.2/dist/mermaid.min.js'></script>
-    <script>
-            mermaid.initialize(JSON.stringify(''));
-    </script>
- 
-
- 
-
-
-
-
-    </body>
-</html>
 
 <script type="text/javascript">
     // Wait for the page to load first
     var _prevOnload = window.onload;
     window.onload = function() {
-        var switchLang = document.getElementsByClassName("navbar-menu button")[3];
+        var switchLang = document.getElementsByClassName("menu-item menu-item-switch_lang")[0];
         switchLang.onclick = function() {
             var href = window.location.href;
             var indexOfZh = href.toLowerCase().indexOf('/zh/');
@@ -360,3 +77,682 @@
         }
     }
 </script>
+  <noscript>
+    <link rel="stylesheet" href="/zh/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/zh/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">ForeverYoung</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">driving into the distance</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/zh/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/zh/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/zh/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/zh/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-switch_lang"><a href="/zh/" rel="section"><i class="fa fa-language fa-fw"></i>EN</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/zh/archives/">
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/zh/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/zh/tags/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/zh/images/avatar.gif">
+      <meta itemprop="name" content="Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/zh/2022/02/27/zh/patch_based_local_descriptor/" class="post-title-link" itemprop="url">基本图像局部区域（Patch）的描述符（local descriptor）学习策略</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-02-27 22:12:44" itemprop="dateCreated datePublished" datetime="2022-02-27T22:12:44-05:00">2022-02-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-02-28 10:44:22" itemprop="dateModified" datetime="2022-02-28T10:44:22-05:00">2022-02-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/zh/categories/computer-vision/" itemprop="url" rel="index"><span itemprop="name">computer vision</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/zh/categories/computer-vision/local-descriptor/" itemprop="url" rel="index"><span itemprop="name">local descriptor</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>一些计算机视觉任务会依赖图像的几何关系，比如相机定位，三维重建等等。一种方法用于求解图像的几何关系是通过图像局部特征的相关匹配来求解。图像的局部特征则是从<strong>图像局部</strong>区域中抽取的<strong>特征</strong>，包括边缘、角点、线、曲线和特别属性的区域等。一般来说，图像的局部特征包含两个部分，局部特征点的位置，局部特征的描述符。在一方面上，描述符可分为基于人工的特征符和基于学习的特征符。</p>
+<p>文本将关注于在特征点已知的情况下，如何通过学习去生成描述符去描述局部区域(Patch)的。相较于网络架构，本文主要关注于不同论文的数据处理和学习策略。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/zh/2022/02/27/zh/patch_based_local_descriptor/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://foreveryounggithub.github.io/zh/2020/09/20/zh/python_cpp_extension/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/zh/images/avatar.gif">
+      <meta itemprop="name" content="Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/zh/2020/09/20/zh/python_cpp_extension/" class="post-title-link" itemprop="url">pybind:为cpp/cuda代码提供python接口</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-09-20 00:00:00" itemprop="dateCreated datePublished" datetime="2020-09-20T00:00:00-05:00">2020-09-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-02-28 10:45:07" itemprop="dateModified" datetime="2022-02-28T10:45:07-05:00">2022-02-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/zh/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>python调用C++/CUDA有不少的方法，如boost.python, cython,
+pybind11等。其中，pybind11是一个轻量级的仅标头的库。由于pybind11的易用性，pybind11被很多库用于于创建现有C++/CUDA代码的Python绑定，比如pytorch，tvm等。此外，由于Python的缓冲区协议可以公开自定义数据类型的内部存储，python的矩阵类型（如numpy.ndarry,torch.Tensor）可以快速转化到C++中对应矩阵类型（如Eigen，cv::Mat，vector等），不须额外的复制操作。本篇文章将通过一个数列求和的例子来讲解如何使用pybind11来将C++/CUDA代码进行Python绑定。</p>
+<p>在通过C++和CUDA实现数列求和，在将其绑定为python函数，并在python中调用对应函数，验证结果。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/zh/2020/09/20/zh/python_cpp_extension/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://foreveryounggithub.github.io/zh/2020/07/04/zh/numba_python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/zh/images/avatar.gif">
+      <meta itemprop="name" content="Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/zh/2020/07/04/zh/numba_python/" class="post-title-link" itemprop="url">Numba: 简单装饰器加速python代码</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-07-04 00:00:00" itemprop="dateCreated datePublished" datetime="2020-07-04T00:00:00-05:00">2020-07-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-02-28 10:44:52" itemprop="dateModified" datetime="2022-02-28T10:44:52-05:00">2022-02-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/zh/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>简单易用与运行效率低是贴在python身上的两大标签。开发人员一方面对其简单的语法和丰富的库爱不释手，一方面又对其由于动态编译和解释执行带来的较低的运行效率和GIL带来的多线程难扩展的情况深恶痛绝。为了解决这些python中的固有问题，一些解释器如cython尝试对一些函数提前编译进而提高执行效率。但绝大多数的解释器或库函数的语法非常不pythonic，而且也不能够做到即插即用。本文简单介绍了如何通过numba库，为python函数装饰器的方式来对python函数进行加速。为读者提供一中，简单易用，灵活编译方式去解决python的固有问题，提高python代码的执行效率。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/zh/2020/07/04/zh/numba_python/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://foreveryounggithub.github.io/zh/2020/06/17/zh/trt_preproc_npp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/zh/images/avatar.gif">
+      <meta itemprop="name" content="Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/zh/2020/06/17/zh/trt_preproc_npp/" class="post-title-link" itemprop="url">通过NPP加速TensorRT部署时图片数据预处理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-17 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-17T00:00:00-05:00">2020-06-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-02-28 10:45:11" itemprop="dateModified" datetime="2022-02-28T10:45:11-05:00">2022-02-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/zh/categories/model-inference/" itemprop="url" rel="index"><span itemprop="name">model inference</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>TensorRT(TRT)是NVIDIA推出的一个高性能的深度学习推理框架，可以让深度学习模型在NVIDIA
+GPU上实现低延迟，高吞吐量的部署。主流框架的模型可以通过转换为TensorRT在NVIDIA
+GPU进而达到极大地提速。然而，由于TensorRT并不支持常见的图片数据类型uint8，这使得往往需要在cpu上进行图片数据预处理，转换为其所支持的float并传入到gpu模型输入。当图片较大时，数据在cpu上的处理和传递时间较慢。本文将介绍如何通过cuda中的npp库来加速这一过程。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/zh/2020/06/17/zh/trt_preproc_npp/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://foreveryounggithub.github.io/zh/2020/06/10/zh/numba_cuda/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/zh/images/avatar.gif">
+      <meta itemprop="name" content="Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/zh/2020/06/10/zh/numba_cuda/" class="post-title-link" itemprop="url">Numba: 通过python快速学习cuda编程</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-10 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-10T00:00:00-05:00">2020-06-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-02-28 10:44:57" itemprop="dateModified" datetime="2022-02-28T10:44:57-05:00">2022-02-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/zh/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>复杂的编译环境配置，指针操作和debug过程，CUDA编程对于初学者来说总是望而生畏。本文旨在通过使用python的numba库，快速学习和了解CUDA多线程高并发的编程思路。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/zh/2020/06/10/zh/numba_cuda/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/zh/js/comments.js"></script><script src="/zh/js/utils.js"></script><script src="/zh/js/motion.js"></script><script src="/zh/js/schemes/muse.js"></script><script src="/zh/js/next-boot.js"></script><script src="/zh/js/pjax.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/zh/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.10/dist/mermaid.min.js","integrity":"sha256-CmZCFVnvol9YL23PfjDflGY5nJwE+Mf/JN+8v+tD/34="}}</script>
+  <script src="/zh/js/third-party/tags/mermaid.js"></script>
+
+  <script src="/zh/js/third-party/fancybox.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/zh/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
