@@ -29,17 +29,20 @@
 <meta property="og:site_name" content="ForeverYoung">
 <meta property="og:description" content="一些计算机视觉任务会依赖图像的几何关系，比如相机定位，三维重建等等。一种方法用于求解图像的几何关系是通过图像局部特征的相关匹配来求解。图像的局部特征则是从图像局部区域中抽取的特征，包括边缘、角点、线、曲线和特别属性的区域等。一般来说，图像的局部特征包含两个部分，局部特征点的位置，局部特征的描述符。在一方面上，描述符可分为基于人工的特征符和基于学习的特征符。 文本将关注于在特征点已知的情况下，如何通">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/images_hard.png">
-<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/patches_hard.png">
-<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/general_pipeline.png">
-<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/second_order_dist.png">
-<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/sosnet.png">
+<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/images_hard.jpg">
+<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/patches_hard.jpg">
+<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/general_pipeline.jpg">
+<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/hardnet_pipeline.jpg">
+<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/second_order_dist.jpg">
+<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/sosnet.jpg">
+<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/log_polar_transformation.jpg">
+<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/log_poloar_samples.jpg">
 <meta property="article:published_time" content="2022-02-28T03:12:44.000Z">
-<meta property="article:modified_time" content="2022-02-28T15:44:22.015Z">
+<meta property="article:modified_time" content="2022-03-01T02:32:42.316Z">
 <meta property="article:author" content="Yang">
 <meta property="article:tag" content="local descriptor">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/images_hard.png">
+<meta name="twitter:image" content="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/images_hard.jpg">
 
 
 <link rel="canonical" href="https://foreveryounggithub.github.io/zh/2022/02/27/zh/patch_based_local_descriptor/">
@@ -192,10 +195,13 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%92%8C%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text">数据和任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">训练流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%87%87%E6%A0%B7"><span class="nav-number">2.1.</span> <span class="nav-text">数据采样</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%8F%E8%BF%B0%E5%AD%90%E5%92%8C%E8%B7%9D%E7%A6%BB%E7%9F%A9%E9%98%B5"><span class="nav-number">2.2.</span> <span class="nav-text">描述子和距离矩阵</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E7%AD%96%E7%95%A5"><span class="nav-number">3.</span> <span class="nav-text">学习策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#l2net"><span class="nav-number">3.1.</span> <span class="nav-text">L2Net</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hardnet---working-hard-to-know-your-neighbors-margins-local-descriptor-learning-loss"><span class="nav-number">3.2.</span> <span class="nav-text">HardNet
-- Working hard to know your
-neighbor&#39;s margins: Local descriptor learning loss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sosnet-second-order-similarity-regularization-for-local-descriptor-learning"><span class="nav-number">3.3.</span> <span class="nav-text">SOSNet: Second Order Similarity
-Regularization for Local Descriptor Learning</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%92%8C%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text">数据和任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">训练流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%87%87%E6%A0%B7"><span class="nav-number">2.1.</span> <span class="nav-text">数据采样</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%8F%E8%BF%B0%E5%AD%90%E5%92%8C%E8%B7%9D%E7%A6%BB%E7%9F%A9%E9%98%B5"><span class="nav-number">2.2.</span> <span class="nav-text">描述子和距离矩阵</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E7%AD%96%E7%95%A5"><span class="nav-number">3.</span> <span class="nav-text">学习策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#l2net"><span class="nav-number">3.1.</span> <span class="nav-text">L2Net</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hardnet-working-hard-to-know-your-neighbors-margins-local-descriptor-learning-loss"><span class="nav-number">3.2.</span> <span class="nav-text">HardNet
+| Working hard to know your
+neighbor&#39;s margins: Local descriptor learning loss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sosnet-sosnet-second-order-similarity-regularization-for-local-descriptor-learning"><span class="nav-number">3.3.</span> <span class="nav-text">SOSNet
+| SOSNet: Second Order
+Similarity Regularization for Local Descriptor Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#log-polar-transformation-human-eye-inspired-log-polar-pre-processing-for-neural-networks"><span class="nav-number">3.4.</span> <span class="nav-text">Log
+Polar Transformation | Human
+eye inspired log-polar pre-processing for neural networks</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -294,7 +300,7 @@ Regularization for Local Descriptor Learning</span></a></li></ol></li></ol></div
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-02-28 10:44:22" itemprop="dateModified" datetime="2022-02-28T10:44:22-05:00">2022-02-28</time>
+      <time title="修改时间：2022-02-28 21:32:42" itemprop="dateModified" datetime="2022-02-28T21:32:42-05:00">2022-02-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -327,9 +333,9 @@ Regularization for Local Descriptor Learning</span></a></li></ol></li></ol></div
 <p>基本Patch的描述符（local descriptor）即给定Patch生成local
 descriptor。对于神经网络来说，即意味着网络的输入是图像局部区域(Patch)，网络的输出是该Patch的特征。</p>
 <p>其中图像局部区域(Patch)是基于图像的特征点所提取的的。如下图所示，下面五个图像来自于同一场景，图上的圆圈的中心即是特征点，而圆圈所选择的区域即是Patch。</p>
-<img data-src="/zh/2022/02/27/zh/patch_based_local_descriptor/images_hard.png" class="" title="HPatch原始和特征点">
+<img data-src="/zh/2022/02/27/zh/patch_based_local_descriptor/images_hard.jpg" class="" title="HPatch原始和特征点">
 <p>需要注意的是，由于五个图像来自于同一场景，图像中的特征点也一一匹配。如下图所示，下图的每一列都是从匹配的特征点所提取的局部区域，而每一行则代表了从每幅图像所提取的全部Patch。</p>
-<img data-src="/zh/2022/02/27/zh/patch_based_local_descriptor/patches_hard.png" class="" title="HPatch提取的局部区域">
+<img data-src="/zh/2022/02/27/zh/patch_based_local_descriptor/patches_hard.jpg" class="" title="HPatch提取的局部区域">
 <p>理想的描述符（local
 descriptor）是使得匹配的特征点的描述符一致或距离相近，不匹配的特征点的描述符距离较远。对应于上图，即每一列样本之间的描述符应距离相近，而每一行的样本之间的描述符应距离较远。</p>
 <p>在数学上，假设有一特征点<span
@@ -346,7 +352,7 @@ dist(\textbf{a}, \textbf{n})\)</span>。</p>
 <h2 id="训练流程">训练流程</h2>
 <p>对于基本Patch的描述符（local
 descriptor），一个常见的训练流程如下图所示。</p>
-<img data-src="/zh/2022/02/27/zh/patch_based_local_descriptor/general_pipeline.png" class="" title="Pipeline">
+<img data-src="/zh/2022/02/27/zh/patch_based_local_descriptor/general_pipeline.jpg" class="" title="Pipeline">
 <h3 id="数据采样">数据采样</h3>
 <p>具体而言，随机选取<span
 class="math inline">\(n\)</span>对匹配的patches组成最终的training
@@ -363,11 +369,11 @@ class="math inline">\((\textbf{a}_i,
 <h2 id="学习策略">学习策略</h2>
 <h3 id="l2net">L2Net</h3>
 <h3
-id="hardnet---working-hard-to-know-your-neighbors-margins-local-descriptor-learning-loss">HardNet
-- <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1705.10872">Working hard to know your
+id="hardnet-working-hard-to-know-your-neighbors-margins-local-descriptor-learning-loss">HardNet
+| <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1705.10872">Working hard to know your
 neighbor's margins: Local descriptor learning loss</a></h3>
 <p>HardNet的训练流程如下图所示。</p>
-
+<img data-src="/zh/2022/02/27/zh/patch_based_local_descriptor/hardnet_pipeline.jpg" class="" title="HardNet_Pipeline">
 <p>简单而讲，HardNet采用了度量学习中的triplet loss去最大化training
 batch中正负样本之间的距离。</p>
 <p>具体而言，当距离矩阵已知时，对于匹配的Patch对，可以找到： - <span
@@ -405,9 +411,9 @@ batch中正负样本之间的距离。所以将选取最难的样本进行训练
 <p>损失函数对应的代码为</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">triplet_loss</span>(<span class="params">x, label, margin=<span class="number">0.1</span></span>):</span><br><span class="line">    <span class="comment"># x is D x N</span></span><br><span class="line">    dim = x.size(<span class="number">0</span>) <span class="comment"># D</span></span><br><span class="line">    nq = torch.<span class="built_in">sum</span>(label.data==-<span class="number">1</span>).item() <span class="comment"># number of tuples</span></span><br><span class="line">    S = x.size(<span class="number">1</span>) // nq <span class="comment"># number of images per tuple including query: 1+1+n</span></span><br><span class="line"></span><br><span class="line">    xa = x[:, label.data==-<span class="number">1</span>].permute(<span class="number">1</span>,<span class="number">0</span>).repeat(<span class="number">1</span>,S-<span class="number">2</span>).view((S-<span class="number">2</span>)*nq,dim).permute(<span class="number">1</span>,<span class="number">0</span>)</span><br><span class="line">    xp = x[:, label.data==<span class="number">1</span>].permute(<span class="number">1</span>,<span class="number">0</span>).repeat(<span class="number">1</span>,S-<span class="number">2</span>).view((S-<span class="number">2</span>)*nq,dim).permute(<span class="number">1</span>,<span class="number">0</span>)</span><br><span class="line">    xn = x[:, label.data==<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    dist_pos = torch.<span class="built_in">sum</span>(torch.<span class="built_in">pow</span>(xa - xp, <span class="number">2</span>), dim=<span class="number">0</span>)</span><br><span class="line">    dist_neg = torch.<span class="built_in">sum</span>(torch.<span class="built_in">pow</span>(xa - xn, <span class="number">2</span>), dim=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> torch.<span class="built_in">sum</span>(torch.clamp(dist_pos - dist_neg + margin, <span class="built_in">min</span>=<span class="number">0</span>)) / nq</span><br></pre></td></tr></table></figure>
 <h3
-id="sosnet-second-order-similarity-regularization-for-local-descriptor-learning"><a
-target="_blank" rel="noopener" href="https://arxiv.org/abs/1904.05019">SOSNet: Second Order Similarity
-Regularization for Local Descriptor Learning</a></h3>
+id="sosnet-sosnet-second-order-similarity-regularization-for-local-descriptor-learning">SOSNet
+| <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1904.05019">SOSNet: Second Order
+Similarity Regularization for Local Descriptor Learning</a></h3>
 <p>HardNet的loss是由距离度量直接组成的，其可以被认为是基于一阶相似距离的loss。SOSNet在此之上又增加了基于二阶相似距离的loss。</p>
 <p>所谓二阶距离，这里指在四元组 <span
 class="math inline">\((\textbf{a}_i, \textbf{p}_{i}, \textbf{p}_{j_{
@@ -417,10 +423,27 @@ class="math inline">\((\textbf{a}_i, \textbf{p}_{i}, \textbf{p}_{j_{
 \textbf{a}_{k_{ \min }} , \textbf{p}_{i} \right)
 \right)\)</span>。通过最小化二阶距离，可使得local
 descriptor更加聚积，如下图所示。</p>
-<img data-src="/zh/2022/02/27/zh/patch_based_local_descriptor/second_order_dist.png" class="" title="Second_Order_Distance">
-<img data-src="/zh/2022/02/27/zh/patch_based_local_descriptor/sosnet.png" class="" title="SOSNet_output">
+<img data-src="/zh/2022/02/27/zh/patch_based_local_descriptor/second_order_dist.jpg" class="" title="Second_Order_Distance">
+<img data-src="/zh/2022/02/27/zh/patch_based_local_descriptor/sosnet.jpg" class="" title="SOSNet_output">
 <p>二阶距离损失函数对应的代码为</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sos_loss</span>(<span class="params">x, label</span>):</span><br><span class="line">    <span class="comment"># x is D x N</span></span><br><span class="line">    dim = x.size(<span class="number">0</span>) <span class="comment"># D</span></span><br><span class="line">    nq = torch.<span class="built_in">sum</span>(label.data==-<span class="number">1</span>).item() <span class="comment"># number of tuples</span></span><br><span class="line">    S = x.size(<span class="number">1</span>) // nq <span class="comment"># number of images per tuple including query: 1+1+n</span></span><br><span class="line"></span><br><span class="line">    xa = x[:, label.data==-<span class="number">1</span>].permute(<span class="number">1</span>,<span class="number">0</span>).repeat(<span class="number">1</span>,S-<span class="number">2</span>).view((S-<span class="number">2</span>)*nq,dim).permute(<span class="number">1</span>,<span class="number">0</span>) <span class="comment"># D * (B * num_neg)</span></span><br><span class="line">    xp = x[:, label.data==<span class="number">1</span>].permute(<span class="number">1</span>,<span class="number">0</span>).repeat(<span class="number">1</span>,S-<span class="number">2</span>).view((S-<span class="number">2</span>)*nq,dim).permute(<span class="number">1</span>,<span class="number">0</span>)</span><br><span class="line">    xn = x[:, label.data==<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    dist_an = torch.<span class="built_in">sum</span>(torch.<span class="built_in">pow</span>(xa - xn, <span class="number">2</span>), dim=<span class="number">0</span>)</span><br><span class="line">    dist_pn = torch.<span class="built_in">sum</span>(torch.<span class="built_in">pow</span>(xp - xn, <span class="number">2</span>), dim=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> torch.<span class="built_in">sum</span>(torch.<span class="built_in">pow</span>(dist_an - dist_pn, <span class="number">2</span>)) ** <span class="number">0.5</span> / nq</span><br></pre></td></tr></table></figure>
+<h3
+id="log-polar-transformation-human-eye-inspired-log-polar-pre-processing-for-neural-networks">Log
+Polar Transformation | <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1911.01141">Human
+eye inspired log-polar pre-processing for neural networks</a></h3>
+<p>另一篇对局部特征很有帮助的工作是Log Polar
+Transformation。其核心是通过在图像预处理中引入Log Polar
+Transformation，将图像从欧式坐标系转换为<a
+target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Log-polar_coordinates">对数极坐标系</a>表示。由于不同的旋转和尺度变化在对数极坐标系下对图像不会有太大影响，因此Log
+Polar Transformation会使得模型对旋转和尺度变化的鲁棒性较好。</p>
+<img data-src="/zh/2022/02/27/zh/patch_based_local_descriptor/log_polar_transformation.jpg" class="" title="Rotation and Scaling transformations to a Euclidean image can be read as horizontal and vertical shift respectively, after a log-polar transformation. The log-polar transformation translates rotation and scale in Euclidean images into vertical and horizontal translations (respectively) in the log-polar model.">
+<p>如上图所示，在欧式图像上的旋转和尺度变化对应到对数极坐标系下是竖直和水平方向上的平移变化。而卷积操作的滑动窗口计算方式使得其对平移变化非常鲁棒。需要注意的是，由于一般Patch-based卷积神经网络都非常浅，导致其无法很好的消除由旋转的尺度变化所导致的偏差。甚至为了消除这种偏差，在工程上常常使用重力的方向来旋转输入CNN的Patch。因此，Log
+Polar
+Transformation通过增强模型对旋转和尺度变化的鲁棒性，进而提升了模型的鲁棒性和准确度。</p>
+<p>更多的旋转和尺度变化在对欧式坐标系和对数极坐标系的表现如下图所示。</p>
+<img data-src="/zh/2022/02/27/zh/patch_based_local_descriptor/log_poloar_samples.jpg" class="" title="Example of rotation and scale transformations for a single MNIST image.">
+<p>Log Polar Transformation在图像预处理时可以实现为</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">to_log_polar</span>(<span class="params">img, dsize, max_radius</span>):</span><br><span class="line">    <span class="keyword">assert</span> <span class="built_in">isinstance</span>(img, Image.Image)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># dsize = img.size</span></span><br><span class="line">    center = [s // <span class="number">2</span> <span class="keyword">for</span> s <span class="keyword">in</span> img.size]</span><br><span class="line">    flags = cv2.WARP_POLAR_LOG</span><br><span class="line">    out = cv2.warpPolar(</span><br><span class="line">        np.asarray(img), dsize=dsize, center=center, maxRadius=max_radius, flags=flags</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">return</span> Image.fromarray(out)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">from_log_polar</span>(<span class="params">polar_img, dsize, max_radius</span>):</span><br><span class="line">    <span class="keyword">assert</span> <span class="built_in">isinstance</span>(polar_img, Image.Image)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># dsize = polar_img.size</span></span><br><span class="line">    center = [s // <span class="number">2</span> <span class="keyword">for</span> s <span class="keyword">in</span> polar_img.size]</span><br><span class="line">    flags = cv2.WARP_POLAR_LOG | cv2.WARP_INVERSE_MAP</span><br><span class="line">    out = cv2.warpPolar(</span><br><span class="line">        np.asarray(polar_img),</span><br><span class="line">        dsize=dsize,</span><br><span class="line">        center=center,</span><br><span class="line">        maxRadius=max_radius,</span><br><span class="line">        flags=flags,</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">return</span> Image.fromarray(out)</span><br></pre></td></tr></table></figure>
 
     </div>
 
