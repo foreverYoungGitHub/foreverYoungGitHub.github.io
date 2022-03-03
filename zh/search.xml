@@ -1,38 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>pybind:为cpp/cuda代码提供python接口</title>
-    <url>/zh/2020/09/20/zh/python_cpp_extension/</url>
-    <content><![CDATA[<p>python调用C++/CUDA有不少的方法，如boost.python, cython,
-pybind11等。其中，pybind11是一个轻量级的仅标头的库。由于pybind11的易用性，pybind11被很多库用于于创建现有C++/CUDA代码的Python绑定，比如pytorch，tvm等。此外，由于Python的缓冲区协议可以公开自定义数据类型的内部存储，python的矩阵类型（如numpy.ndarry,torch.Tensor）可以快速转化到C++中对应矩阵类型（如Eigen，cv::Mat，vector等），不须额外的复制操作。本篇文章将通过一个数列求和的例子来讲解如何使用pybind11来将C++/CUDA代码进行Python绑定。</p>
-<p>在通过C++和CUDA实现数列求和，在将其绑定为python函数，并在python中调用对应函数，验证结果。</p>
-<span id="more"></span>
-<h2 id="基本环境">基本环境</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GCC: 7.5</span><br><span class="line">CUDA: 10.2</span><br><span class="line">CUDNN: 7.6.5</span><br><span class="line">Python: 3.7</span><br><span class="line">pybind11: 2.5</span><br></pre></td></tr></table></figure>
-<h2 id="hello-world-for-pybind11">"hello, world!" for pybind11</h2>
-<p>不同于pybind11官网推荐的通过CMake编译的编译方式，本文将采用pytorch中pybind11的编译方式，即在setup创建python包时编译项目中C++和CUDA代码。</p>
-<details>
-<summary>
-代码："hello, world!"
-</summary>
-<p>工程目录及编译： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">.../pybind$ tree</span><br><span class="line">.</span><br><span class="line">└── hello_world</span><br><span class="line">    ├── cpp_extension.py</span><br><span class="line">    ├── hello_world.cpp</span><br><span class="line">    └── setup_hello.py</span><br><span class="line">.../pybind$ python setup_hello.py clean -a install</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
-<p><code>hello_world.cpp</code>: <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pybind11/pybind11.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> py = pybind11;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HelloRobot</span> &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">HelloRobot</span>(<span class="type">const</span> std::string &amp; robot_name) : <span class="built_in">robot_name_</span>(robot_name) &#123;&#125;;</span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">hello</span><span class="params">(std::string guest_name)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(guest_name == <span class="string">&quot;&quot;</span>) &#123;</span><br><span class="line">                guest_name = <span class="string">&quot;World&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            std::cout &lt;&lt; <span class="string">&quot;Hello, &quot;</span> + guest_name + <span class="string">&quot;! I&#x27;m &quot;</span> + robot_name_ + <span class="string">&quot;.\n&quot;</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="function">std::string <span class="title">get_robot_name</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> robot_name_;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        std::string robot_name_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">PYBIND11_MODULE</span>(hello_world, m) &#123;</span><br><span class="line">    m.<span class="built_in">doc</span>() = <span class="string">&quot;pybind11 hello world&quot;</span>;</span><br><span class="line"></span><br><span class="line">    py::<span class="built_in">class_</span>&lt;HelloRobot&gt;(m, <span class="string">&quot;HelloRobot&quot;</span>)</span><br><span class="line">        .<span class="built_in">def</span>(py::<span class="built_in">init</span>&lt;<span class="type">const</span> std::string &amp;&gt;())</span><br><span class="line">        .<span class="built_in">def</span>(<span class="string">&quot;hello&quot;</span>, &amp;HelloRobot::hello, <span class="string">&quot;Provide your name...&quot;</span>, py::<span class="built_in">arg</span>(<span class="string">&quot;guest_name&quot;</span>)=<span class="string">&quot;&quot;</span>)</span><br><span class="line">        .<span class="built_in">def_property_readonly</span>(<span class="string">&quot;robot_name&quot;</span>, &amp;HelloRobot::get_robot_name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><code>setup_hello.py</code>: <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</span><br><span class="line"><span class="keyword">from</span> cpp_extension <span class="keyword">import</span> BuildExtension, CUDAExtension</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    name=<span class="string">&#x27;hello&#x27;</span>,</span><br><span class="line">    version=<span class="string">&#x27;0.1&#x27;</span>,</span><br><span class="line">    description=<span class="string">&#x27;pybind11 hello world&#x27;</span>,</span><br><span class="line">    python_requires=<span class="string">&#x27;&gt;=3.7&#x27;</span>,</span><br><span class="line">    setup_requires=[<span class="string">&#x27;pybind11&gt;=2.5.0&#x27;</span>],</span><br><span class="line">    ext_modules=[CUDAExtension(<span class="string">&#x27;hello_world&#x27;</span>,</span><br><span class="line">        [<span class="string">&quot;hello_world.cpp&quot;</span>],</span><br><span class="line">        extra_compile_args=&#123;</span><br><span class="line">            <span class="string">&#x27;cxx&#x27;</span>: [<span class="string">&#x27;-std=c++14&#x27;</span>, <span class="string">&#x27;-O2&#x27;</span>, <span class="string">&#x27;-Wall&#x27;</span>],</span><br><span class="line">            <span class="string">&#x27;nvcc&#x27;</span>: [</span><br><span class="line">                <span class="string">&#x27;-std=c++14&#x27;</span>, <span class="string">&#x27;--expt-extended-lambda&#x27;</span>, <span class="string">&#x27;--use_fast_math&#x27;</span>, <span class="string">&#x27;-Xcompiler&#x27;</span>, <span class="string">&#x27;-Wall&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;-gencode=arch=compute_60,code=sm_60&#x27;</span>, <span class="string">&#x27;-gencode=arch=compute_61,code=sm_61&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;-gencode=arch=compute_70,code=sm_70&#x27;</span>, <span class="string">&#x27;-gencode=arch=compute_72,code=sm_72&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;-gencode=arch=compute_75,code=sm_75&#x27;</span>, <span class="string">&#x27;-gencode=arch=compute_75,code=compute_75&#x27;</span></span><br><span class="line">            ],</span><br><span class="line">        &#125;,</span><br><span class="line">        include_dirs = [],</span><br><span class="line">        library_dirs = [<span class="string">&#x27;/usr/local/lib&#x27;</span>, <span class="string">&#x27;/usr/local/lib64/&#x27;</span>],</span><br><span class="line">        )</span><br><span class="line">    ],</span><br><span class="line">    cmdclass=&#123;<span class="string">&#x27;build_ext&#x27;</span>: BuildExtension.with_options(no_python_abi_suffix=<span class="literal">True</span>, use_ninja=<span class="literal">False</span>)&#125;,</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
-<p>简单测试： <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">.../pybind/hello_world$ python</span><br><span class="line">Python <span class="number">3.7</span><span class="number">.7</span> (default, May  <span class="number">7</span> <span class="number">2020</span>, <span class="number">21</span>:<span class="number">25</span>:<span class="number">33</span>) </span><br><span class="line">[GCC <span class="number">7.3</span><span class="number">.0</span>] :: Anaconda, Inc. on linux</span><br><span class="line"><span class="type">Type</span> <span class="string">&quot;help&quot;</span>, <span class="string">&quot;copyright&quot;</span>, <span class="string">&quot;credits&quot;</span> <span class="keyword">or</span> <span class="string">&quot;license&quot;</span> <span class="keyword">for</span> more information.</span><br><span class="line">ModuleNotFoundError: No module named <span class="string">&#x27;hello&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> hello_world</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>hello_world.HelloRobot</span><br><span class="line">&lt;<span class="keyword">class</span> <span class="string">&#x27;hello_world.HelloRobot&#x27;</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>robot = hello_world.HelloRobot(<span class="string">&quot;Eva&quot;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>robot.robot_name</span><br><span class="line"><span class="string">&#x27;Eva&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>robot.hello()</span><br><span class="line">Hello, World! I<span class="string">&#x27;m Eva.</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; robot.hello(&quot;Young&quot;)</span></span><br><span class="line"><span class="string">Hello, Young! I&#x27;</span>m Eva.</span><br></pre></td></tr></table></figure></p>
-<p>通过pybind11生成模块的相关文档： <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> hello_world</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">help</span>(hello_world)</span><br><span class="line"></span><br><span class="line">Help on module hello_world:</span><br><span class="line"></span><br><span class="line">NAME</span><br><span class="line">    hello_world - pybind11 hello world</span><br><span class="line"></span><br><span class="line">CLASSES</span><br><span class="line">    pybind11_builtins.pybind11_object(builtins.<span class="built_in">object</span>)</span><br><span class="line">        HelloRobot</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">HelloRobot</span>(pybind11_builtins.pybind11_object)</span><br><span class="line">     |  Method resolution order:</span><br><span class="line">     |      HelloRobot</span><br><span class="line">     |      pybind11_builtins.pybind11_object</span><br><span class="line">     |      builtins.<span class="built_in">object</span></span><br><span class="line">     |  </span><br><span class="line">     |  Methods defined here:</span><br><span class="line">     |  </span><br><span class="line">     |  __init__(...)</span><br><span class="line">     |      __init__(self: hello_world.HelloRobot, arg0: <span class="built_in">str</span>) -&gt; <span class="literal">None</span></span><br><span class="line">     |  </span><br><span class="line">     |  hello(...)</span><br><span class="line">     |      hello(self: hello_world.HelloRobot, guest_name: <span class="built_in">str</span> = <span class="string">&#x27;&#x27;</span>) -&gt; <span class="literal">None</span></span><br><span class="line">     |      </span><br><span class="line">     |      Provide your name...</span><br><span class="line">     |  </span><br><span class="line">     |  ----------------------------------------------------------------------</span><br><span class="line">     |  Data descriptors defined here:</span><br><span class="line">     |  </span><br><span class="line">     |  robot_name</span><br><span class="line">     |  </span><br><span class="line">     |  ----------------------------------------------------------------------</span><br><span class="line">     |  Static methods inherited <span class="keyword">from</span> pybind11_builtins.pybind11_object:</span><br><span class="line">     |  </span><br><span class="line">     |  __new__(*args, **kwargs) <span class="keyword">from</span> pybind11_builtins.pybind11_type</span><br><span class="line">     |      Create <span class="keyword">and</span> <span class="keyword">return</span> a new <span class="built_in">object</span>.  See <span class="built_in">help</span>(<span class="built_in">type</span>) <span class="keyword">for</span> accurate signature.</span><br></pre></td></tr></table></figure></p>
-</details>
-<h2 id="数列求和">数列求和</h2>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>cpp</tag>
-        <tag>cuda</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Numba: 通过python快速学习cuda编程</title>
     <url>/zh/2020/06/10/zh/numba_cuda/</url>
     <content><![CDATA[<p>复杂的编译环境配置，指针操作和debug过程，CUDA编程对于初学者来说总是望而生畏。本文旨在通过使用python的numba库，快速学习和了解CUDA多线程高并发的编程思路。</p>
@@ -165,8 +133,8 @@ href="https://zhuanlan.zhihu.com/c_1188568938097819648">CUDA编程入门</a></p>
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>cuda</tag>
         <tag>numba</tag>
+        <tag>cuda</tag>
       </tags>
   </entry>
   <entry>
@@ -282,6 +250,38 @@ JIT World: The Joy of Simple JITs</a></p>
       </tags>
   </entry>
   <entry>
+    <title>pybind:为cpp/cuda代码提供python接口</title>
+    <url>/zh/2020/09/20/zh/python_cpp_extension/</url>
+    <content><![CDATA[<p>python调用C++/CUDA有不少的方法，如boost.python, cython,
+pybind11等。其中，pybind11是一个轻量级的仅标头的库。由于pybind11的易用性，pybind11被很多库用于于创建现有C++/CUDA代码的Python绑定，比如pytorch，tvm等。此外，由于Python的缓冲区协议可以公开自定义数据类型的内部存储，python的矩阵类型（如numpy.ndarry,torch.Tensor）可以快速转化到C++中对应矩阵类型（如Eigen，cv::Mat，vector等），不须额外的复制操作。本篇文章将通过一个数列求和的例子来讲解如何使用pybind11来将C++/CUDA代码进行Python绑定。</p>
+<p>在通过C++和CUDA实现数列求和，在将其绑定为python函数，并在python中调用对应函数，验证结果。</p>
+<span id="more"></span>
+<h2 id="基本环境">基本环境</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GCC: 7.5</span><br><span class="line">CUDA: 10.2</span><br><span class="line">CUDNN: 7.6.5</span><br><span class="line">Python: 3.7</span><br><span class="line">pybind11: 2.5</span><br></pre></td></tr></table></figure>
+<h2 id="hello-world-for-pybind11">"hello, world!" for pybind11</h2>
+<p>不同于pybind11官网推荐的通过CMake编译的编译方式，本文将采用pytorch中pybind11的编译方式，即在setup创建python包时编译项目中C++和CUDA代码。</p>
+<details>
+<summary>
+代码："hello, world!"
+</summary>
+<p>工程目录及编译： <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">.../pybind$ tree</span><br><span class="line">.</span><br><span class="line">└── hello_world</span><br><span class="line">    ├── cpp_extension.py</span><br><span class="line">    ├── hello_world.cpp</span><br><span class="line">    └── setup_hello.py</span><br><span class="line">.../pybind$ python setup_hello.py clean -a install</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p><code>hello_world.cpp</code>: <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pybind11/pybind11.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> py = pybind11;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HelloRobot</span> &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">HelloRobot</span>(<span class="type">const</span> std::string &amp; robot_name) : <span class="built_in">robot_name_</span>(robot_name) &#123;&#125;;</span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">hello</span><span class="params">(std::string guest_name)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(guest_name == <span class="string">&quot;&quot;</span>) &#123;</span><br><span class="line">                guest_name = <span class="string">&quot;World&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            std::cout &lt;&lt; <span class="string">&quot;Hello, &quot;</span> + guest_name + <span class="string">&quot;! I&#x27;m &quot;</span> + robot_name_ + <span class="string">&quot;.\n&quot;</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="function">std::string <span class="title">get_robot_name</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> robot_name_;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        std::string robot_name_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">PYBIND11_MODULE</span>(hello_world, m) &#123;</span><br><span class="line">    m.<span class="built_in">doc</span>() = <span class="string">&quot;pybind11 hello world&quot;</span>;</span><br><span class="line"></span><br><span class="line">    py::<span class="built_in">class_</span>&lt;HelloRobot&gt;(m, <span class="string">&quot;HelloRobot&quot;</span>)</span><br><span class="line">        .<span class="built_in">def</span>(py::<span class="built_in">init</span>&lt;<span class="type">const</span> std::string &amp;&gt;())</span><br><span class="line">        .<span class="built_in">def</span>(<span class="string">&quot;hello&quot;</span>, &amp;HelloRobot::hello, <span class="string">&quot;Provide your name...&quot;</span>, py::<span class="built_in">arg</span>(<span class="string">&quot;guest_name&quot;</span>)=<span class="string">&quot;&quot;</span>)</span><br><span class="line">        .<span class="built_in">def_property_readonly</span>(<span class="string">&quot;robot_name&quot;</span>, &amp;HelloRobot::get_robot_name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>setup_hello.py</code>: <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</span><br><span class="line"><span class="keyword">from</span> cpp_extension <span class="keyword">import</span> BuildExtension, CUDAExtension</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    name=<span class="string">&#x27;hello&#x27;</span>,</span><br><span class="line">    version=<span class="string">&#x27;0.1&#x27;</span>,</span><br><span class="line">    description=<span class="string">&#x27;pybind11 hello world&#x27;</span>,</span><br><span class="line">    python_requires=<span class="string">&#x27;&gt;=3.7&#x27;</span>,</span><br><span class="line">    setup_requires=[<span class="string">&#x27;pybind11&gt;=2.5.0&#x27;</span>],</span><br><span class="line">    ext_modules=[CUDAExtension(<span class="string">&#x27;hello_world&#x27;</span>,</span><br><span class="line">        [<span class="string">&quot;hello_world.cpp&quot;</span>],</span><br><span class="line">        extra_compile_args=&#123;</span><br><span class="line">            <span class="string">&#x27;cxx&#x27;</span>: [<span class="string">&#x27;-std=c++14&#x27;</span>, <span class="string">&#x27;-O2&#x27;</span>, <span class="string">&#x27;-Wall&#x27;</span>],</span><br><span class="line">            <span class="string">&#x27;nvcc&#x27;</span>: [</span><br><span class="line">                <span class="string">&#x27;-std=c++14&#x27;</span>, <span class="string">&#x27;--expt-extended-lambda&#x27;</span>, <span class="string">&#x27;--use_fast_math&#x27;</span>, <span class="string">&#x27;-Xcompiler&#x27;</span>, <span class="string">&#x27;-Wall&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;-gencode=arch=compute_60,code=sm_60&#x27;</span>, <span class="string">&#x27;-gencode=arch=compute_61,code=sm_61&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;-gencode=arch=compute_70,code=sm_70&#x27;</span>, <span class="string">&#x27;-gencode=arch=compute_72,code=sm_72&#x27;</span>,</span><br><span class="line">                <span class="string">&#x27;-gencode=arch=compute_75,code=sm_75&#x27;</span>, <span class="string">&#x27;-gencode=arch=compute_75,code=compute_75&#x27;</span></span><br><span class="line">            ],</span><br><span class="line">        &#125;,</span><br><span class="line">        include_dirs = [],</span><br><span class="line">        library_dirs = [<span class="string">&#x27;/usr/local/lib&#x27;</span>, <span class="string">&#x27;/usr/local/lib64/&#x27;</span>],</span><br><span class="line">        )</span><br><span class="line">    ],</span><br><span class="line">    cmdclass=&#123;<span class="string">&#x27;build_ext&#x27;</span>: BuildExtension.with_options(no_python_abi_suffix=<span class="literal">True</span>, use_ninja=<span class="literal">False</span>)&#125;,</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>简单测试： <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">.../pybind/hello_world$ python</span><br><span class="line">Python <span class="number">3.7</span><span class="number">.7</span> (default, May  <span class="number">7</span> <span class="number">2020</span>, <span class="number">21</span>:<span class="number">25</span>:<span class="number">33</span>) </span><br><span class="line">[GCC <span class="number">7.3</span><span class="number">.0</span>] :: Anaconda, Inc. on linux</span><br><span class="line"><span class="type">Type</span> <span class="string">&quot;help&quot;</span>, <span class="string">&quot;copyright&quot;</span>, <span class="string">&quot;credits&quot;</span> <span class="keyword">or</span> <span class="string">&quot;license&quot;</span> <span class="keyword">for</span> more information.</span><br><span class="line">ModuleNotFoundError: No module named <span class="string">&#x27;hello&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> hello_world</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>hello_world.HelloRobot</span><br><span class="line">&lt;<span class="keyword">class</span> <span class="string">&#x27;hello_world.HelloRobot&#x27;</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>robot = hello_world.HelloRobot(<span class="string">&quot;Eva&quot;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>robot.robot_name</span><br><span class="line"><span class="string">&#x27;Eva&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>robot.hello()</span><br><span class="line">Hello, World! I<span class="string">&#x27;m Eva.</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; robot.hello(&quot;Young&quot;)</span></span><br><span class="line"><span class="string">Hello, Young! I&#x27;</span>m Eva.</span><br></pre></td></tr></table></figure></p>
+<p>通过pybind11生成模块的相关文档： <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> hello_world</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">help</span>(hello_world)</span><br><span class="line"></span><br><span class="line">Help on module hello_world:</span><br><span class="line"></span><br><span class="line">NAME</span><br><span class="line">    hello_world - pybind11 hello world</span><br><span class="line"></span><br><span class="line">CLASSES</span><br><span class="line">    pybind11_builtins.pybind11_object(builtins.<span class="built_in">object</span>)</span><br><span class="line">        HelloRobot</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">HelloRobot</span>(pybind11_builtins.pybind11_object)</span><br><span class="line">     |  Method resolution order:</span><br><span class="line">     |      HelloRobot</span><br><span class="line">     |      pybind11_builtins.pybind11_object</span><br><span class="line">     |      builtins.<span class="built_in">object</span></span><br><span class="line">     |  </span><br><span class="line">     |  Methods defined here:</span><br><span class="line">     |  </span><br><span class="line">     |  __init__(...)</span><br><span class="line">     |      __init__(self: hello_world.HelloRobot, arg0: <span class="built_in">str</span>) -&gt; <span class="literal">None</span></span><br><span class="line">     |  </span><br><span class="line">     |  hello(...)</span><br><span class="line">     |      hello(self: hello_world.HelloRobot, guest_name: <span class="built_in">str</span> = <span class="string">&#x27;&#x27;</span>) -&gt; <span class="literal">None</span></span><br><span class="line">     |      </span><br><span class="line">     |      Provide your name...</span><br><span class="line">     |  </span><br><span class="line">     |  ----------------------------------------------------------------------</span><br><span class="line">     |  Data descriptors defined here:</span><br><span class="line">     |  </span><br><span class="line">     |  robot_name</span><br><span class="line">     |  </span><br><span class="line">     |  ----------------------------------------------------------------------</span><br><span class="line">     |  Static methods inherited <span class="keyword">from</span> pybind11_builtins.pybind11_object:</span><br><span class="line">     |  </span><br><span class="line">     |  __new__(*args, **kwargs) <span class="keyword">from</span> pybind11_builtins.pybind11_type</span><br><span class="line">     |      Create <span class="keyword">and</span> <span class="keyword">return</span> a new <span class="built_in">object</span>.  See <span class="built_in">help</span>(<span class="built_in">type</span>) <span class="keyword">for</span> accurate signature.</span><br></pre></td></tr></table></figure></p>
+</details>
+<h2 id="数列求和">数列求和</h2>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>cuda</tag>
+        <tag>cpp</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>通过NPP加速TensorRT部署时图片数据预处理</title>
     <url>/zh/2020/06/17/zh/trt_preproc_npp/</url>
     <content><![CDATA[<p>TensorRT(TRT)是NVIDIA推出的一个高性能的深度学习推理框架，可以让深度学习模型在NVIDIA
@@ -382,8 +382,8 @@ href="https://github.com/ShuangXieIrene/ssds.pytorch">ssds.pytorch</a></li>
         <category>model inference</category>
       </categories>
       <tags>
-        <tag>cpp</tag>
         <tag>cuda</tag>
+        <tag>cpp</tag>
         <tag>tensorrt</tag>
       </tags>
   </entry>
@@ -431,7 +431,43 @@ class="math inline">\((\textbf{a}_i,
 \textbf{p}_{i})\)</span>。针对于同一batch中的参考样本和正样本俩俩组合计算距离，可得到上图右侧所示的距离矩阵。当组合的参考样本和正样本匹配时，则该距离为正样本距离，不匹配时，则该距离为负样本样本距离。</p>
 <p>对于描述子和距离矩阵，可采用不同的损失函数，进而学习网络。</p>
 <h2 id="学习策略">学习策略</h2>
-<h3 id="l2net">L2Net</h3>
+<h3
+id="l2net-l2-net-deep-learning-of-discriminative-patch-descriptor-in-euclidean-space">L2Net
+| <a
+href="https://openaccess.thecvf.com/content_cvpr_2017/papers/Tian_L2-Net_Deep_Learning_CVPR_2017_paper.pdf">L2-Net:
+Deep Learning of Discriminative Patch Descriptor in Euclidean
+Space</a></h3>
+<p>L2Net是相对早期的Patch-Based基于深度学习的描述符。其损失函数基本已不再使用，但其模型直至现在仍被广泛使用。</p>
+<p>L2Net损失函数主要分为三个部分： - Error term for descriptor
+similarity：利用相对距离区分匹配上和未匹配上的 patch
+pairs，即在距离矩阵的行和列上求softmax； - Error term for descriptor
+compactness：考虑最后输出特征向量的
+compactness，也就是特征向量的各个维度尽可能不相关。即在相关矩阵上加penalty；
+- Error term for intermediate feature maps：学习过程中间的 feature maps
+进行额外的监督，可以得到更好的性能。即求每个中间层的距离矩阵，并在该距离矩阵的行和列上求softmax。</p>
+<p>L2Net模型如下图所示。L2Net采用单路全卷积框架，图中3x3
+Conv代表Conv+BN+Relu，8×8
+Conv代表Conv+BN，在第三层和第五层的卷积层步长为2用于下采样。LRN(Local
+Response Normalization
+layer)用于归一化输出，等价于L2Norm。需要注意的是，由于区域图像变化较大，为了消除光照等其他因素的影响，一般也会在模型初始加InstanceNorm。</p>
+<pre class="mermaid">
+flowchart LR
+Input[Patch] --&gt; B(3x3 Conv 32):::Conv
+B --&gt; C(3x3 Conv 32):::Conv
+C --&gt; D(3x3 Conv 64&#x2F;2):::ConvDown
+D --&gt; E(3x3 Conv 64):::Conv
+E --&gt; F(3x3 Conv 128&#x2F;2):::ConvDown
+F --&gt; G(3x3 Conv 128):::Conv
+G --&gt; H(8x8 Conv 128):::ConvBN
+H --&gt; J(LRN):::LRN
+J --&gt; Descriptor(Descriptor)
+
+classDef Conv fill:#cfc;
+classDef ConvDown fill:#cff;
+classDef ConvBN fill:#ffc;
+classDef LRN fill:#fcc;
+</pre>
+<p>该网络简单直接，特征提取速度在ms级，在低端gpu上基本在1ms左右。</p>
 <h3
 id="hardnet-working-hard-to-know-your-neighbors-margins-local-descriptor-learning-loss">HardNet
 | <a href="https://arxiv.org/abs/1705.10872">Working hard to know your
@@ -492,9 +528,9 @@ descriptor更加聚积，如下图所示。</p>
 <p>二阶距离损失函数对应的代码为</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sos_loss</span>(<span class="params">x, label</span>):</span><br><span class="line">    <span class="comment"># x is D x N</span></span><br><span class="line">    dim = x.size(<span class="number">0</span>) <span class="comment"># D</span></span><br><span class="line">    nq = torch.<span class="built_in">sum</span>(label.data==-<span class="number">1</span>).item() <span class="comment"># number of tuples</span></span><br><span class="line">    S = x.size(<span class="number">1</span>) // nq <span class="comment"># number of images per tuple including query: 1+1+n</span></span><br><span class="line"></span><br><span class="line">    xa = x[:, label.data==-<span class="number">1</span>].permute(<span class="number">1</span>,<span class="number">0</span>).repeat(<span class="number">1</span>,S-<span class="number">2</span>).view((S-<span class="number">2</span>)*nq,dim).permute(<span class="number">1</span>,<span class="number">0</span>) <span class="comment"># D * (B * num_neg)</span></span><br><span class="line">    xp = x[:, label.data==<span class="number">1</span>].permute(<span class="number">1</span>,<span class="number">0</span>).repeat(<span class="number">1</span>,S-<span class="number">2</span>).view((S-<span class="number">2</span>)*nq,dim).permute(<span class="number">1</span>,<span class="number">0</span>)</span><br><span class="line">    xn = x[:, label.data==<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    dist_an = torch.<span class="built_in">sum</span>(torch.<span class="built_in">pow</span>(xa - xn, <span class="number">2</span>), dim=<span class="number">0</span>)</span><br><span class="line">    dist_pn = torch.<span class="built_in">sum</span>(torch.<span class="built_in">pow</span>(xp - xn, <span class="number">2</span>), dim=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> torch.<span class="built_in">sum</span>(torch.<span class="built_in">pow</span>(dist_an - dist_pn, <span class="number">2</span>)) ** <span class="number">0.5</span> / nq</span><br></pre></td></tr></table></figure>
 <h3
-id="log-polar-transformation-human-eye-inspired-log-polar-pre-processing-for-neural-networks">Log
-Polar Transformation | <a href="https://arxiv.org/abs/1911.01141">Human
-eye inspired log-polar pre-processing for neural networks</a></h3>
+id="log-polar-transformation-beyond-cartesian-representations-for-local-descriptors">Log
+Polar Transformation | <a href="https://arxiv.org/abs/1908.05547">Beyond
+Cartesian Representations for Local Descriptors</a></h3>
 <p>另一篇对局部特征很有帮助的工作是Log Polar
 Transformation。其核心是通过在图像预处理中引入Log Polar
 Transformation，将图像从欧式坐标系转换为<a
@@ -508,6 +544,25 @@ Transformation通过增强模型对旋转和尺度变化的鲁棒性，进而提
 <img data-src="/zh/2022/02/27/zh/patch_based_local_descriptor/log_poloar_samples.jpg" class="" title="Example of rotation and scale transformations for a single MNIST image.">
 <p>Log Polar Transformation在图像预处理时可以实现为</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">to_log_polar</span>(<span class="params">img, dsize, max_radius</span>):</span><br><span class="line">    <span class="keyword">assert</span> <span class="built_in">isinstance</span>(img, Image.Image)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># dsize = img.size</span></span><br><span class="line">    center = [s // <span class="number">2</span> <span class="keyword">for</span> s <span class="keyword">in</span> img.size]</span><br><span class="line">    flags = cv2.WARP_POLAR_LOG</span><br><span class="line">    out = cv2.warpPolar(</span><br><span class="line">        np.asarray(img), dsize=dsize, center=center, maxRadius=max_radius, flags=flags</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">return</span> Image.fromarray(out)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">from_log_polar</span>(<span class="params">polar_img, dsize, max_radius</span>):</span><br><span class="line">    <span class="keyword">assert</span> <span class="built_in">isinstance</span>(polar_img, Image.Image)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># dsize = polar_img.size</span></span><br><span class="line">    center = [s // <span class="number">2</span> <span class="keyword">for</span> s <span class="keyword">in</span> polar_img.size]</span><br><span class="line">    flags = cv2.WARP_POLAR_LOG | cv2.WARP_INVERSE_MAP</span><br><span class="line">    out = cv2.warpPolar(</span><br><span class="line">        np.asarray(polar_img),</span><br><span class="line">        dsize=dsize,</span><br><span class="line">        center=center,</span><br><span class="line">        maxRadius=max_radius,</span><br><span class="line">        flags=flags,</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">return</span> Image.fromarray(out)</span><br></pre></td></tr></table></figure>
+<p>需要注意的是由于pytorch GridSample 的计算方式不同，用opencv实现的log
+polar
+transform会与论文原始PTN网络输出不一致，对于原始PTN网络实现可以参考<a
+href="https://github.com/cvlab-epfl/log-polar-descriptors/blob/master/modules/ptn/pytorch/models.py">论文代码</a>。</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a
+href="https://openaccess.thecvf.com/content_cvpr_2017/papers/Tian_L2-Net_Deep_Learning_CVPR_2017_paper.pdf">L2-Net:
+Deep Learning of Discriminative Patch Descriptor in Euclidean
+Space</a></li>
+<li><a href="https://arxiv.org/abs/1705.10872">Working hard to know your
+neighbor's margins: Local descriptor learning loss</a></li>
+<li><a href="https://arxiv.org/abs/1904.05019">SOSNet: Second Order
+Similarity Regularization for Local Descriptor Learning</a></li>
+<li><a href="https://arxiv.org/abs/1908.05547">Beyond Cartesian
+Representations for Local Descriptors</a></li>
+<li><a href="https://arxiv.org/abs/1911.01141">Human eye inspired
+log-polar pre-processing for neural networks</a></li>
+</ul>
 ]]></content>
       <categories>
         <category>computer vision</category>
