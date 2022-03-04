@@ -193,7 +193,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/zh/archives/">
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -233,6 +233,97 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://foreveryounggithub.github.io/zh/2022/03/04/zh/model_speed_vs_size/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/zh/images/avatar.gif">
+      <meta itemprop="name" content="Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+    
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/zh/2022/03/04/zh/model_speed_vs_size/" class="post-title-link" itemprop="url">深度学习模型大小与模型推理速度的探讨</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-03-04 18:27:08 / 修改时间：15:28:33" itemprop="dateCreated datePublished" datetime="2022-03-04T18:27:08-05:00">2022-03-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/zh/categories/model-inference/" itemprop="url" rel="index"><span itemprop="name">model inference</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在衡量深度学习的推理速度时，人们经常用深度模型的参数大小（#Param）和计算量（FLOPS）作为参考。然而简单的通过将Conv换成DepthWise
+Conv或是其他结构去减少模型大小和计算量往往发现并不能有效的提升模型部署时速度。</p>
+<p>本文将对衡量深度学习模型大小的一些常用指标，如计算量、参数量、访存量、内存占用等进行探讨，分析这些指标对模型部署推理的影响，尤其是计算量与访存量对模型推理速度的影响，并给出在不同硬件架构下设计网络结构的一些建议。减少网络设计与部署之间的
+gap，更高效的完成网络设计与部署工作。</p>
+<p>本文转载自<a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/411522457">田子宸的知乎专栏</a>。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/zh/2022/03/04/zh/model_speed_vs_size/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
