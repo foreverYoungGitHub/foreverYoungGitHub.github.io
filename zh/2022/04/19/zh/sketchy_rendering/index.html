@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/zh/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/zh/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/zh/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/zh/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/zh/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"foreveryounggithub.github.io","root":"/zh/","images":"/zh/images","scheme":"Muse","darkmode":true,"version":"8.11.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/zh/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/zh/js/config.js"></script>
+
+    <meta name="description" content="数据可视化可以通过将数据图形化的方式帮助更加直观的理解和分析统计数据。在近些年，经常看到一些公司所出的用户报告或是blog中采用手绘风格的数据可视化使得其更加内容和风格都亲切十足。本文罗列了一些常用的数据可视化工具及适用图表。           工具 rough + draw.io matplotlib.pyplot.xkcd chart.xkcd &amp; cutecharts instad">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手绘风格的数据可视化">
+<meta property="og:url" content="https://foreveryounggithub.github.io/zh/2022/04/19/zh/sketchy_rendering/index.html">
+<meta property="og:site_name" content="ForeverYoung">
+<meta property="og:description" content="数据可视化可以通过将数据图形化的方式帮助更加直观的理解和分析统计数据。在近些年，经常看到一些公司所出的用户报告或是blog中采用手绘风格的数据可视化使得其更加内容和风格都亲切十足。本文罗列了一些常用的数据可视化工具及适用图表。           工具 rough + draw.io matplotlib.pyplot.xkcd chart.xkcd &amp; cutecharts instad">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/04/19/zh/sketchy_rendering/drawio_example.jpg">
+<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/04/19/zh/sketchy_rendering/matplotlib_raw.jpg">
+<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/04/19/zh/sketchy_rendering/matplotlib_xkcd.jpg">
+<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/04/19/zh/sketchy_rendering/instad_1.jpg">
+<meta property="og:image" content="https://foreveryounggithub.github.io/zh/2022/04/19/zh/sketchy_rendering/instad_2.jpg">
+<meta property="article:published_time" content="2022-04-19T05:00:00.000Z">
+<meta property="article:modified_time" content="2022-04-25T14:16:30.385Z">
+<meta property="article:author" content="Yang">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="xkcd">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://foreveryounggithub.github.io/zh/2022/04/19/zh/sketchy_rendering/drawio_example.jpg">
+
+
+<link rel="canonical" href="https://foreveryounggithub.github.io/zh/2022/04/19/zh/sketchy_rendering/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://foreveryounggithub.github.io/zh/2022/04/19/zh/sketchy_rendering/","path":"2022/04/19/zh/sketchy_rendering/","title":"手绘风格的数据可视化"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>手绘风格的数据可视化 | ForeverYoung</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G3D5MFLVRD"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-G3D5MFLVRD","only_pageview":false}</script>
+  <script src="/zh/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+<script type="text/javascript">
+    // Wait for the page to load first
+    var _prevOnload = window.onload;
+    window.onload = function() {
+        var switchLang = document.getElementsByClassName("menu-item menu-item-switch_lang")[0];
+        switchLang.onclick = function() {
+            var href = window.location.href;
+            var indexOfZh = href.toLowerCase().indexOf('/zh/');
+            if(indexOfZh !== -1) {
+                href = href.replace('/zh/', '/');
+
+                var indexOfEn = href.toLowerCase().indexOf('/zh/');
+                if(indexOfEn !== -1) {
+                    href = href.replace('/zh/', '/en/');
+                }
+                window.location.href = href;
+            }
+            else {
+                href = href.replace(/(^http[s]?:\/\/[a-z0-9.]*[:?0-9]*\/)(.*)/i, '$1zh/$2');
+
+                var indexOfEn = href.toLowerCase().indexOf('/en/');
+                if(indexOfEn !== -1) {
+                   href = href.replace('/en/', '/zh/');
+                }
+                window.location.href = href;
+            }
+            if(typeof(_prevOnload) === 'function') {
+                _prevOnload();
+            }
+            return false;
+        }
+    }
+</script>
+  <noscript>
+    <link rel="stylesheet" href="/zh/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/zh/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ForeverYoung</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">driving into the distance</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/zh/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/zh/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/zh/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/zh/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-switch_lang"><a href="/zh/" rel="section"><i class="fa fa-language fa-fw"></i>EN</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%BB%E5%9B%BE%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">画图式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rough-draw.io"><span class="nav-number">1.1.</span> <span class="nav-text">rough + draw.io</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#matplotlib.pyplot.xkcd"><span class="nav-number">1.2.</span> <span class="nav-text">matplotlib.pyplot.xkcd</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E4%BA%92%E5%BC%8Fchart.xkcd-cutecharts"><span class="nav-number">2.</span> <span class="nav-text">交互式：chart.xkcd &amp; cutecharts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AC%E6%8D%A2%E5%BC%8Finstad.io"><span class="nav-number">3.</span> <span class="nav-text">转换式：instad.io</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/zh/archives/">
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/zh/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/zh/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://foreveryounggithub.github.io/zh/2022/04/19/zh/sketchy_rendering/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/zh/images/avatar.gif">
+      <meta itemprop="name" content="Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="手绘风格的数据可视化 | ForeverYoung">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          手绘风格的数据可视化
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-04-19 00:00:00" itemprop="dateCreated datePublished" datetime="2022-04-19T00:00:00-05:00">2022-04-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-04-25 09:16:30" itemprop="dateModified" datetime="2022-04-25T09:16:30-05:00">2022-04-25</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>数据可视化可以通过将数据图形化的方式帮助更加直观的理解和分析统计数据。在近些年，经常看到一些公司所出的用户报告或是blog中采用手绘风格的数据可视化使得其更加内容和风格都亲切十足。本文罗列了一些常用的数据可视化工具及适用图表。</p>
+<table>
+<colgroup>
+<col style="width: 2%" />
+<col style="width: 23%" />
+<col style="width: 26%" />
+<col style="width: 30%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">工具</th>
+<th style="text-align: center;"><a
+target="_blank" rel="noopener" href="https://github.com/rough-stuff/rough">rough</a> + <a
+target="_blank" rel="noopener" href="https://app.diagrams.net/">draw.io</a></th>
+<th style="text-align: center;"><a
+target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.xkcd.html">matplotlib.pyplot.xkcd</a></th>
+<th style="text-align: center;"><a
+target="_blank" rel="noopener" href="https://github.com/timqian/chart.xkcd">chart.xkcd</a> &amp; <a
+target="_blank" rel="noopener" href="https://github.com/cutecharts/cutecharts.py">cutecharts</a></th>
+<th style="text-align: center;"><a
+target="_blank" rel="noopener" href="https://instad.io/documentation">instad.io</a></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">适用范围</td>
+<td
+style="text-align: center;">适用于已有的draw.io图表，svg图表或需直接在画布上画图的图表</td>
+<td
+style="text-align: center;">适用于数据可视化图表，尤其是通过matplotlib或者seaborn所生成的图表。可内嵌到jupyter
+lab/notebook中</td>
+<td
+style="text-align: center;">适用于有交互需求的数据可视化图表。可内嵌到网页或jupyter
+lab/notebook中</td>
+<td
+style="text-align: center;">适用于已有的svg或者spreadsheet的图表。可将其直接转化为手绘风</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">适用图表</td>
+<td
+style="text-align: center;">适用于任意图表，尤其适合直接做图的图表如流程图，类图或时间轴图等</td>
+<td
+style="text-align: center;">适用于大多数数据可视化图表，如线图，柱图，饼图，等高图等</td>
+<td style="text-align: center;">仅支持'bar', 'line', 'pie', 'radar',
+'scatter'</td>
+<td
+style="text-align: center;">适用于任意图表，只要求输入格式为DOM的SVG或PDF图表</td>
+</tr>
+</tbody>
+</table>
+<span id="more"></span>
+<h2 id="画图式">画图式</h2>
+<h3 id="rough-draw.io"><a
+target="_blank" rel="noopener" href="https://github.com/rough-stuff/rough">rough</a> + <a
+target="_blank" rel="noopener" href="https://app.diagrams.net/">draw.io</a></h3>
+<p><a
+target="_blank" rel="noopener" href="https://github.com/rough-stuff/rough">rough</a>是一个非常强大的手绘风格基础工具，可以实现基本的绘画元素在Canvas和SVG上的手绘风格的实现。rough是一个非常小的js库（~9KB），该库定义了用于绘制直线、曲线、弧线、多边形、圆和椭圆的基本单元。我们可以通过在js端定义一些基本单元来实现Canvas上手绘风格的图片，其简单示例如下所示。</p>
+<script src="https://unpkg.com/roughjs@latest/bundled/rough.js"></script>
+<canvas id="canvas" width="600" height="400">
+</canvas>
+<script>
+    const rc = rough.canvas(document.getElementById("canvas"));
+
+    //line and rectangle
+    rc.rectangle(10, 10, 100, 100, {
+    fill: "red",
+    stroke: "blue",
+    hachureAngle: 60,
+    hachureGap: 10,
+    fillWeight: 5,
+    strokeWidth: 5,
+    });
+
+    //overlapping circles
+    rc.circle(200, 60, 80, {
+    stroke: "red",
+    strokeWidth: 4,
+    fill: "rgba(0,255,0,1)",
+    fillWeight: 4,
+    hachureGap: 6,
+    });
+    rc.circle(250, 60, 80, {
+    stroke: "blue",
+    strokeWidth: 4,
+    fill: "rgba(255,255,0,1)",
+    fillWeight: 4,
+    hachureGap: 6,
+    });
+
+    // arcs
+    rc.arc(450, 100, 200, 180, Math.PI, Math.PI * 1.6, true);
+    rc.arc(450, 100, 200, 180, 0, Math.PI / 2, true, {
+    stroke: "red",
+    strokeWidth: 4,
+    fill: "rgba(255,255,0,0.4)",
+    fillStyle: "solid",
+    });
+    rc.arc(450, 100, 200, 180, Math.PI / 2, Math.PI, true, {
+    stroke: "blue",
+    strokeWidth: 2,
+    fill: "rgba(255,0,255,0.4)",
+    });
+
+    // draw sine curve
+    let points = [];
+    for (let i = 0; i < 20; i++) {
+    // 4pi - 400px
+    let x = (400 / 20) * i + 10;
+    let xdeg = (Math.PI / 100) * x;
+    let y = Math.round(Math.sin(xdeg) * 90) + 250;
+    points.push([x, y]);
+    }
+    rc.curve(points, {
+    roughness: 1.2,
+    stroke: "red",
+    strokeWidth: 3,
+    });
+</script>
+<details>
+<summary>
+rough渲染代码
+</summary>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://unpkg.com/roughjs@latest/bundled/rough.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">canvas</span> <span class="attr">id</span>=<span class="string">&quot;canvas&quot;</span> <span class="attr">width</span>=<span class="string">&quot;800&quot;</span> <span class="attr">height</span>=<span class="string">&quot;600&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">const</span> rc = rough.<span class="title function_">canvas</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;canvas&quot;</span>));</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">//line and rectangle</span></span></span><br><span class="line"><span class="language-javascript">    rc.<span class="title function_">rectangle</span>(<span class="number">10</span>, <span class="number">10</span>, <span class="number">100</span>, <span class="number">100</span>, &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">fill</span>: <span class="string">&quot;red&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">stroke</span>: <span class="string">&quot;blue&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">hachureAngle</span>: <span class="number">60</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">hachureGap</span>: <span class="number">10</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">fillWeight</span>: <span class="number">5</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">strokeWidth</span>: <span class="number">5</span>,</span></span><br><span class="line"><span class="language-javascript">    &#125;);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">//overlapping circles</span></span></span><br><span class="line"><span class="language-javascript">    rc.<span class="title function_">circle</span>(<span class="number">200</span>, <span class="number">60</span>, <span class="number">80</span>, &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">stroke</span>: <span class="string">&quot;red&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">strokeWidth</span>: <span class="number">4</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">fill</span>: <span class="string">&quot;rgba(0,255,0,1)&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">fillWeight</span>: <span class="number">4</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">hachureGap</span>: <span class="number">6</span>,</span></span><br><span class="line"><span class="language-javascript">    &#125;);</span></span><br><span class="line"><span class="language-javascript">    rc.<span class="title function_">circle</span>(<span class="number">250</span>, <span class="number">60</span>, <span class="number">80</span>, &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">stroke</span>: <span class="string">&quot;blue&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">strokeWidth</span>: <span class="number">4</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">fill</span>: <span class="string">&quot;rgba(255,255,0,1)&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">fillWeight</span>: <span class="number">4</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">hachureGap</span>: <span class="number">6</span>,</span></span><br><span class="line"><span class="language-javascript">    &#125;);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// arcs</span></span></span><br><span class="line"><span class="language-javascript">    rc.<span class="title function_">arc</span>(<span class="number">450</span>, <span class="number">100</span>, <span class="number">200</span>, <span class="number">180</span>, <span class="title class_">Math</span>.<span class="property">PI</span>, <span class="title class_">Math</span>.<span class="property">PI</span> * <span class="number">1.6</span>, <span class="literal">true</span>);</span></span><br><span class="line"><span class="language-javascript">    rc.<span class="title function_">arc</span>(<span class="number">450</span>, <span class="number">100</span>, <span class="number">200</span>, <span class="number">180</span>, <span class="number">0</span>, <span class="title class_">Math</span>.<span class="property">PI</span> / <span class="number">2</span>, <span class="literal">true</span>, &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">stroke</span>: <span class="string">&quot;red&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">strokeWidth</span>: <span class="number">4</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">fill</span>: <span class="string">&quot;rgba(255,255,0,0.4)&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">fillStyle</span>: <span class="string">&quot;solid&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    &#125;);</span></span><br><span class="line"><span class="language-javascript">    rc.<span class="title function_">arc</span>(<span class="number">450</span>, <span class="number">100</span>, <span class="number">200</span>, <span class="number">180</span>, <span class="title class_">Math</span>.<span class="property">PI</span> / <span class="number">2</span>, <span class="title class_">Math</span>.<span class="property">PI</span>, <span class="literal">true</span>, &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">stroke</span>: <span class="string">&quot;blue&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">strokeWidth</span>: <span class="number">2</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">fill</span>: <span class="string">&quot;rgba(255,0,255,0.4)&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    &#125;);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// draw sine curve</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">let</span> points = [];</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// 4pi - 400px</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">let</span> x = (<span class="number">400</span> / <span class="number">20</span>) * i + <span class="number">10</span>;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">let</span> xdeg = (<span class="title class_">Math</span>.<span class="property">PI</span> / <span class="number">100</span>) * x;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">let</span> y = <span class="title class_">Math</span>.<span class="title function_">round</span>(<span class="title class_">Math</span>.<span class="title function_">sin</span>(xdeg) * <span class="number">90</span>) + <span class="number">250</span>;</span></span><br><span class="line"><span class="language-javascript">    points.<span class="title function_">push</span>([x, y]);</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">    rc.<span class="title function_">curve</span>(points, &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">roughness</span>: <span class="number">1.2</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">stroke</span>: <span class="string">&quot;red&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">strokeWidth</span>: <span class="number">3</span>,</span></span><br><span class="line"><span class="language-javascript">    &#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</details>
+<p>正因为其小巧易用，rough被<a
+target="_blank" rel="noopener" href="https://github.com/rough-stuff/rough#organizations">嵌入到很多软件以实现手绘风格</a>，比如笔者用的比较多的<a
+target="_blank" rel="noopener" href="https://app.diagrams.net/">draw.io</a>。draw.io是一款免费的在线图表编辑器，其小巧且功能丰富，且支持即时存储及多人在线编辑，非常适合平时学习和工作使用。draw.io在2020年左右通过rough支持了手绘风格作图，并有<a
+target="_blank" rel="noopener" href="https://drawio-app.com/introducing-draw-ios-new-sketch-feature/">相关的官方博客介绍了这一功能</a>。简单而言，我们首先需要在右侧的整体图表风格处选择手绘风格（sketch），如果需要对每个元素的手绘风格微调，则需要通过每个元素的填充方法（fill）和线条（line）选择对应的，甚至于通过绘图单元的属性（property）来更改手绘风格（sketch
+style）。如需要文字，字体最好改为Comic Sans
+MS。其简单流程如下图所示。</p>
+<img data-src="/zh/2022/04/19/zh/sketchy_rendering/drawio_example.jpg" class="" title="drawio绘制手绘风格流程图">
+<p>通过draw.io可以将绝大多数日常所使用的图表风格化为手绘风，如流程图等。</p>
+<h3 id="matplotlib.pyplot.xkcd"><a
+target="_blank" rel="noopener" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.xkcd.html">matplotlib.pyplot.xkcd</a></h3>
+<p>matplotlib是python中最常用的数据可视化库，matplotlib自身也支持手绘风格。matplotlib通过其matplotlib.pyplot.xkcd
+api来加载和控制手绘风格，在使用时只需要将在原始matplotlib绘图放在<code>with matplotlib.pyplot.xkcd()</code>中即可将图像转换为手绘风。该方法也适用于基于matplotlib的seaborn数据可视化库。一个例子如下图所示，图一代表原始matplotlib所绘制的饼图，图二代表将原始matplotlib绘图放在<code>with matplotlib.pyplot.xkcd()</code>中将饼图转换为手绘风格的。<a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/391742333">更多示例可以参考</a>。</p>
+<img data-src="/zh/2022/04/19/zh/sketchy_rendering/matplotlib_raw.jpg" class="" title="matplotlib_raw">
+<details>
+<summary>
+matplotlib.原始渲染代码
+</summary>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">plt.figure(dpi=<span class="number">150</span>)</span><br><span class="line">patches, texts, autotexts = plt.pie(</span><br><span class="line">    x=[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],  <span class="comment">#返回三个对象</span></span><br><span class="line">    labels=[<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>],</span><br><span class="line">    colors=[<span class="string">&#x27;#dc2624&#x27;</span>, <span class="string">&#x27;#2b4750&#x27;</span>, <span class="string">&#x27;#45a0a2&#x27;</span>],</span><br><span class="line">    autopct=<span class="string">&#x27;%.2f%%&#x27;</span>,</span><br><span class="line">    explode=(<span class="number">0.1</span>, <span class="number">0</span>, <span class="number">0</span>))</span><br><span class="line">texts[<span class="number">1</span>].set_size(<span class="string">&#x27;20&#x27;</span>)  <span class="comment">#修改B的大小</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#matplotlib.patches.Wedge</span></span><br><span class="line">patches[<span class="number">0</span>].set_alpha(<span class="number">0.3</span>)  <span class="comment">#A组分设置透明度</span></span><br><span class="line">patches[<span class="number">2</span>].set_hatch(<span class="string">&#x27;|&#x27;</span>)  <span class="comment">#C组分添加网格线</span></span><br><span class="line">patches[<span class="number">1</span>].set_hatch(<span class="string">&#x27;x&#x27;</span>)</span><br><span class="line"></span><br><span class="line">plt.legend(</span><br><span class="line">    patches,</span><br><span class="line">    [<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>],  <span class="comment">#添加图例</span></span><br><span class="line">    title=<span class="string">&quot;Pie Learning&quot;</span>,</span><br><span class="line">    loc=<span class="string">&quot;center left&quot;</span>,</span><br><span class="line">    fontsize=<span class="number">15</span>,</span><br><span class="line">    bbox_to_anchor=(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0.5</span>, <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">plt.title(<span class="string">&#x27;Lovely pie&#x27;</span>, size=<span class="number">20</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+</details>
+<img data-src="/zh/2022/04/19/zh/sketchy_rendering/matplotlib_xkcd.jpg" class="" title="matplotlib_xkcd">
+<details>
+<summary>
+matplotlib.xkcd渲染代码
+</summary>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">with</span> plt.xkcd(</span><br><span class="line">        scale=<span class="number">4</span>,  <span class="comment">#相对于不使用xkcd的风格图，褶皱的幅度</span></span><br><span class="line">        length=<span class="number">120</span>,  <span class="comment">#褶皱长度</span></span><br><span class="line">        randomness=<span class="number">2</span>):  <span class="comment">#褶皱的随机性</span></span><br><span class="line">    plt.figure(dpi=<span class="number">150</span>)</span><br><span class="line">    patches, texts, autotexts = plt.pie(</span><br><span class="line">        x=[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],  <span class="comment">#返回三个对象</span></span><br><span class="line">        labels=[<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>],</span><br><span class="line">        colors=[<span class="string">&#x27;#dc2624&#x27;</span>, <span class="string">&#x27;#2b4750&#x27;</span>, <span class="string">&#x27;#45a0a2&#x27;</span>],</span><br><span class="line">        autopct=<span class="string">&#x27;%.2f%%&#x27;</span>,</span><br><span class="line">        explode=(<span class="number">0.1</span>, <span class="number">0</span>, <span class="number">0</span>))</span><br><span class="line">    texts[<span class="number">1</span>].set_size(<span class="string">&#x27;20&#x27;</span>)  <span class="comment">#修改B的大小</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#matplotlib.patches.Wedge</span></span><br><span class="line">    patches[<span class="number">0</span>].set_alpha(<span class="number">0.3</span>)  <span class="comment">#A组分设置透明度</span></span><br><span class="line">    patches[<span class="number">2</span>].set_hatch(<span class="string">&#x27;|&#x27;</span>)  <span class="comment">#C组分添加网格线</span></span><br><span class="line">    patches[<span class="number">1</span>].set_hatch(<span class="string">&#x27;x&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    plt.legend(</span><br><span class="line">        patches,</span><br><span class="line">        [<span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;C&#x27;</span>],  <span class="comment">#添加图例</span></span><br><span class="line">        title=<span class="string">&quot;Pie Learning&quot;</span>,</span><br><span class="line">        loc=<span class="string">&quot;center left&quot;</span>,</span><br><span class="line">        fontsize=<span class="number">15</span>,</span><br><span class="line">        bbox_to_anchor=(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0.5</span>, <span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    plt.title(<span class="string">&#x27;Lovely pie&#x27;</span>, size=<span class="number">20</span>)</span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+</details>
+<p>当使用matplotlib或seaborn做数据可视化时，这种方法可以简单方便的将图案转化成手绘风格。</p>
+<h2 id="交互式chart.xkcd-cutecharts">交互式：<a
+target="_blank" rel="noopener" href="https://github.com/timqian/chart.xkcd">chart.xkcd</a> &amp; <a
+target="_blank" rel="noopener" href="https://github.com/cutecharts/cutecharts.py">cutecharts</a></h2>
+<p>当谈论到手绘风格的数据可视化，<a
+target="_blank" rel="noopener" href="https://github.com/timqian/chart.xkcd">chart.xkcd</a>和<a
+target="_blank" rel="noopener" href="https://github.com/cutecharts/cutecharts.py">cutecharts</a>可能是较为熟知的两个工具了。</p>
+<p><a
+target="_blank" rel="noopener" href="https://github.com/timqian/chart.xkcd">chart.xkcd</a>是一个用于交互式手绘风格的数据可视化JavaScript库，而<a
+target="_blank" rel="noopener" href="https://github.com/cutecharts/cutecharts.py">cutecharts</a>是将<a
+target="_blank" rel="noopener" href="https://github.com/timqian/chart.xkcd">chart.xkcd</a>封装到python。</p>
+<p><a
+target="_blank" rel="noopener" href="https://github.com/timqian/chart.xkcd">chart.xkcd</a>的手绘风格效果如下图所示。</p>
+<script src="https://cdn.jsdelivr.net/npm/chart.xkcd@1.1/dist/chart.xkcd.min.js"></script>
+<svg class="line-chart" style="text-align: center; width: 100%;">
+</svg>
+<script>
+// querySelector() 方法返回文档中匹配指定 CSS 选择器的一个元素。获取文档中 class=".line-chart" 的元素。
+const svg = document.querySelector('.line-chart');
+
+// chartXkcd.Line 创建一个折线图
+const lineChart = new chartXkcd.Line(svg, {
+    //图表的标题
+    title: 'Monthly income of an indie developer',
+    // 图表的 x 标签
+    xLabel: 'Month',
+    // 图表的 y 标签
+    yLabel: '$ Dollors',
+    // 需要可视化的数据
+    data: {
+        // x 轴数据
+        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+        // y 轴数据
+        datasets: [{
+            // 第一组数据
+            label: 'Plan',
+            data: [30, 70, 200, 300, 500, 800, 1500, 2900, 5000, 8000],
+        }, {
+            // 第二组数据
+            label: 'Reality',
+            data: [0, 1, 30, 70, 80, 100, 50, 80, 40, 150],
+        }],
+    },
+    // 可选配置以自定义图表的外观
+    options: {
+        // 自定义要在 y 轴上看到的刻度号（默认为 3）
+        yTickCount: 3,
+        // 指定要放置图例的位置
+        legendPosition: chartXkcd.config.positionType.upLeft
+    }
+});
+</script>
+<details>
+<summary>
+chart.xkcd渲染代码
+</summary>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdelivr.net/npm/chart.xkcd@1.1/dist/chart.xkcd.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">class</span>=<span class="string">&quot;line-chart&quot;</span> <span class="attr">style</span>=<span class="string">&quot;text-align: center; width: 100%;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="comment">// querySelector() 方法返回文档中匹配指定 CSS 选择器的一个元素。获取文档中 class=&quot;.line-chart&quot; 的元素。</span></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">const</span> svg = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.line-chart&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="comment">// chartXkcd.Line 创建一个折线图</span></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">const</span> lineChart = <span class="keyword">new</span> chartXkcd.<span class="title class_">Line</span>(svg, &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">//图表的标题</span></span></span><br><span class="line"><span class="language-javascript">    <span class="attr">title</span>: <span class="string">&#x27;Monthly income of an indie developer&#x27;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// 图表的 x 标签</span></span></span><br><span class="line"><span class="language-javascript">    <span class="attr">xLabel</span>: <span class="string">&#x27;Month&#x27;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// 图表的 y 标签</span></span></span><br><span class="line"><span class="language-javascript">    <span class="attr">yLabel</span>: <span class="string">&#x27;$ Dollors&#x27;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// 需要可视化的数据</span></span></span><br><span class="line"><span class="language-javascript">    <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// x 轴数据</span></span></span><br><span class="line"><span class="language-javascript">        <span class="attr">labels</span>: [<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;10&#x27;</span>],</span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// y 轴数据</span></span></span><br><span class="line"><span class="language-javascript">        <span class="attr">datasets</span>: [&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="comment">// 第一组数据</span></span></span><br><span class="line"><span class="language-javascript">            <span class="attr">label</span>: <span class="string">&#x27;Plan&#x27;</span>,</span></span><br><span class="line"><span class="language-javascript">            <span class="attr">data</span>: [<span class="number">30</span>, <span class="number">70</span>, <span class="number">200</span>, <span class="number">300</span>, <span class="number">500</span>, <span class="number">800</span>, <span class="number">1500</span>, <span class="number">2900</span>, <span class="number">5000</span>, <span class="number">8000</span>],</span></span><br><span class="line"><span class="language-javascript">        &#125;, &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="comment">// 第二组数据</span></span></span><br><span class="line"><span class="language-javascript">            <span class="attr">label</span>: <span class="string">&#x27;Reality&#x27;</span>,</span></span><br><span class="line"><span class="language-javascript">            <span class="attr">data</span>: [<span class="number">0</span>, <span class="number">1</span>, <span class="number">30</span>, <span class="number">70</span>, <span class="number">80</span>, <span class="number">100</span>, <span class="number">50</span>, <span class="number">80</span>, <span class="number">40</span>, <span class="number">150</span>],</span></span><br><span class="line"><span class="language-javascript">        &#125;],</span></span><br><span class="line"><span class="language-javascript">    &#125;,</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// 可选配置以自定义图表的外观</span></span></span><br><span class="line"><span class="language-javascript">    <span class="attr">options</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// 自定义要在 y 轴上看到的刻度号（默认为 3）</span></span></span><br><span class="line"><span class="language-javascript">        <span class="attr">yTickCount</span>: <span class="number">3</span>,</span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// 指定要放置图例的位置</span></span></span><br><span class="line"><span class="language-javascript">        <span class="attr">legendPosition</span>: chartXkcd.<span class="property">config</span>.<span class="property">positionType</span>.<span class="property">upLeft</span></span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">&#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</details>
+<p><a
+target="_blank" rel="noopener" href="https://github.com/cutecharts/cutecharts.py">cutecharts</a>的api非常接近<a
+target="_blank" rel="noopener" href="https://github.com/pyecharts/pyecharts">pyechart</a>，示例如下图所示。</p>
+<svg id="chart_68967376df93415eb5377f0bb8ef5c60">
+</svg>
+<script>
+    const svg_68967376df93415eb5377f0bb8ef5c60 = document.querySelector('#chart_68967376df93415eb5377f0bb8ef5c60')
+    const chart_68967376df93415eb5377f0bb8ef5c60 = new chartXkcd.Bar(svg_68967376df93415eb5377f0bb8ef5c60, {"title": "MVP of LOL Bar", "data": {"datasets": [{"label": "MVP", "data": [3, 2, 1]}], "labels": ["Faker", "Easyhoon", "Pawn"]}, "xLabel": "LOLers", "yLabel": "MVPs", "options": {"yTickCount": 3}});
+</script>
+<details>
+<summary>
+cutecharts渲染代码
+</summary>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> cutecharts.charts <span class="keyword">import</span> Bar</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">bar_base</span>() -&gt; Bar:</span><br><span class="line">    chart = Bar(<span class="string">&quot;MVP of LOL Bar&quot;</span>)</span><br><span class="line">    chart.set_options(</span><br><span class="line">        labels=[<span class="string">&#x27;Faker&#x27;</span>, <span class="string">&#x27;Easyhoon&#x27;</span>, <span class="string">&#x27;Pawn&#x27;</span>],</span><br><span class="line">        x_label=<span class="string">&#x27;LOLers&#x27;</span>,</span><br><span class="line">        y_label=<span class="string">&#x27;MVPs&#x27;</span>)</span><br><span class="line">    chart.add_series(<span class="string">&#x27;MVP&#x27;</span>, [<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>])</span><br><span class="line">    <span class="keyword">return</span> chart</span><br><span class="line"></span><br><span class="line">bar_base().render_notebook()</span><br><span class="line"><span class="comment"># bar_base().render()</span></span><br></pre></td></tr></table></figure>
+<p>类似于pyechart，使用<code>bar_base().render()</code>则会将图表生成为html文件，即上图所渲染的图案，生成的代码如下。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdelivr.net/npm/chart.xkcd@1.1/dist/chart.xkcd.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;68967376df93415eb5377f0bb8ef5c60&quot;</span> <span class="attr">class</span>=<span class="string">&quot;chart-container&quot;</span> <span class="attr">style</span>=<span class="string">&quot;width: 800px&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">svg</span> <span class="attr">id</span>=<span class="string">&quot;chart_68967376df93415eb5377f0bb8ef5c60&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">const</span> svg_68967376df93415eb5377f0bb8ef5c60 = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#chart_68967376df93415eb5377f0bb8ef5c60&#x27;</span>)</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">const</span> chart_68967376df93415eb5377f0bb8ef5c60 = <span class="keyword">new</span> chartXkcd.<span class="title class_">Bar</span>(svg_68967376df93415eb5377f0bb8ef5c60, &#123;<span class="string">&quot;title&quot;</span>: <span class="string">&quot;MVP of LOL Bar&quot;</span>, <span class="string">&quot;data&quot;</span>: &#123;<span class="string">&quot;datasets&quot;</span>: [&#123;<span class="string">&quot;label&quot;</span>: <span class="string">&quot;MVP&quot;</span>, <span class="string">&quot;data&quot;</span>: [<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]&#125;], <span class="string">&quot;labels&quot;</span>: [<span class="string">&quot;Faker&quot;</span>, <span class="string">&quot;Easyhoon&quot;</span>, <span class="string">&quot;Pawn&quot;</span>]&#125;, <span class="string">&quot;xLabel&quot;</span>: <span class="string">&quot;LOLers&quot;</span>, <span class="string">&quot;yLabel&quot;</span>: <span class="string">&quot;MVPs&quot;</span>, <span class="string">&quot;options&quot;</span>: &#123;<span class="string">&quot;yTickCount&quot;</span>: <span class="number">3</span>&#125;&#125;);</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</details>
+<p>比较遗憾的是chart.xkcd和cutecharts，支持图形类别有限，仅支持'bar',
+'line', 'pie', 'radar',
+'scatter'几类图。其api也不支持很多功能，比如辅助线或者额外的标注等。并且开发者已于2019年左右停止开发，所以在可见的未来也很难像plotly，echart或pyechart一样支持多种多类的图表和功能。</p>
+<p>与chart.xkcd和cutecharts类似的还有基于rough和d3的<a
+target="_blank" rel="noopener" href="https://github.com/beizhedenglong/rough-charts">rough-charts</a>和<a
+target="_blank" rel="noopener" href="https://github.com/jwilber/roughViz">roughViz</a>的JavaScript库，以及基于<a
+target="_blank" rel="noopener" href="https://github.com/jwilber/roughViz">roughViz</a>封装的python库<a
+target="_blank" rel="noopener" href="https://github.com/charlesdong1991/py-roughviz">py-roughviz</a>也实现了手绘风格数据可视化。但其功能于chart.xkcd和cutecharts类似，api相对繁复，以及或多或少都停止了开发，在此也不赘述了。具体可参看官方文档和示例。</p>
+<h2 id="转换式instad.io">转换式：<a
+target="_blank" rel="noopener" href="https://instad.io/documentation">instad.io</a></h2>
+<p>除了上述几类以外，我们还可以将已有的svg（可通过pyechart或matplotlib等库或draw.io，PS，AI等软件生成）或者spreadsheet的图表通过<a
+target="_blank" rel="noopener" href="https://instad.io/documentation">instad.io</a>转化为手绘风。其效果如下图所示。具体的示例参考<a
+target="_blank" rel="noopener" href="https://instad.io/">官网</a>。</p>
+<img data-src="/zh/2022/04/19/zh/sketchy_rendering/instad_1.jpg" class="" title="instad_samples_1">
+<img data-src="/zh/2022/04/19/zh/sketchy_rendering/instad_2.jpg" class="" title="instad_samples_2">
+<p>instad.io的原理非常简单，从一个给定的根DOM元素开始，找到所有的SVG对象，然后递归寻找所有的子元素，读出子元素的基本属性，利用roughjs创建一个手绘风格的元素拷贝，隐藏原始元素。这样手绘风格的SVG元素就取代了原始的图形。当需要回到初始状态的时候，只要重现所有隐藏的原始元素，移除后加入的手绘元素即可。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/zh/tags/python/" rel="tag"># python</a>
+              <a href="/zh/tags/xkcd/" rel="tag"># xkcd</a>
+              <a href="/zh/tags/javascript/" rel="tag"># javascript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/zh/2022/03/04/zh/model_speed_vs_size/" rel="prev" title="深度学习模型大小与模型推理速度的探讨">
+                  <i class="fa fa-chevron-left"></i> 深度学习模型大小与模型推理速度的探讨
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="/zh/js/comments.js"></script><script src="/zh/js/utils.js"></script><script src="/zh/js/motion.js"></script><script src="/zh/js/schemes/muse.js"></script><script src="/zh/js/next-boot.js"></script><script src="/zh/js/pjax.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/zh/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js","integrity":"sha256-7wT34TI0pEBeEFoi4z+vhuSddGh6vUTMWdqJ2SDe2jg="}}</script>
+  <script src="/zh/js/third-party/tags/mermaid.js"></script>
+
+  <script src="/zh/js/third-party/fancybox.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/zh/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
