@@ -1,0 +1,788 @@
+<!DOCTYPE html><html dir="ltr" lang="en" class="overflow-y-scroll scroll-smooth"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" href="/favicon.ico"><link rel="canonical" href="https://foreveryounggithub.github.io/en/posts/think_before_you_embed/"><meta name="generator" content="Astro v6.3.3"><!-- Font --><style>@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/_astro/fonts/81a5937787ff8a0a.woff") format("woff"), url("/_astro/fonts/478e42e4694872ef.ttf") format("truetype");font-display:swap;font-weight:300;font-style:italic;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/_astro/fonts/13e056157b226e18.woff") format("woff"), url("/_astro/fonts/0863f4f6964aa89c.ttf") format("truetype");font-display:swap;font-weight:400;font-style:italic;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/_astro/fonts/bd02cfaa9ae16fb7.woff") format("woff"), url("/_astro/fonts/792eded6cb3f0350.ttf") format("truetype");font-display:swap;font-weight:500;font-style:italic;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/_astro/fonts/fcaa83a753eb8a72.woff") format("woff"), url("/_astro/fonts/87d8fc1072d4917b.ttf") format("truetype");font-display:swap;font-weight:600;font-style:italic;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/_astro/fonts/28887fc4ef2e3de1.woff") format("woff"), url("/_astro/fonts/ec883ed4db81a7d9.ttf") format("truetype");font-display:swap;font-weight:700;font-style:italic;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/_astro/fonts/a75e78cafb91aeae.woff") format("woff"), url("/_astro/fonts/7a5ee0cfcde31b81.ttf") format("truetype");font-display:swap;font-weight:300;font-style:normal;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/_astro/fonts/dcf1118e4db364a7.woff") format("woff"), url("/_astro/fonts/f4e25dfe9d6152ec.ttf") format("truetype");font-display:swap;font-weight:400;font-style:normal;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/_astro/fonts/7e09f3d8f911bde0.woff") format("woff"), url("/_astro/fonts/a9df48ecd03749e4.ttf") format("truetype");font-display:swap;font-weight:500;font-style:normal;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/_astro/fonts/ba411907dc1f87d9.woff") format("woff"), url("/_astro/fonts/90f9809471092714.ttf") format("truetype");font-display:swap;font-weight:600;font-style:normal;}@font-face{font-family:"Google Sans Code-1a30c214885cb404";src:url("/_astro/fonts/fcc9533aee1bcfad.woff") format("woff"), url("/_astro/fonts/dbc9996f99c63e07.ttf") format("truetype");font-display:swap;font-weight:700;font-style:normal;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:300;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:400;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:500;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:600;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:700;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:300;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:400;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:500;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:600;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-1a30c214885cb404 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:700;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}:root{--font-google-sans-code:"Google Sans Code-1a30c214885cb404","Google Sans Code-1a30c214885cb404 fallback: Courier New",monospace;}</style><!-- Primary meta --><title>Think Before You Embed | ForeverYoung</title><meta name="title" content="Think Before You Embed | ForeverYoung"><meta name="description" content="Production search systems rewrite queries with LLMs before embedding them. Two ICLR 2026 papers ask what happens when elaboration and embedding share a model and a gradient."><meta name="author" content="Yang"><link rel="sitemap" href="/sitemap-index.xml"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:site_name" content="ForeverYoung"><meta property="og:title" content="Think Before You Embed | ForeverYoung"><meta property="og:description" content="Production search systems rewrite queries with LLMs before embedding them. Two ICLR 2026 papers ask what happens when elaboration and embedding share a model and a gradient."><meta property="og:url" content="https://foreveryounggithub.github.io/en/posts/think_before_you_embed/"><meta property="og:image" content="https://foreveryounggithub.github.io/en/posts/think_before_you_embed/index.png"><!-- Twitter / X --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://foreveryounggithub.github.io/en/posts/think_before_you_embed/"><meta property="twitter:title" content="Think Before You Embed | ForeverYoung"><meta property="twitter:description" content="Production search systems rewrite queries with LLMs before embedding them. Two ICLR 2026 papers ask what happens when elaboration and embedding share a model and a gradient."><meta property="twitter:image" content="https://foreveryounggithub.github.io/en/posts/think_before_you_embed/index.png"><!-- RSS autodiscovery --><link rel="alternate" type="application/rss+xml" title="ForeverYoung" href="https://foreveryounggithub.github.io/en/rss.xml"><!-- Filled at runtime by theme.ts to match the current background colour --><meta name="theme-color" content=""><!-- Google Analytics GA4 --><script async src="https://www.googletagmanager.com/gtag/js?id=G-G3D5MFLVRD"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-G3D5MFLVRD');
+    </script><!-- Extra head content injected by child layouts (e.g. JSON-LD, article meta) -->  <meta property="og:type" content="article"> <meta property="article:published_time" content="2026-05-18T00:00:00.000Z"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Think Before You Embed | ForeverYoung","image":"https://foreveryounggithub.github.io/en/posts/think_before_you_embed/index.png","datePublished":"2026-05-18T00:00:00.000Z","author":[{"@type":"Person","name":"Yang"}]}</script> <!--
+      Inline FOUC-prevention script: sets data-theme on <html> before
+      the browser paints. Runs synchronously, no defer/async.
+    --><script>
+      (function () {
+        const stored = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        const theme = stored ?? (prefersDark ? "dark" : "light");
+        document.firstElementChild?.setAttribute("data-theme", theme);
+        // Expose value so theme.ts can skip re-detection.
+        window.__theme = { value: theme };
+      })();
+    </script><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CAqDO0tx.js"></script><link rel="stylesheet" href="/_astro/Footer.CIio5iou.css">
+<style>@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0;mix-blend-mode:plus-lighter}to{opacity:1;mix-blend-mode:plus-lighter}}@keyframes astroFadeOut{0%{opacity:1;mix-blend-mode:plus-lighter}to{opacity:0;mix-blend-mode:plus-lighter}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media(prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
+</style><style>[data-astro-transition-scope="astro-36ssibgs-1"] { view-transition-name: embeddings; }@layer astro { ::view-transition-old(embeddings) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(embeddings) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(embeddings) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(embeddings) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-1"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-1"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-2"] { view-transition-name: llm; }@layer astro { ::view-transition-old(llm) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(llm) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(llm) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(llm) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-3"] { view-transition-name: reinforcement-learning; }@layer astro { ::view-transition-old(reinforcement-learning) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(reinforcement-learning) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(reinforcement-learning) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(reinforcement-learning) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-4"] { view-transition-name: retrieval; }@layer astro { ::view-transition-old(retrieval) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(retrieval) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(retrieval) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(retrieval) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-5"] { view-transition-name: iclr-2026; }@layer astro { ::view-transition-old(iclr-2026) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(iclr-2026) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(iclr-2026) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(iclr-2026) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-6"] { view-transition-name: mteb; }@layer astro { ::view-transition-old(mteb) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(mteb) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(mteb) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(mteb) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style></head> <body class="bg-background font-app text-foreground selection:bg-accent/75 selection:text-accent-foreground flex min-h-svh flex-col">    <a id="skip-to-content" href="#main-content" class="bg-background text-accent absolute inset-s-16 -top-full z-50 px-3 py-2 backdrop-blur-lg transition-all focus:top-4"> Skip to content </a> <header class="app-layout flex flex-col items-center justify-between sm:flex-row"> <div class="border-border bg-background relative flex w-full items-baseline justify-between border-b py-4 sm:items-center sm:py-6"> <a href="/en/" class="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"> ForeverYoung </a> <nav id="nav-menu" class="flex w-full flex-col items-center sm:ms-2 sm:flex-row sm:justify-end sm:space-x-4 sm:py-0"> <button id="menu-btn" class="focus-outline self-end p-2 sm:hidden" aria-label="Open menu" aria-expanded="false" aria-controls="menu-items" data-label-open="Open menu" data-label-close="Close menu"> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="hidden" viewBox="0 0 24 24" id="close-icon"><path stroke="none" d="M0 0h24v24H0z" /><path d="M18 6 6 18M6 6l12 12" /></svg> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="icon icon-tabler icons-tabler-outline icon-tabler-menu-deep" viewBox="0 0 24 24" id="menu-icon"><path stroke="none" d="M0 0h24v24H0z" /><path d="M4 6h16M7 12h13M10 18h10" /></svg> </button> <ul id="menu-items" class="[&>li>a]:hover:text-accent mt-4 hidden w-44 grid-cols-2 place-content-center gap-2 sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0 sm:[&>li]:h-8 [&>li>a]:block [&>li>a]:px-4 [&>li>a]:py-3 [&>li>a]:text-center [&>li>a]:font-medium sm:[&>li>a]:px-2 sm:[&>li>a]:py-1"> <li class="col-span-2"> <a href="/en/posts" class="active-nav"> Posts </a> </li> <li class="col-span-2"> <a href="/en/tags"> Tags </a> </li> <li class="col-span-2"> <a href="/en/about"> About </a> </li> <li class="col-span-2"> <a href="/en/archives" title="Archives" aria-label="Archives" class="group inline-flex items-center gap-1 hover:text-accent focus-outline flex size-full justify-center p-3 sm:relative sm:size-8 sm:p-0">  <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="hidden sm:absolute sm:top-1/2 sm:left-1/2 sm:block sm:size-6 sm:-translate-x-1/2 sm:-translate-y-1/2" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8M10 12h4" /></svg> <span class="sm:sr-only">Archives</span>  </a> </li> <li class="col-span-1 flex items-center justify-center"> <a href="/en/search" title="Search" aria-label="Search" class="group inline-flex items-center gap-1 hover:text-accent focus-outline relative size-8">  <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="absolute top-1/2 left-1/2 size-6 -translate-x-1/2 -translate-y-1/2" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M3 10a7 7 0 1 0 14 0 7 7 0 1 0-14 0M21 21l-6-6" /></svg> <span class="sr-only">Search</span>  </a> </li> <li class="col-span-1 flex items-center justify-center"> <a href="/zh/posts/think_before_you_embed/" class="hover:text-accent focus-outline flex items-center justify-center rounded px-2 py-1 text-sm font-medium transition-colors" title="切换到中文" aria-label="Switch to Chinese"> 中文 </a> </li> <li class="col-span-1 flex items-center justify-center"> <button id="theme-btn" class="focus-outline hover:[&>svg]:stroke-accent relative size-12 p-4 sm:size-8" title="Toggle theme" aria-label="auto" aria-live="polite"> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="absolute top-[50%] left-[50%] translate-[-50%] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M12 3h.393a7.5 7.5 0 0 0 7.92 12.446A9 9 0 1 1 12 2.992z" /></svg> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="absolute top-[50%] left-[50%] translate-[-50%] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M14.828 14.828a4 4 0 1 0-5.656-5.656 4 4 0 0 0 5.656 5.656M6.343 17.657l-1.414 1.414M6.343 6.343 4.929 4.929M17.657 6.343l1.414-1.414M17.657 17.657l1.414 1.414M4 12H2M12 4V2M20 12h2M12 20v2" /></svg> </button> </li> </ul> </nav> </div> </header> <script type="module">function c(){const e=document.querySelector("#menu-btn"),t=document.querySelector("#menu-items"),n=document.querySelector("#menu-icon"),s=document.querySelector("#close-icon");if(!e||!t||!n||!s)return;const a=e.dataset.labelOpen??"Open menu",l=e.dataset.labelClose??"Close menu";e.addEventListener("click",()=>{const o=e.getAttribute("aria-expanded")==="true";e.setAttribute("aria-expanded",o?"false":"true"),e.setAttribute("aria-label",o?a:l),t.classList.toggle("hidden"),t.classList.toggle("grid"),n.classList.toggle("hidden"),s.classList.toggle("hidden")})}c();document.addEventListener("astro:after-swap",c);</script> <div class="app-layout flex items-center justify-start"><a id="back-button" href="/en/" class="group inline-flex items-center gap-1 hover:text-accent focus-outline hover:text-foreground/75 -ms-2 mt-8 mb-2"> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block size-6 rtl:rotate-180" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="m15 6-6 6 6 6" /></svg><span>Go back</span> </a></div><script type="module">function o(){const t=document.querySelector("#back-button"),e=sessionStorage.getItem("backUrl");e&&t&&(t.href=e)}document.addEventListener("astro:page-load",o);o();</script> <main id="main-content" class="app-layout" data-pagefind-body> <h1 style="view-transition-name:think-before-you-embed" class="text-accent inline-block text-2xl font-bold sm:text-3xl"> Think Before You Embed </h1> <div class="my-2 flex items-center gap-2"> <div class="text-muted-foreground flex items-center gap-x-2"> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block size-6 min-w-5.5" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM16 3v4M8 3v4M4 11h16M7 14h.013M10.01 14h.005M13.01 14h.005M16.015 14h.005M13.015 17h.005M7.01 17h.005M10.01 17h.005" /></svg>  <time class="text-sm sm:text-base" datetime="2026-05-18T00:00:00.000Z"> 17 May, 2026 </time> </div> <span aria-hidden="true" class="text-muted-foreground max-sm:hidden hidden">
+|
+</span>  </div> <article id="article" class="mt-8 w-full app-prose max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"> <p>From 2018 to 2022, the embedding field had a recognizable shape. BERT gave you bidirectional attention and a [CLS] token to pool. SBERT showed you could make sentence vectors with siamese training. DPR applied the recipe to dense retrieval. E5, GTE, and BGE each pushed MTEB higher while keeping the same basic setup: InfoNCE contrastive loss, (query, positive, hard-negative) triplets, encoder-only architecture.</p>
+<p>Then two things happened in parallel. Decoder-only LLMs took over the embedding leaderboard, with scale and instruction-following doing what BERT-sized models couldn’t. And practitioners building search systems started routing every query through a separate rewriting LLM before it touched the embedding model, because raw user queries are too short and vague to retrieve well on their own.</p>
+<p>Two ICLR 2026 papers connect these threads. What if the rewriting step moved inside the embedding model itself, with the same gradient running through both?</p>
+<h2 id="the-bert-era-baseline">The BERT-era baseline</h2>
+<p>The standard setup is a bi-encoder: one model handles both queries and documents, with shared weights, run as two independent forward passes. You encode the query, encode the document, and compute similarity between the two vectors. Document vectors can be pre-computed and indexed offline — at query time you just run the query encoder and do a nearest-neighbor lookup, fast enough to search millions of documents in milliseconds. A cross-encoder (which processes query and document together) gives better rankings but can’t be pre-computed, so it’s only used for re-ranking a small candidate set, not first-stage retrieval.</p>
+<p>Training uses InfoNCE contrastive loss: compute a similarity matrix over a batch, push the diagonal entries (matched query-document pairs) toward 1, push everything else toward 0.</p>
+<figure>
+<svg viewBox="0 0 700 390" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;font-family:ui-monospace,&#x27;Courier New&#x27;,monospace">
+  <defs>
+    <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"></path>
+    </marker>
+  </defs>
+  <rect x="20" y="20" width="145" height="44" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"></rect>
+  <text x="92" y="39" text-anchor="middle" font-size="11" fill="#1e3a8a" font-weight="600">Query</text>
+  <text x="92" y="56" text-anchor="middle" font-size="9" fill="#1e3a8a">"best dense retrieval practices"</text>
+  <rect x="185" y="20" width="145" height="44" rx="5" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+  <text x="257" y="39" text-anchor="middle" font-size="11" fill="#14532d" font-weight="600">Doc₁ (positive)</text>
+  <text x="257" y="56" text-anchor="middle" font-size="9" fill="#14532d">"dense retrieval guide…"</text>
+  <rect x="350" y="20" width="145" height="44" rx="5" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"></rect>
+  <text x="422" y="39" text-anchor="middle" font-size="11" fill="#7f1d1d" font-weight="600">Doc₂ (negative)</text>
+  <text x="422" y="56" text-anchor="middle" font-size="9" fill="#7f1d1d">"Python syntax guide…"</text>
+  <rect x="515" y="20" width="165" height="44" rx="5" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"></rect>
+  <text x="597" y="39" text-anchor="middle" font-size="11" fill="#7f1d1d" font-weight="600">Doc₃ (negative)</text>
+  <text x="597" y="56" text-anchor="middle" font-size="9" fill="#7f1d1d">"Pasta recipe…"</text>
+  <line x1="92" y1="64" x2="92" y2="96" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a1)"></line>
+  <line x1="257" y1="64" x2="257" y2="96" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a1)"></line>
+  <line x1="422" y1="64" x2="422" y2="96" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a1)"></line>
+  <line x1="597" y1="64" x2="597" y2="96" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a1)"></line>
+  <rect x="20" y="96" width="660" height="36" rx="5" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.5"></rect>
+  <text x="350" y="119" text-anchor="middle" font-size="11" fill="#3730a3">Shared BERT Encoder (same weights, independent forward passes)</text>
+  <line x1="92" y1="132" x2="92" y2="162" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a1)"></line>
+  <line x1="257" y1="132" x2="257" y2="162" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a1)"></line>
+  <line x1="422" y1="132" x2="422" y2="162" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a1)"></line>
+  <line x1="597" y1="132" x2="597" y2="162" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a1)"></line>
+  <text x="92" y="178" text-anchor="middle" font-size="14" fill="#374151">q</text>
+  <text x="257" y="178" text-anchor="middle" font-size="14" fill="#374151">d₁</text>
+  <text x="422" y="178" text-anchor="middle" font-size="14" fill="#374151">d₂</text>
+  <text x="597" y="178" text-anchor="middle" font-size="14" fill="#374151">d₃</text>
+  <line x1="92" y1="186" x2="248" y2="216" stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="4 3"></line>
+  <line x1="257" y1="186" x2="283" y2="216" stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="4 3"></line>
+  <line x1="422" y1="186" x2="378" y2="216" stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="4 3"></line>
+  <line x1="597" y1="186" x2="472" y2="216" stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="4 3"></line>
+  <rect x="193" y="216" width="315" height="96" rx="6" fill="#ffffff" stroke="#9ca3af" stroke-width="1.5"></rect>
+  <text x="350" y="237" text-anchor="middle" font-size="11" fill="#6b7280">Similarity Matrix (cosine)</text>
+  <text x="290" y="259" text-anchor="middle" font-size="11" fill="#374151">d₁</text>
+  <text x="350" y="259" text-anchor="middle" font-size="11" fill="#374151">d₂</text>
+  <text x="410" y="259" text-anchor="middle" font-size="11" fill="#374151">d₃</text>
+  <text x="238" y="286" text-anchor="middle" font-size="11" fill="#374151">q</text>
+  <rect x="258" y="267" width="56" height="24" rx="3" fill="#bbf7d0"></rect>
+  <text x="286" y="284" text-anchor="middle" font-size="10" fill="#166534">0.92 ✓</text>
+  <rect x="322" y="267" width="56" height="24" rx="3" fill="#fee2e2"></rect>
+  <text x="350" y="284" text-anchor="middle" font-size="10" fill="#991b1b">0.11</text>
+  <rect x="386" y="267" width="56" height="24" rx="3" fill="#fee2e2"></rect>
+  <text x="414" y="284" text-anchor="middle" font-size="10" fill="#991b1b">0.08</text>
+  <text x="350" y="305" text-anchor="middle" font-size="9" fill="#9ca3af">push diagonal ↑ · push off-diagonal ↓</text>
+  <line x1="350" y1="312" x2="350" y2="342" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a1)"></line>
+  <rect x="218" y="342" width="264" height="38" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"></rect>
+  <text x="350" y="360" text-anchor="middle" font-size="12" fill="#92400e" font-weight="600">InfoNCE Loss</text>
+  <text x="350" y="374" text-anchor="middle" font-size="10" fill="#92400e">gradient update on encoder weights</text>
+</svg>
+<figcaption>Bi-encoder contrastive training with a single shared-weight encoder. Queries and documents are encoded in separate forward passes, producing independent vectors. The similarity matrix drives InfoNCE loss: diagonal entries are positives, everything else is negatives.</figcaption>
+</figure>
+<p>The recipe held up for years. The costs only show up once the base model is a full LLM.</p>
+<p>Contrastive fine-tuning degrades general reasoning and generation. The gradient targets only the pooled vector, so everything else the model knows how to do gets pushed aside. For BERT this barely registered. For a 7B model trained to reason and generate, it’s a real tradeoff.</p>
+<p>There’s also no room to think before encoding. One forward pass, raw tokens to pooled output. BERT was never going to reason through a query anyway. A 7B LLM could, and the standard recipe never lets it.</p>
+<h2 id="decoder-only-takes-the-leaderboard">Decoder-only takes the leaderboard</h2>
+<p>E5-mistral-7B (2023) applied the exact same contrastive recipe to a 7B decoder-only Mistral model, swapping CLS pooling for last-token pooling. That’s the only architectural change. It hit the top of MTEB.</p>
+<figure>
+<svg viewBox="0 0 700 282" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;font-family:ui-monospace,&#x27;Courier New&#x27;,monospace">
+  <defs>
+    <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"></path>
+    </marker>
+  </defs>
+  <text x="160" y="18" text-anchor="middle" font-size="12" fill="#374151" font-weight="600">Encoder-only (BERT)</text>
+  <text x="520" y="18" text-anchor="middle" font-size="12" fill="#374151" font-weight="600">Decoder-only (Qwen3 / Harrier)</text>
+  <line x1="345" y1="8" x2="345" y2="275" stroke="#e5e7eb" stroke-width="1.5" stroke-dasharray="5 4"></line>
+  <rect x="15" y="30" width="46" height="26" rx="4" fill="#3b82f6"></rect>
+  <text x="38" y="48" text-anchor="middle" font-size="9" fill="white">[CLS]</text>
+  <rect x="67" y="30" width="46" height="26" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"></rect>
+  <text x="90" y="48" text-anchor="middle" font-size="10" fill="#374151">the</text>
+  <rect x="119" y="30" width="46" height="26" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"></rect>
+  <text x="142" y="48" text-anchor="middle" font-size="10" fill="#374151">quick</text>
+  <rect x="171" y="30" width="46" height="26" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"></rect>
+  <text x="194" y="48" text-anchor="middle" font-size="10" fill="#374151">fox</text>
+  <rect x="223" y="30" width="46" height="26" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"></rect>
+  <text x="246" y="48" text-anchor="middle" font-size="9" fill="#374151">[SEP]</text>
+  <line x1="38" y1="56" x2="90" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="38" y1="56" x2="142" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="38" y1="56" x2="194" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="38" y1="56" x2="246" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="90" y1="56" x2="38" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="90" y1="56" x2="142" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="90" y1="56" x2="194" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="90" y1="56" x2="246" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="142" y1="56" x2="38" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="142" y1="56" x2="90" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="142" y1="56" x2="194" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="142" y1="56" x2="246" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="194" y1="56" x2="38" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="194" y1="56" x2="90" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="194" y1="56" x2="142" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="194" y1="56" x2="246" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="246" y1="56" x2="38" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="246" y1="56" x2="90" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="246" y1="56" x2="142" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="246" y1="56" x2="194" y2="88" stroke="#93c5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <text x="160" y="76" text-anchor="middle" font-size="9" fill="#6b7280">full bidirectional attention</text>
+  <rect x="15" y="88" width="254" height="34" rx="5" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.5"></rect>
+  <text x="142" y="110" text-anchor="middle" font-size="10" fill="#3730a3">BERT Encoder (bidirectional)</text>
+  <line x1="38" y1="122" x2="38" y2="155" stroke="#3b82f6" stroke-width="2" stroke-dasharray="3 2"></line>
+  <line x1="90" y1="122" x2="90" y2="155" stroke="#9ca3af" stroke-width="1"></line>
+  <line x1="142" y1="122" x2="142" y2="155" stroke="#9ca3af" stroke-width="1"></line>
+  <line x1="194" y1="122" x2="194" y2="155" stroke="#9ca3af" stroke-width="1"></line>
+  <line x1="246" y1="122" x2="246" y2="155" stroke="#9ca3af" stroke-width="1"></line>
+  <rect x="15" y="155" width="46" height="26" rx="4" fill="#3b82f6"></rect>
+  <text x="38" y="173" text-anchor="middle" font-size="9" fill="white">[CLS]</text>
+  <rect x="67" y="155" width="46" height="26" rx="4" fill="#f3f4f6" stroke="#e5e7eb"></rect>
+  <text x="90" y="173" text-anchor="middle" font-size="9" fill="#9ca3af">—</text>
+  <rect x="119" y="155" width="46" height="26" rx="4" fill="#f3f4f6" stroke="#e5e7eb"></rect>
+  <text x="142" y="173" text-anchor="middle" font-size="9" fill="#9ca3af">—</text>
+  <rect x="171" y="155" width="46" height="26" rx="4" fill="#f3f4f6" stroke="#e5e7eb"></rect>
+  <text x="194" y="173" text-anchor="middle" font-size="9" fill="#9ca3af">—</text>
+  <rect x="223" y="155" width="46" height="26" rx="4" fill="#f3f4f6" stroke="#e5e7eb"></rect>
+  <text x="246" y="173" text-anchor="middle" font-size="9" fill="#9ca3af">—</text>
+  <line x1="38" y1="181" x2="38" y2="210" stroke="#3b82f6" stroke-width="2" marker-end="url(#a2)"></line>
+  <rect x="15" y="210" width="254" height="38" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"></rect>
+  <text x="142" y="228" text-anchor="middle" font-size="10" fill="#1e40af" font-weight="600">Pool [CLS] → embedding</text>
+  <text x="142" y="242" text-anchor="middle" font-size="9" fill="#1e40af">first token, bidirectional context</text>
+  <rect x="363" y="30" width="46" height="26" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"></rect>
+  <text x="386" y="48" text-anchor="middle" font-size="10" fill="#374151">the</text>
+  <rect x="415" y="30" width="46" height="26" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"></rect>
+  <text x="438" y="48" text-anchor="middle" font-size="10" fill="#374151">quick</text>
+  <rect x="467" y="30" width="46" height="26" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"></rect>
+  <text x="490" y="48" text-anchor="middle" font-size="10" fill="#374151">fox</text>
+  <rect x="519" y="30" width="46" height="26" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"></rect>
+  <text x="542" y="48" text-anchor="middle" font-size="10" fill="#374151">runs</text>
+  <rect x="571" y="30" width="50" height="26" rx="4" fill="#7c3aed"></rect>
+  <text x="596" y="48" text-anchor="middle" font-size="9" fill="white">[EOS]</text>
+  <line x1="438" y1="56" x2="386" y2="88" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="490" y1="56" x2="386" y2="88" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="490" y1="56" x2="438" y2="88" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="542" y1="56" x2="386" y2="88" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="542" y1="56" x2="438" y2="88" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="542" y1="56" x2="490" y2="88" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="596" y1="56" x2="386" y2="88" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="596" y1="56" x2="438" y2="88" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="596" y1="56" x2="490" y2="88" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <line x1="596" y1="56" x2="542" y2="88" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="2 2"></line>
+  <text x="515" y="76" text-anchor="middle" font-size="9" fill="#6b7280">causal (left-to-right) attention</text>
+  <rect x="363" y="88" width="262" height="34" rx="5" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+  <text x="494" y="110" text-anchor="middle" font-size="10" fill="#4c1d95">Causal Transformer Decoder</text>
+  <line x1="386" y1="122" x2="386" y2="155" stroke="#9ca3af" stroke-width="1"></line>
+  <line x1="438" y1="122" x2="438" y2="155" stroke="#9ca3af" stroke-width="1"></line>
+  <line x1="490" y1="122" x2="490" y2="155" stroke="#9ca3af" stroke-width="1"></line>
+  <line x1="542" y1="122" x2="542" y2="155" stroke="#9ca3af" stroke-width="1"></line>
+  <line x1="596" y1="122" x2="596" y2="155" stroke="#7c3aed" stroke-width="2" stroke-dasharray="3 2"></line>
+  <rect x="363" y="155" width="46" height="26" rx="4" fill="#f3f4f6" stroke="#e5e7eb"></rect>
+  <text x="386" y="173" text-anchor="middle" font-size="9" fill="#9ca3af">—</text>
+  <rect x="415" y="155" width="46" height="26" rx="4" fill="#f3f4f6" stroke="#e5e7eb"></rect>
+  <text x="438" y="173" text-anchor="middle" font-size="9" fill="#9ca3af">—</text>
+  <rect x="467" y="155" width="46" height="26" rx="4" fill="#f3f4f6" stroke="#e5e7eb"></rect>
+  <text x="490" y="173" text-anchor="middle" font-size="9" fill="#9ca3af">—</text>
+  <rect x="519" y="155" width="46" height="26" rx="4" fill="#f3f4f6" stroke="#e5e7eb"></rect>
+  <text x="542" y="173" text-anchor="middle" font-size="9" fill="#9ca3af">—</text>
+  <rect x="571" y="155" width="50" height="26" rx="4" fill="#7c3aed"></rect>
+  <text x="596" y="173" text-anchor="middle" font-size="9" fill="white">[EOS]</text>
+  <line x1="596" y1="181" x2="596" y2="210" stroke="#7c3aed" stroke-width="2" marker-end="url(#a2)"></line>
+  <rect x="363" y="210" width="262" height="38" rx="5" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"></rect>
+  <text x="494" y="228" text-anchor="middle" font-size="10" fill="#4c1d95" font-weight="600">Pool [EOS] → embedding</text>
+  <text x="494" y="242" text-anchor="middle" font-size="9" fill="#4c1d95">last token attends to full left context</text>
+</svg>
+<figcaption>Encoder-only (left) pools the [CLS] token under full bidirectional attention. Decoder-only (right) pools the last [EOS] token; via causal masking, it has attended to every preceding token and aggregates full-sequence context.</figcaption>
+</figure>
+<p>The leaderboard since 2023 tells the story in a table:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Year</th><th>Model</th><th>Architecture</th><th>MTEB Score</th></tr></thead><tbody><tr><td>2022–23</td><td>E5-large, GTE-large, BGE-large</td><td>Encoder-only (330M)</td><td>~62–64</td></tr><tr><td>2023</td><td>E5-mistral-7B</td><td>Decoder-only, 7B</td><td>~66</td></tr><tr><td>2024</td><td>NV-Embed-v2</td><td>Decoder-only, 7B</td><td>72.31 (EN)</td></tr><tr><td>2025</td><td>Qwen3-Embedding-8B</td><td>Decoder-only, 8B</td><td>70.58 (multilingual)</td></tr><tr><td>2026</td><td>Harrier-OSS-v1-27B</td><td>Decoder-only, 27B</td><td>74.3 (multilingual v2)</td></tr></tbody></table>
+<p>Harrier is worth a note. Microsoft quietly dropped it on Hugging Face in March 2026 under MIT license, no announcement. It’s built on Gemma3 with last-token pooling and L2 normalization, supports 100+ languages and 32k context. The 27B variant now holds #1 on Multilingual MTEB v2. Even the 270M version beats most encoder-only baselines.</p>
+<p>Decoder-only models won the leaderboard for a mix of reasons. Scale is the obvious one — 7B parameters is just bigger than 330M. But scale alone doesn’t explain it. Instruction following matters too: prefix the query with a task description and a large LLM adjusts its representation in ways BERT-sized models can’t. And last-token pooling works better than you’d expect: the final [EOS] token has attended to everything before it, so it ends up as a reasonable summary of the full sequence.</p>
+<p>All of these models still train with contrastive loss. The decoder is treated as a bigger, better BERT, with the generative capability present but never touched during training. Two ICLR 2026 papers ask what happens when you actually use it.</p>
+<h2 id="elaboration-before-the-vector">Elaboration before the vector</h2>
+<p>Production search systems rarely embed a raw user query directly. “best practices for retrieval” — short, vague, underspecified — is a poor retrieval target. The standard fix is a separate LLM that elaborates the query before it reaches the embedding model: rewrite it into paraphrases, generate a hypothetical answer that a matching document might contain, or decompose it into subquestions. An embedding model then vectorizes those elaborated forms.</p>
+<p>The pattern works. The problem is the seam. The rewriter has no signal about what makes a good embedding; the embedder has no influence over how queries get elaborated. Each is optimized independently, against its own objective, and the joint retrieval quality depends on how well the two happen to align.</p>
+<figure>
+<svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;font-family:ui-monospace,&#x27;Courier New&#x27;,monospace">
+  <defs>
+    <marker id="a5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"></path>
+    </marker>
+  </defs>
+  <text x="160" y="18" text-anchor="middle" font-size="12" fill="#374151" font-weight="600">Production: separate pipeline</text>
+  <text x="530" y="18" text-anchor="middle" font-size="12" fill="#374151" font-weight="600">GRACE / TTE: unified model</text>
+  <line x1="345" y1="8" x2="345" y2="254" stroke="#e5e7eb" stroke-width="1.5" stroke-dasharray="5 4"></line>
+  <rect x="88" y="28" width="150" height="26" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"></rect>
+  <text x="163" y="45" text-anchor="middle" font-size="11" fill="#1e3a8a">User query (raw)</text>
+  <line x1="163" y1="54" x2="163" y2="74" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a5)"></line>
+  <rect x="52" y="74" width="222" height="36" rx="5" fill="#fce7f3" stroke="#db2777" stroke-width="1.5"></rect>
+  <text x="163" y="89" text-anchor="middle" font-size="11" fill="#831843" font-weight="600">LLM Query Rewriter</text>
+  <text x="163" y="103" text-anchor="middle" font-size="9" fill="#831843">generates multiple query variants</text>
+  <line x1="163" y1="110" x2="55" y2="128" stroke="#6b7280" stroke-width="1.2" marker-end="url(#a5)"></line>
+  <line x1="163" y1="110" x2="163" y2="128" stroke="#6b7280" stroke-width="1.2" marker-end="url(#a5)"></line>
+  <line x1="163" y1="110" x2="271" y2="128" stroke="#6b7280" stroke-width="1.2" marker-end="url(#a5)"></line>
+  <rect x="18" y="128" width="74" height="24" rx="4" fill="#fff7ed" stroke="#ea580c" stroke-width="1.2"></rect>
+  <text x="55" y="144" text-anchor="middle" font-size="11" fill="#7c2d12">q₁</text>
+  <rect x="126" y="128" width="74" height="24" rx="4" fill="#fff7ed" stroke="#ea580c" stroke-width="1.2"></rect>
+  <text x="163" y="144" text-anchor="middle" font-size="11" fill="#7c2d12">q₂</text>
+  <rect x="234" y="128" width="74" height="24" rx="4" fill="#fff7ed" stroke="#ea580c" stroke-width="1.2"></rect>
+  <text x="271" y="144" text-anchor="middle" font-size="11" fill="#7c2d12">q₃</text>
+  <line x1="55" y1="152" x2="55" y2="172" stroke="#6b7280" stroke-width="1.2" marker-end="url(#a5)"></line>
+  <line x1="163" y1="152" x2="163" y2="172" stroke="#6b7280" stroke-width="1.2" marker-end="url(#a5)"></line>
+  <line x1="271" y1="152" x2="271" y2="172" stroke="#6b7280" stroke-width="1.2" marker-end="url(#a5)"></line>
+  <line x1="18" y1="160" x2="308" y2="160" stroke="#fca5a5" stroke-width="1.5" stroke-dasharray="4 3"></line>
+  <text x="163" y="157" text-anchor="middle" font-size="8" fill="#ef4444">no shared gradient</text>
+  <rect x="18" y="172" width="290" height="34" rx="5" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.5"></rect>
+  <text x="163" y="186" text-anchor="middle" font-size="11" fill="#3730a3" font-weight="600">Embedding Model</text>
+  <text x="163" y="200" text-anchor="middle" font-size="9" fill="#3730a3">separate, no rewriting gradient</text>
+  <line x1="163" y1="206" x2="163" y2="224" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a5)"></line>
+  <rect x="58" y="224" width="210" height="26" rx="5" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+  <text x="163" y="241" text-anchor="middle" font-size="11" fill="#14532d">v₁, v₂, v₃ → merge → retrieve</text>
+  <rect x="420" y="28" width="150" height="26" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"></rect>
+  <text x="495" y="45" text-anchor="middle" font-size="11" fill="#1e3a8a">User query (raw)</text>
+  <line x1="495" y1="54" x2="495" y2="74" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a5)"></line>
+  <rect x="368" y="74" width="254" height="132" rx="6" fill="#fdf4ff" stroke="#a21caf" stroke-width="2"></rect>
+  <text x="495" y="94" text-anchor="middle" font-size="12" fill="#701a75" font-weight="600">Unified LLM</text>
+  <rect x="385" y="102" width="220" height="36" rx="4" fill="#fce7f3" stroke="#db2777" stroke-width="1"></rect>
+  <text x="495" y="116" text-anchor="middle" font-size="10" fill="#831843" font-weight="600">1. generate elaboration</text>
+  <text x="495" y="130" text-anchor="middle" font-size="9" fill="#831843">rationale (GRACE) / CoT trace (TTE)</text>
+  <line x1="495" y1="138" x2="495" y2="152" stroke="#a21caf" stroke-width="1.2" marker-end="url(#a5)"></line>
+  <rect x="385" y="152" width="220" height="34" rx="4" fill="#e0e7ff" stroke="#6366f1" stroke-width="1"></rect>
+  <text x="495" y="167" text-anchor="middle" font-size="10" fill="#3730a3" font-weight="600">2. embed</text>
+  <text x="495" y="180" text-anchor="middle" font-size="9" fill="#3730a3">conditioned on elaboration</text>
+  <text x="495" y="199" text-anchor="middle" font-size="8" fill="#701a75">joint gradient: elaboration quality = embedding quality</text>
+  <line x1="495" y1="206" x2="495" y2="224" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a5)"></line>
+  <rect x="420" y="224" width="150" height="26" rx="5" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+  <text x="495" y="241" text-anchor="middle" font-size="11" fill="#14532d">enriched v → retrieve</text>
+</svg>
+<figcaption>Production query rewriting (left) splits the work across two models with no shared gradient: the rewriter doesn't know what makes a good embedding, and the embedder can't improve the rewriting. GRACE and TTE (right) collapse this into a single model: elaboration and embedding share weights, so the elaboration learns to optimize for retrieval quality.</figcaption>
+</figure>
+<p>GRACE and TTE close that seam. GRACE trains the LLM to generate rationales whose embeddings rank well against target documents — elaboration quality is rewarded directly by retrieval quality via RL. TTE makes the elaboration explicit at inference: the Reasoner generates a chain-of-thought trace, and the Embedder reads that trace before producing the vector. In both cases the same model handles both steps, with a gradient signal connecting them.</p>
+<p>That’s what separates these approaches from production query rewriting: when elaboration and embedding share weights, the elaboration learns to optimize for retrieval quality, not just paraphrase fluency.</p>
+<h2 id="grace-contrastive-signals-as-rewards">GRACE: contrastive signals as rewards</h2>
+<figure>
+<svg viewBox="0 0 700 380" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;font-family:ui-monospace,&#x27;Courier New&#x27;,monospace">
+  <defs>
+    <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"></path>
+    </marker>
+  </defs>
+  <text x="163" y="18" text-anchor="middle" font-size="12" fill="#374151" font-weight="600">Standard Contrastive Learning</text>
+  <text x="530" y="18" text-anchor="middle" font-size="12" fill="#374151" font-weight="600">GRACE (RL)</text>
+  <line x1="345" y1="8" x2="345" y2="370" stroke="#e5e7eb" stroke-width="1.5" stroke-dasharray="5 4"></line>
+  <rect x="20" y="35" width="95" height="28" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"></rect>
+  <text x="67" y="54" text-anchor="middle" font-size="11" fill="#1e3a8a">Query</text>
+  <rect x="20" y="80" width="95" height="28" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"></rect>
+  <text x="67" y="99" text-anchor="middle" font-size="11" fill="#1e3a8a">Doc</text>
+  <line x1="115" y1="49" x2="152" y2="49" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a3)"></line>
+  <line x1="115" y1="94" x2="152" y2="94" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a3)"></line>
+  <rect x="152" y="30" width="105" height="97" rx="5" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.5"></rect>
+  <text x="204" y="73" text-anchor="middle" font-size="11" fill="#3730a3">BERT</text>
+  <text x="204" y="89" text-anchor="middle" font-size="11" fill="#3730a3">Encoder</text>
+  <line x1="257" y1="49" x2="290" y2="49" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a3)"></line>
+  <line x1="257" y1="94" x2="290" y2="94" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a3)"></line>
+  <text x="298" y="53" font-size="13" fill="#374151">q</text>
+  <text x="298" y="98" font-size="13" fill="#374151">d</text>
+  <line x1="308" y1="53" x2="270" y2="140" stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="3 2"></line>
+  <line x1="308" y1="98" x2="346" y2="140" stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="3 2"></line>
+  <rect x="230" y="140" width="155" height="28" rx="5" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"></rect>
+  <text x="307" y="159" text-anchor="middle" font-size="10" fill="#374151">cosine sim(q, d)</text>
+  <line x1="307" y1="168" x2="307" y2="198" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a3)"></line>
+  <rect x="210" y="198" width="195" height="28" rx="5" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"></rect>
+  <text x="307" y="217" text-anchor="middle" font-size="11" fill="#92400e" font-weight="600">InfoNCE Loss</text>
+  <line x1="307" y1="226" x2="307" y2="256" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a3)"></line>
+  <rect x="195" y="256" width="225" height="28" rx="5" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.5"></rect>
+  <text x="307" y="275" text-anchor="middle" font-size="10" fill="#3730a3">gradient → encoder weights</text>
+  <text x="163" y="318" text-anchor="middle" font-size="9" fill="#9ca3af">generative pathway unused during training</text>
+  <rect x="360" y="35" width="95" height="28" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"></rect>
+  <text x="407" y="54" text-anchor="middle" font-size="11" fill="#1e3a8a">Query</text>
+  <line x1="455" y1="49" x2="490" y2="49" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a3)"></line>
+  <rect x="490" y="25" width="115" height="48" rx="5" fill="#fce7f3" stroke="#db2777" stroke-width="1.5"></rect>
+  <text x="547" y="45" text-anchor="middle" font-size="11" fill="#831843" font-weight="600">LLM Policy</text>
+  <text x="547" y="62" text-anchor="middle" font-size="9" fill="#831843">generates rationale</text>
+  <line x1="547" y1="73" x2="547" y2="100" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a3)"></line>
+  <rect x="445" y="100" width="205" height="50" rx="5" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"></rect>
+  <text x="547" y="119" text-anchor="middle" font-size="10" fill="#7c2d12" font-weight="600">Rationale (natural language)</text>
+  <text x="547" y="136" text-anchor="middle" font-size="9" fill="#7c2d12">"query relates to X, key aspects Y…"</text>
+  <line x1="547" y1="150" x2="547" y2="176" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a3)"></line>
+  <rect x="474" y="176" width="145" height="28" rx="5" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.5"></rect>
+  <text x="547" y="195" text-anchor="middle" font-size="10" fill="#3730a3">mean pool → q_vec</text>
+  <rect x="360" y="80" width="95" height="28" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"></rect>
+  <text x="407" y="99" text-anchor="middle" font-size="11" fill="#1e3a8a">Doc</text>
+  <line x1="407" y1="108" x2="407" y2="242" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="3 2"></line>
+  <line x1="407" y1="242" x2="471" y2="242" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a3)"></line>
+  <line x1="547" y1="204" x2="547" y2="228" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a3)"></line>
+  <rect x="471" y="228" width="153" height="28" rx="5" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"></rect>
+  <text x="547" y="247" text-anchor="middle" font-size="10" fill="#374151">cosine sim → reward</text>
+  <line x1="547" y1="256" x2="547" y2="278" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a3)"></line>
+  <rect x="458" y="278" width="178" height="28" rx="5" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+  <text x="547" y="297" text-anchor="middle" font-size="11" fill="#14532d" font-weight="600">Reward signal</text>
+  <line x1="547" y1="306" x2="547" y2="330" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a3)"></line>
+  <rect x="440" y="330" width="212" height="28" rx="5" fill="#fce7f3" stroke="#db2777" stroke-width="1.5"></rect>
+  <text x="547" y="349" text-anchor="middle" font-size="10" fill="#831843">policy gradient → policy weights</text>
+</svg>
+<figcaption>Standard CL (left) feeds the contrastive signal directly as a loss on encoder weights, bypassing the generative pathway entirely. GRACE (right) treats the same signal as a reward: the LLM generates a natural-language rationale, pools it into a vector, and policy gradient teaches the model to write better rationales.</figcaption>
+</figure>
+<p><a href="https://arxiv.org/abs/2510.04506">GRACE</a> (<a href="https://github.com/GasolSun36/GRACE">code</a>) changes one thing: the contrastive signal goes from a loss to a reward.</p>
+<p>In standard CL, InfoNCE updates the encoder directly — the model produces a vector and learns to push it toward the positive document’s vector. The generative pathway is never touched. In GRACE, the LLM generates a natural-language rationale first: a brief explanation of what the query means and how it relates to matching documents. That rationale gets mean-pooled into an embedding. The reward is the cosine similarity between that embedding and the target document’s vector. Policy gradient (via the <a href="https://github.com/GasolSun36/GRACE">verl</a> framework) then updates the model to write rationales that produce better embeddings.</p>
+<p>The model never directly optimizes for a particular vector. It learns to write rationales that produce good vectors. Unlike standard CL, the generative pathway is actually used.</p>
+<p>On MTEB: +11.5% over standard CL in the supervised setting averaged across four backbones; +6.9% unsupervised. Those are solid numbers, but the capability retention result is what I find more interesting. Standard CL fine-tuning measurably hurts reasoning and generation benchmarks. GRACE-trained models mostly don’t show that degradation — because they’re exercising the generative pathway throughout training rather than bypassing it.</p>
+<p>As a side effect, the rationales are human-readable. Each embedding is the pooled encoding of the model’s own interpretation of the input, so you can read what it “thought” before producing the vector.</p>
+<h2 id="think-then-embed-reasoning-before-the-vector">Think Then Embed: reasoning before the vector</h2>
+<p>GRACE is a training-time change. <a href="https://arxiv.org/abs/2510.05014">Think Then Embed</a> is an inference-time change. Same underlying idea, different lever.</p>
+<figure>
+<svg viewBox="0 0 700 272" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;font-family:ui-monospace,&#x27;Courier New&#x27;,monospace">
+  <defs>
+    <marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7280"></path>
+    </marker>
+    <marker id="a4o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#ea580c"></path>
+    </marker>
+  </defs>
+  <text x="350" y="18" text-anchor="middle" font-size="12" fill="#374151" font-weight="600">Think Then Embed (TTE) — inference pipeline</text>
+  <rect x="20" y="90" width="115" height="54" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"></rect>
+  <text x="77" y="112" text-anchor="middle" font-size="11" fill="#1e3a8a" font-weight="600">Query / Image</text>
+  <text x="77" y="130" text-anchor="middle" font-size="9" fill="#1e3a8a">(multimodal input)</text>
+  <line x1="135" y1="117" x2="178" y2="117" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a4)"></line>
+  <rect x="178" y="78" width="138" height="78" rx="6" fill="#fce7f3" stroke="#db2777" stroke-width="1.5"></rect>
+  <text x="247" y="102" text-anchor="middle" font-size="11" fill="#831843" font-weight="600">Reasoner</text>
+  <text x="247" y="118" text-anchor="middle" font-size="10" fill="#831843">fine-tuned MLLM</text>
+  <text x="247" y="134" text-anchor="middle" font-size="9" fill="#831843">generates CoT trace</text>
+  <line x1="247" y1="156" x2="247" y2="184" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a4)"></line>
+  <rect x="152" y="184" width="190" height="56" rx="6" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"></rect>
+  <text x="247" y="204" text-anchor="middle" font-size="10" fill="#7c2d12" font-weight="600">Reasoning trace (CoT)</text>
+  <text x="247" y="220" text-anchor="middle" font-size="9" fill="#7c2d12">"scene contains X near Y,</text>
+  <text x="247" y="234" text-anchor="middle" font-size="9" fill="#7c2d12">key features are Z…"</text>
+  <line x1="135" y1="90" x2="135" y2="62" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4 3"></line>
+  <line x1="135" y1="62" x2="522" y2="62" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4 3"></line>
+  <line x1="522" y1="62" x2="522" y2="84" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#a4)"></line>
+  <text x="330" y="56" text-anchor="middle" font-size="9" fill="#6b7280">original query (direct)</text>
+  <line x1="342" y1="212" x2="453" y2="123" stroke="#ea580c" stroke-width="1.5" marker-end="url(#a4o)"></line>
+  <text x="385" y="175" text-anchor="middle" font-size="9" fill="#ea580c">reasoning trace</text>
+  <rect x="455" y="84" width="135" height="78" rx="6" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.5"></rect>
+  <text x="522" y="112" text-anchor="middle" font-size="12" fill="#3730a3" font-weight="600">Embedder</text>
+  <text x="522" y="130" text-anchor="middle" font-size="10" fill="#3730a3">conditioned on:</text>
+  <text x="522" y="146" text-anchor="middle" font-size="9" fill="#3730a3">query + reasoning trace</text>
+  <line x1="590" y1="123" x2="628" y2="123" stroke="#6b7280" stroke-width="1.5" marker-end="url(#a4)"></line>
+  <rect x="628" y="100" width="56" height="46" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"></rect>
+  <text x="656" y="121" text-anchor="middle" font-size="12" fill="#14532d" font-weight="600">vec</text>
+  <text x="656" y="137" text-anchor="middle" font-size="9" fill="#14532d">embedding</text>
+</svg>
+<figcaption>The Reasoner generates a chain-of-thought trace explaining the query's semantics. The Embedder then produces a vector conditioned on both the original query and the trace. The reasoning context becomes part of the representation.</figcaption>
+</figure>
+<p>The paper targets multimodal retrieval, but the problem shows up anywhere queries need compositional reasoning. Current MLLM-based embedders are single-pass: raw input in, vector out, no opportunity to unpack the query’s structure first. When a query says “find images of someone standing near water at sunset with other people visible in the background,” all of that has to be resolved in one forward pass. There’s nowhere for the model to work through what it’s actually looking for.</p>
+<p>TTE splits the step. A Reasoner — an MLLM fine-tuned to produce retrieval-useful reasoning traces — first generates a chain-of-thought description: what the query is asking, which features matter, how to recognize a match. An Embedder then produces the vector conditioned on both the original input and that trace.</p>
+<p>The Reasoner is trained specifically for retrieval, not general summarization. It learns to surface the features that matter for matching. On MMEB-V2, TTE leads the benchmark — 7% above recent baselines, including proprietary models trained on larger in-house datasets. The paper also looks at merging Reasoner and Embedder into a single model to cut the inference cost.</p>
+<h2 id="the-common-thread">The common thread</h2>
+<p>Both papers are running the same play from different ends. GRACE teaches the model to elaborate queries during training: policy gradient shapes how the model writes rationales, optimizing them toward what actually retrieves well. TTE makes the elaboration step explicit at inference — the reasoning trace is the elaboration, readable and separable from the encoding.</p>
+<p>The production pipeline they’re both competing with uses two separate models with no shared optimization. In both cases, joint optimization wins. As you know, the reason why deep learning works is end-to-end optimization.</p> </article> <hr class="my-8 border-dashed">  <div id="btt-btn-container" class="fixed inset-e-4 bottom-8 z-50 md:sticky md:inset-e-auto md:float-end md:me-1 translate-y-14 opacity-0 transition duration-500"> <button data-button="back-to-top" class="group bg-background relative px-2 py-1 size-14 rounded-full shadow-xl md:h-8 md:w-fit md:rounded-md md:shadow-none md:focus-visible:rounded-none md:bg-background/35 md:bg-clip-padding md:backdrop-blur-lg"> <span id="progress-indicator" class="absolute inset-0 -z-10 block size-14 scale-110 rounded-full bg-transparent md:hidden md:h-8 md:rounded-md"></span> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block rotate-90 md:hidden" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M5 12h14M5 12l6 6M5 12l6-6" /></svg> <span class="group-hover:text-accent sr-only text-sm md:not-sr-only"> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block size-4" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M12 5v14M16 9l-4-4M8 9l4-4" /></svg> Back to top </span> </button> </div> <script data-astro-rerun>
+  function backToTop() {
+    const rootElement = document.documentElement;
+    const btnContainer = document.querySelector("#btt-btn-container");
+    const backToTopBtn = document.querySelector("[data-button='back-to-top']");
+    const progressIndicator = document.querySelector("#progress-indicator");
+
+    if (!rootElement || !btnContainer || !backToTopBtn || !progressIndicator)
+      return;
+
+    backToTopBtn.addEventListener("click", () => {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    });
+
+    let lastVisible = null;
+    function handleScroll() {
+      const scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
+      const scrollTop = rootElement.scrollTop;
+      const scrollPercent = Math.floor((scrollTop / scrollTotal) * 100);
+
+      progressIndicator.style.setProperty(
+        "background-image",
+        `conic-gradient(var(--accent), var(--accent) ${scrollPercent}%, transparent ${scrollPercent}%)`
+      );
+
+      const isVisible = scrollTop / scrollTotal > 0.3;
+
+      if (isVisible !== lastVisible) {
+        btnContainer.classList.toggle("opacity-100", isVisible);
+        btnContainer.classList.toggle("translate-y-0", isVisible);
+        btnContainer.classList.toggle("opacity-0", !isVisible);
+        btnContainer.classList.toggle("translate-y-14", !isVisible);
+        lastVisible = isVisible;
+      }
+    }
+
+    let ticking = false;
+    document.addEventListener("scroll", () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
+  backToTop();
+</script> <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8"> <li> <a href="/en/tags/embeddings/" class="flex items-center gap-0.5 border-foreground border-b-2 border-dashed hover:border-accent hover:text-accent hover:-mt-0.5 focus-visible:text-accent focus-visible:border-none text-sm" data-astro-transition-scope="astro-36ssibgs-1"> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="opacity-80 size-4" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M5 9h14M5 15h14M11 4 7 20M17 4l-4 16" /></svg> embeddings </a> </li><li> <a href="/en/tags/llm/" class="flex items-center gap-0.5 border-foreground border-b-2 border-dashed hover:border-accent hover:text-accent hover:-mt-0.5 focus-visible:text-accent focus-visible:border-none text-sm" data-astro-transition-scope="astro-36ssibgs-2"> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="opacity-80 size-4" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M5 9h14M5 15h14M11 4 7 20M17 4l-4 16" /></svg> LLM </a> </li><li> <a href="/en/tags/reinforcement-learning/" class="flex items-center gap-0.5 border-foreground border-b-2 border-dashed hover:border-accent hover:text-accent hover:-mt-0.5 focus-visible:text-accent focus-visible:border-none text-sm" data-astro-transition-scope="astro-36ssibgs-3"> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="opacity-80 size-4" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M5 9h14M5 15h14M11 4 7 20M17 4l-4 16" /></svg> reinforcement learning </a> </li><li> <a href="/en/tags/retrieval/" class="flex items-center gap-0.5 border-foreground border-b-2 border-dashed hover:border-accent hover:text-accent hover:-mt-0.5 focus-visible:text-accent focus-visible:border-none text-sm" data-astro-transition-scope="astro-36ssibgs-4"> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="opacity-80 size-4" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M5 9h14M5 15h14M11 4 7 20M17 4l-4 16" /></svg> retrieval </a> </li><li> <a href="/en/tags/iclr-2026/" class="flex items-center gap-0.5 border-foreground border-b-2 border-dashed hover:border-accent hover:text-accent hover:-mt-0.5 focus-visible:text-accent focus-visible:border-none text-sm" data-astro-transition-scope="astro-36ssibgs-5"> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="opacity-80 size-4" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M5 9h14M5 15h14M11 4 7 20M17 4l-4 16" /></svg> ICLR 2026 </a> </li><li> <a href="/en/tags/mteb/" class="flex items-center gap-0.5 border-foreground border-b-2 border-dashed hover:border-accent hover:text-accent hover:-mt-0.5 focus-visible:text-accent focus-visible:border-none text-sm" data-astro-transition-scope="astro-36ssibgs-6"> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="opacity-80 size-4" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M5 9h14M5 15h14M11 4 7 20M17 4l-4 16" /></svg> MTEB </a> </li> </ul> <div class="flex flex-none flex-col items-center justify-center gap-1 md:items-start"><span class="italic">Share this post:</span><div class="text-center"><a href="https://x.com/intent/post?url=https://foreveryounggithub.github.io/en/posts/think_before_you_embed/" title="Share this post on X" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="m4 4 11.733 16H20L8.267 4zM4 20l6.768-6.768m2.46-2.46L20 4" /></svg><span class="sr-only">Share this post on X</span> </a><a href="mailto:?subject=See%20this%20post&amp;body=https://foreveryounggithub.github.io/en/posts/think_before_you_embed/" title="Share this post via email" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><path d="m3 7 9 6 9-6" /></svg><span class="sr-only">Share this post via email</span> </a></div></div> <hr class="my-8 border-dashed"> <div data-pagefind-ignore class="my-8 grid grid-cols-1 gap-6 sm:grid-cols-2">  <a href="/en/posts/sketchy_rendering" class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"> <div> <span>Next Post</span> <div class="text-accent/85 text-sm">Data Visualization with Hand-Drawn/Sketchy Style</div> </div> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block flex-none rtl:rotate-180" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M5 12h14M13 18l6-6M13 6l6 6" /></svg> </a> </div> </main> <footer class="app-layout mt-auto"> <div class="border-border flex flex-col items-center justify-between border-t py-6 sm:flex-row-reverse sm:py-4"> <div class="flex flex-wrap items-center gap-1"> <a href="https://github.com/foreverYoungGitHub" title="ForeverYoung on Github" class="group inline-flex items-center gap-1 hover:text-accent p-2 hover:rotate-6 sm:p-1">  <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21" /></svg> <span class="sr-only">ForeverYoung on Github</span>  </a><a href="mailto:wellmoonloft@gmail.com" title="Send an email to ForeverYoung" class="group inline-flex items-center gap-1 hover:text-accent p-2 hover:rotate-6 sm:p-1">  <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><path d="m3 7 9 6 9-6" /></svg> <span class="sr-only">Send an email to ForeverYoung</span>  </a> </div> <div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row"> <span>Copyright &#169; 2026</span> <span class="hidden sm:inline">&nbsp;|&nbsp;</span> <span>All rights reserved.</span> </div> </div> </footer>   <script type="module">const c="theme",o="light",n="dark";function u(){const e=localStorage.getItem(c);return e||(window.matchMedia("(prefers-color-scheme: dark)").matches?n:o)}let t=window.__theme?.value??u();function a(){localStorage.setItem(c,t),m()}function m(){document.firstElementChild?.setAttribute("data-theme",t),document.querySelector("#theme-btn")?.setAttribute("aria-label",t);const e=window.getComputedStyle(document.body).backgroundColor;document.querySelector("meta[name='theme-color']")?.setAttribute("content",e)}function d(){m(),document.querySelector("#theme-btn")?.addEventListener("click",()=>{t=t===o?n:o,a()})}d();document.addEventListener("astro:after-swap",d);document.addEventListener("astro:before-swap",e=>{const r=document.querySelector("meta[name='theme-color']")?.getAttribute("content");r&&e.newDocument.querySelector("meta[name='theme-color']")?.setAttribute("content",r)});window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",({matches:e})=>{t=e?n:o,a()});</script> </body> </html> <script type="module" src="/_astro/PostLayout.astro_astro_type_script_index_0_lang.Cz-7XPrE.js"></script> <script data-astro-rerun>
+  function createProgressBar() {
+    const progressContainer = document.createElement("div");
+    progressContainer.className =
+      "progress-container fixed top-0 z-10 h-1 w-full bg-background";
+
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar h-1 w-0 bg-accent";
+    progressBar.id = "myBar";
+
+    progressContainer.appendChild(progressBar);
+    document.body.appendChild(progressContainer);
+  }
+  createProgressBar();
+
+  function updateScrollProgress() {
+    document.addEventListener("scroll", () => {
+      const winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      const height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      if (document) {
+        const myBar = document.getElementById("myBar");
+        if (myBar) {
+          myBar.style.width = scrolled + "%";
+        }
+      }
+    });
+  }
+  updateScrollProgress();
+
+  function addHeadingLinks() {
+    const headings = Array.from(
+      document.querySelectorAll("h2, h3, h4, h5, h6")
+    );
+    for (const heading of headings) {
+      heading.classList.add("group");
+      const link = document.createElement("a");
+      link.className =
+        "heading-link ms-2 no-underline opacity-75 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
+      link.href = "#" + heading.id;
+
+      const span = document.createElement("span");
+      span.ariaHidden = "true";
+      span.innerText = "#";
+      link.appendChild(span);
+      heading.appendChild(link);
+    }
+  }
+  addHeadingLinks();
+
+  function attachCopyButtons() {
+    const copyButtonLabel = "Copy";
+    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    for (const codeBlock of codeBlocks) {
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+
+      const computedStyle = getComputedStyle(codeBlock);
+      const hasFileNameOffset =
+        computedStyle.getPropertyValue("--file-name-offset").trim() !== "";
+
+      const topClass = hasFileNameOffset
+        ? "top-(--file-name-offset)"
+        : "-top-3";
+
+      const copyButton = document.createElement("button");
+      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
+      copyButton.innerHTML = copyButtonLabel;
+      codeBlock.setAttribute("tabindex", "0");
+      codeBlock.appendChild(copyButton);
+
+      codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
+      wrapper.appendChild(codeBlock);
+
+      copyButton.addEventListener("click", async () => {
+        await copyCode(codeBlock, copyButton);
+      });
+    }
+
+    async function copyCode(block, button) {
+      const code = block.querySelector("code");
+      const text = code?.innerText;
+
+      await navigator.clipboard.writeText(text ?? "");
+
+      button.innerText = "Copied";
+
+      setTimeout(() => {
+        button.innerText = copyButtonLabel;
+      }, 700);
+    }
+  }
+  attachCopyButtons();
+
+  document.addEventListener("astro:after-swap", () =>
+    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
+  );
+</script>
