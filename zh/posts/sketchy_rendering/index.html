@@ -285,11 +285,11 @@
 ```
 </details>
 <p>正因为其小巧易用，rough被<a href="https://github.com/rough-stuff/rough#organizations">嵌入到很多软件以实现手绘风格</a>，比如笔者用的比较多的<a href="https://app.diagrams.net/">draw.io</a>。draw.io是一款免费的在线图表编辑器，其小巧且功能丰富，且支持即时存储及多人在线编辑，非常适合平时学习和工作使用。draw.io在2020年左右通过rough支持了手绘风格作图，并有<a href="https://drawio-app.com/introducing-draw-ios-new-sketch-feature/">相关的官方博客介绍了这一功能</a>。简单而言，我们首先需要在右侧的整体图表风格处选择手绘风格（sketch），如果需要对每个元素的手绘风格微调，则需要通过每个元素的填充方法（fill）和线条（line）选择对应的，甚至于通过绘图单元的属性（property）来更改手绘风格（sketch style）。如需要文字，字体最好改为Comic Sans MS。其简单流程如下图所示。</p>
-<p>{%asset_img drawio_example.jpg drawio绘制手绘风格流程图 %}</p>
+<p><img alt="drawio绘制手绘风格流程图" loading="lazy" decoding="async"  width="1756" height="960" src="/_astro/drawio_example.BIAQwuMv_Z12AiSp.webp" ></p>
 <p>通过draw.io可以将绝大多数日常所使用的图表风格化为手绘风，如流程图等。</p>
 <h3 id="matplotlibpyplotxkcd"><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.xkcd.html">matplotlib.pyplot.xkcd</a></h3>
 <p>matplotlib是python中最常用的数据可视化库，matplotlib自身也支持手绘风格。matplotlib通过其matplotlib.pyplot.xkcd api来加载和控制手绘风格，在使用时只需要将在原始matplotlib绘图放在<code>with matplotlib.pyplot.xkcd()</code>中即可将图像转换为手绘风。该方法也适用于基于matplotlib的seaborn数据可视化库。一个例子如下图所示，图一代表原始matplotlib所绘制的饼图，图二代表将原始matplotlib绘图放在<code>with matplotlib.pyplot.xkcd()</code>中将饼图转换为手绘风格的。<a href="https://zhuanlan.zhihu.com/p/391742333">更多示例可以参考</a>。</p>
-<p>{%asset_img matplotlib_raw.jpg matplotlib_raw %}</p>
+<p><img alt="matplotlib_raw" loading="lazy" decoding="async"  width="960" height="720" src="/_astro/matplotlib_raw.N1RTKz4-_Z19GERc.webp" ></p>
 <details>
 <summary>matplotlib.原始渲染代码</summary>
 ```python
@@ -317,7 +317,7 @@ bbox_to_anchor=(1, 0, 0.5, 1))</p>
 plt.show()</p>
 <pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;--file-name-offset: -0.75rem;" tabindex="0" data-language="plaintext"><code><span class="line"><span>&#x3C;/details></span></span>
 <span class="line"><span></span></span>
-<span class="line"><span>{%asset_img matplotlib_xkcd.jpg matplotlib_xkcd %} </span></span>
+<span class="line"><span>![matplotlib_xkcd](./sketchy_rendering/matplotlib_xkcd.jpg)</span></span>
 <span class="line"><span></span></span>
 <span class="line"><span>&#x3C;details></span></span>
 <span class="line"><span>&#x3C;summary>matplotlib.xkcd渲染代码&#x3C;/summary></span></span>
@@ -485,8 +485,8 @@ const lineChart = new chartXkcd.Line(svg, {
 <p>与chart.xkcd和cutecharts类似的还有基于rough和d3的<a href="https://github.com/beizhedenglong/rough-charts">rough-charts</a>和<a href="https://github.com/jwilber/roughViz">roughViz</a>的JavaScript库，以及基于<a href="https://github.com/jwilber/roughViz">roughViz</a>封装的python库<a href="https://github.com/charlesdong1991/py-roughviz">py-roughviz</a>也实现了手绘风格数据可视化。但其功能于chart.xkcd和cutecharts类似，api相对繁复，以及或多或少都停止了开发，在此也不赘述了。具体可参看官方文档和示例。</p>
 <h2 id="转换式instadio">转换式：<a href="https://instad.io/documentation">instad.io</a></h2>
 <p>除了上述几类以外，我们还可以将已有的svg（可通过pyechart或matplotlib等库或draw.io，PS，AI等软件生成）或者spreadsheet的图表通过<a href="https://instad.io/documentation">instad.io</a>转化为手绘风。其效果如下图所示。具体的示例参考<a href="https://instad.io/">官网</a>。</p>
-<p>{%asset_img instad_1.jpg instad_samples_1 %}
-{%asset_img instad_2.jpg instad_samples_2 %}</p>
+<p><img alt="instad_samples_1" loading="lazy" decoding="async"  width="1350" height="1585" src="/_astro/instad_1.COMDBl8f_Z17fLA5.webp" >
+<img alt="instad_samples_2" loading="lazy" decoding="async"  width="1350" height="1585" src="/_astro/instad_2.CONTLlkl_ZtKvaW.webp" ></p>
 <p>instad.io的原理非常简单，从一个给定的根DOM元素开始，找到所有的SVG对象，然后递归寻找所有的子元素，读出子元素的基本属性，利用roughjs创建一个手绘风格的元素拷贝，隐藏原始元素。这样手绘风格的SVG元素就取代了原始的图形。当需要回到初始状态的时候，只要重现所有隐藏的原始元素，移除后加入的手绘元素即可。</p> </article> <hr class="my-8 border-dashed">  <div id="btt-btn-container" class="fixed inset-e-4 bottom-8 z-50 md:sticky md:inset-e-auto md:float-end md:me-1 translate-y-14 opacity-0 transition duration-500"> <button data-button="back-to-top" class="group bg-background relative px-2 py-1 size-14 rounded-full shadow-xl md:h-8 md:w-fit md:rounded-md md:shadow-none md:focus-visible:rounded-none md:bg-background/35 md:bg-clip-padding md:backdrop-blur-lg"> <span id="progress-indicator" class="absolute inset-0 -z-10 block size-14 scale-110 rounded-full bg-transparent md:hidden md:h-8 md:rounded-md"></span> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block rotate-90 md:hidden" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M5 12h14M5 12l6 6M5 12l6-6" /></svg> <span class="group-hover:text-accent sr-only text-sm md:not-sr-only"> <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block size-4" viewBox="0 0 24 24"><path stroke="none" d="M0 0h24v24H0z" /><path d="M12 5v14M16 9l-4-4M8 9l4-4" /></svg> 返回顶部 </span> </button> </div> <script data-astro-rerun>
   function backToTop() {
     const rootElement = document.documentElement;
